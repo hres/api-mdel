@@ -268,7 +268,17 @@
     <Content Include="bin\WebGrease.dll" />
     <Content Include="bin\WebTemplateCore.dll" />
     <Content Include="index-fr.html" />
+    <Content Include="js\mdels.js" />
     <Content Include="js\JSONtoCSV.js" />
+    <Content Include="medical-device-details.html" />
+    <Content Include="result-establishment.html" />
+    <Content Include="result-company.html" />
+    <Content Include="result-province.html" />
+    <Content Include="result-country.html" />
+    <Content Include="search-by-establishment.html" />
+    <Content Include="search-by-province.html" />
+    <Content Include="search-by-country.html" />
+    <Content Include="search-by-company.html" />
     <Content Include="StaticFallbackFiles\gcweb\footer-en.html" />
     <Content Include="StaticFallbackFiles\gcweb\footer-fr.html" />
     <Content Include="StaticFallbackFiles\gcweb\prefooter-en.html" />
