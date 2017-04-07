@@ -26,6 +26,7 @@
     <script type="text/javascript" src="https://www.canada.ca/etc/designs/canada/cdts/gcweb/v4_0_22/cdts/compiled/soyutils.js"></script>
     <script type="text/javascript" src="https://www.canada.ca/etc/designs/canada/cdts/gcweb/v4_0_22/cdts/compiled/wet-en.js"></script>
     <script type="text/javascript" src="https://www.canada.ca/etc/designs/canada/cdts/gcweb/v4_0_22/cdts/compiled/plugins-en.js"></script>
+    <script src="js/jsontocsv.js"></script>
     <!--<script type="text/javascript" src="./gcweb_4.0.22/wet-en.js"></script>
     <script type="text/javascript" src="./gcweb_4.0.22/plugins-en.js"></script>-->
     <!-- Load closure template scripts -->
@@ -118,17 +119,41 @@
                             <td>Company - Unilingual</td>
                             <td class="text-center"><a class="btn btn-default" href="./api/company/?type=json">JSON</a></td>
                             <td class="text-center"><a class="btn btn-default" href="./api/company/?type=xml">XML</a></td>
+                            <td class="text-center"><a class="btn btn-default" onclick="JSONtoCSV('Company Data', './api/company/?type=json');">CSV (Download)</a></td>
                         </tr>
                         
+                        <tr>
+                            <td>Country - English</td>
+                            <td class="text-center"><a class="btn btn-default" href="./api/country/?lang=en&type=json">JSON</a></td>
+                            <td class="text-center"><a class="btn btn-default" href="./api/country/?lang=en&type=xml">XML</a></td>
+                            <td class="text-center"><a class="btn btn-default" onclick="JSONtoCSV('Country Data (EN)', './api/country/?lang=en&type=json');">CSV (Download)</a></td>
+                        </tr>
+
+                        <tr>
+                            <td>Country - French</td>
+                            <td class="text-center"><a class="btn btn-default" href="./api/country/?lang=fr&type=json">JSON</a></td>
+                            <td class="text-center"><a class="btn btn-default" href="./api/country/?lang=fr&type=xml">XML</a></td>
+                            <td class="text-center"><a class="btn btn-default" onclick="JSONtoCSV('Country Data (FR)', './api/country/?lang=fr&type=json');">CSV (Download)</a></td>
+                        </tr>
+
+                        <tr>
+                            <td>Establishment - Unilingual</td>
+                            <td class="text-center"><a class="btn btn-default" href="./api/establishment/?type=json">JSON</a></td>
+                            <td class="text-center"><a class="btn btn-default" href="./api/establishment/?type=xml">XML</a></td>
+                            <td class="text-center"><a class="btn btn-default" onclick="JSONtoCSV('Establishment Data', './api/establishment/?type=json');">CSV (Download)</a></td>
+                        </tr>
+
                         <tr>
                             <td>Province - English</td>
                             <td class="text-center"><a class="btn btn-default" href="./api/province/?lang=en&type=json">JSON</a></td>
                             <td class="text-center"><a class="btn btn-default" href="./api/province/?lang=en&type=xml">XML</a></td>
+                            <td class="text-center"><a class="btn btn-default" onclick="JSONtoCSV('Province Data (EN)', './api/province/?lang=en&type=json');">CSV (Download)</a></td>
                         </tr>
                         <tr>
                             <td>Province - French</td>
                             <td class="text-center"><a class="btn btn-default" href="./api/province/?lang=fr&type=json">JSON</a></td>
                             <td class="text-center"><a class="btn btn-default" href="./api/province/?lang=fr&type=xml">XML</a></td>
+                            <td class="text-center"><a class="btn btn-default" onclick="JSONtoCSV('Province Data (FR)', './api/province/?lang=fr&type=json');">CSV (Download)</a></td>
                         </tr>
                         
                     </tbody>

@@ -203,12 +203,21 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\CompanyController.cs" />
+    <Compile Include="Controllers\CountryController.cs" />
+    <Compile Include="Controllers\EstablishmentController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ProvinceController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\boolean.cs" />
+    <Compile Include="Models\Country.cs" />
+    <Compile Include="Models\CountryRepository.cs" />
+    <Compile Include="Models\Establishment.cs" />
+    <Compile Include="Models\EstablishmentRepository.cs" />
+    <Compile Include="Models\ICountryRepository.cs" />
+    <Compile Include="Models\IEstablishmentRepository.cs" />
     <Compile Include="Models\Province.cs" />
     <Compile Include="Models\Company.cs" />
     <Compile Include="Models\IProvinceRepository.cs" />
@@ -259,6 +268,7 @@
     <Content Include="bin\WebGrease.dll" />
     <Content Include="bin\WebTemplateCore.dll" />
     <Content Include="index-fr.html" />
+    <Content Include="js\JSONtoCSV.js" />
     <Content Include="StaticFallbackFiles\gcweb\footer-en.html" />
     <Content Include="StaticFallbackFiles\gcweb\footer-fr.html" />
     <Content Include="StaticFallbackFiles\gcweb\prefooter-en.html" />
