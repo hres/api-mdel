@@ -175,48 +175,51 @@
     <!--<![endif]-->
 
     <script>
+
         var dtable;
         var lang = "en";
-        var status = "active";
+        //var status = "active";
         var searchTerm = getParameterByName("term");
         var category = 1;
               $('#searchTerm').append("'" + searchTerm + "'");
       //  $("a#langLink").attr('href', goMdallLangUrl(lang));
 
-            var start = new Date(Date.now());
-            //console.log(start.getTime());
 
+            //var start = new Date(Date.now());
+            //console.log(start.getTime());
+         
             window["wb-tables"] = {
                 "processing": true,
                 "ajax": {
-                    "url": serviceURL,
+                    "url": "http://localhost:51195/api/province/?lang=en&type=json",//serviceURL,
                     "data": { lang: lang, status: status, term: searchTerm, categoryType: 1 },
                     "dataType": "json",
-                    "dataSrc": "companyResult",
+                    "dataSrc": "provinceResult",
                     "error": function (xhr, err) {
+                        console.log("AJAX failed");
                         //console.log("readyState: " + xhr.readyState + "\nstatus: " + xhr.status);
                         //console.log("responseText: " + xhr.responseText);
                     }
                 },
                 "columns": [
-                                { "data": "company_name" },
+                                { "data": "region_id" },
                                 {
 
                                     "data": null,
                                     "render": function (data, type, full) {
-                                        return data.addr_line_1 + ' ' + data.addr_line_2 + ' ' + data.addr_line_3 + '<br>' + data.city + ', ' + data.region_cd + ', ' + data.country_cd + ', ' + data.postal_code;
+                                        return data.country_cd + ' ' + data.region_cd + ' ' + data.region_desc + '<br>' + data.region_desc_f + ', ' + data.region_id;
                                     }
                                 },
                                 {
                                     "data": null,
                                     "render": function (data, type, full) {
-                                        return '<a href=medical-device-detail.html?lang=en&id=' + data.company_id + '>' + data.company_id + '</a>';
+                                        return '<a href=medical-device-detail.html?lang=en&id=' + data.country_cd + '>' + data.region_desc + '</a>';
                                     }
                                 }
 
                 ],
                 "fnInitComplete": function () {
-                  //  timeDifference(start);
+                   
                 },
             }
 
@@ -226,6 +229,13 @@
                 console.log(end.getTime());
                 console.log((end.getTime() - start.getTime()) / 1000);
 
+            }
+
+            function getParameterByName(name) {
+                name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+                var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+                 results = regex.exec(location.search);
+                return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
             }
 
     </script>
