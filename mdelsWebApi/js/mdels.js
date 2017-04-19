@@ -1,9 +1,10 @@
-﻿//var serviceURL = "./MdallJson/GetAllListForJsonByCategory";
+﻿var serviceURL = "./GetAllListForJsonByCategory";
 
-var serviceURL = "./GetAllListForJsonByCategory";
-//what is this supposed to point to?
 
 function getParameterByName(name) {
+
+    console.log("get parameter");
+
     name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
     var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
      results = regex.exec(location.search);
@@ -19,6 +20,8 @@ function OnFail(result) {
 }
 
 function getDeviceListInfo(data, status, lang) {
+
+    console.log("Create Table");
 
     if (data.length == 0) {
         return "";

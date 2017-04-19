@@ -205,6 +205,7 @@ namespace mdelsWebApi
         {
             var company = new Company();
             string commandText = "SELECT * FROM MDELS_OWNER.WQRY_EST_COMPANY WHERE COMPANY_ID = " + id;
+            System.Diagnostics.Debug.WriteLine(commandText);
             using (
 
                 OracleConnection con = new OracleConnection(mdelsDBConnection))

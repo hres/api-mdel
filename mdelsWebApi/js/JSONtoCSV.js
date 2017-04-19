@@ -8,7 +8,6 @@ function JSONtoCSV(fileName, url) {
 
         var arrData = typeof json != 'object' ? JSON.parse(json) : json;
 
-
         //extract the first row of data as headers
         for (var index in arrData[0]) {
             row += index + ',';
@@ -48,7 +47,7 @@ function JSONtoCSV(fileName, url) {
                             })[0].click()
         }
         else {
-
+            //what to do if it's some other browser?
         }
     });
 }

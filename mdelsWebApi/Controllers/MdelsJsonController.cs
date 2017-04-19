@@ -14,8 +14,6 @@ namespace mdelsWebApi.Controllers
     {
         public ActionResult GetAllListForJsonByCategory(string lang, string status, string term, int categoryType)
         {
-            System.Diagnostics.Debug.WriteLine("Mdels JSON Controller");
-
             var companyResult = new List<Company>();
             var searchResult = new List<Search>();
             var companyController = new CompanyController();
@@ -35,7 +33,7 @@ namespace mdelsWebApi.Controllers
                         company = companyController.GetCompanyByID(numberTerm) ;
                         if (company.company_id != 0)
                         {
-                        companyResult.Add(companyController.GetCompanyByID(numberTerm));
+                            companyResult.Add(companyController.GetCompanyByID(numberTerm));
                         }
                     }
                     else
@@ -51,8 +49,6 @@ namespace mdelsWebApi.Controllers
         public ActionResult GetCompanyByIDForJson(int id, [DefaultValue(0)] int licID, [DefaultValue(0)] int devID, string identifier, string lang, string status)
         {
             var companyController = new CompanyController();
-
-
             var data = new CompanyDetail();
 
             //1. Get Company
