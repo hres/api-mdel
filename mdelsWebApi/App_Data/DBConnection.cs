@@ -144,10 +144,16 @@ namespace mdelsWebApi
             return establishment;
         }
 
-        public List<Company> GetAllCompany()
+        public List<Company> GetAllCompany(string companyName)
         {
             var items = new List<Company>();
             string commandText = "SELECT * FROM MDELS_OWNER.WQRY_EST_COMPANY";
+
+            if((!string.IsNullOrEmpty(companyName)))
+                commandText += " WHERE UPPER(COMPANY_NAME) LIKE '%" + companyName.ToUpper().Trim() + "%'";
+
+            System.Diagnostics.Debug.WriteLine("SQL Statement: " + commandText);
+
             using (OracleConnection con = new OracleConnection(mdelsDBConnection))
             {
                 OracleCommand cmd = new OracleCommand(commandText, con);

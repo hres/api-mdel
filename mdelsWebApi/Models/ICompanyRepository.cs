@@ -4,7 +4,7 @@ namespace mdelsWebApi.Models
 {
     interface ICompanyRepository
     {
-        IEnumerable<Company> GetAll();
+        IEnumerable<Company> GetAll(string company_name = "");
         Company Get(int id);
     }
 }

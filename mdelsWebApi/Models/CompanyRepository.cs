@@ -8,12 +8,12 @@ namespace mdelsWebApi.Models
     // most likely be a database of some sort, with an auto-incrementing ID field:
         private List<Company> companies = new List<Company>();
         private Company company = new Company();
-    DBConnection dbConnection = new DBConnection("en");
+        DBConnection dbConnection = new DBConnection("en");
 
 
-        public IEnumerable<Company> GetAll()
+        public IEnumerable<Company> GetAll(string company_name = "")
         {
-            companies = dbConnection.GetAllCompany();
+            companies = dbConnection.GetAllCompany(company_name);
 
             return companies;
         }

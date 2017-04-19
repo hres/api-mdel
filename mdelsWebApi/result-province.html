@@ -39,11 +39,10 @@
                 cdnEnv: "prod"
             }));
     </script>
-
     <!-- Google Tag Manager DO NOT REMOVE OR MODIFY - NE PAS SUPPRIMER OU MODIFIER -->
     <script>dataLayer1 = [];</script>
     <!-- End Google Tag Manager -->
-    <script src="./js/mdall.js"></script>
+    <script src="./js/mdels.js"></script>
     <!--<script>
         function getParameterByName(name) {
             name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
@@ -191,14 +190,14 @@
             window["wb-tables"] = {
                 "processing": true,
                 "ajax": {
-                    "url": "http://localhost:51195/api/province/?lang=en&type=json",//serviceURL,
+                    "url": serviceURL,
                     "data": { lang: lang, status: status, term: searchTerm, categoryType: 1 },
                     "dataType": "json",
                     "dataSrc": "provinceResult",
                     "error": function (xhr, err) {
-                        console.log("AJAX failed");
-                        //console.log("readyState: " + xhr.readyState + "\nstatus: " + xhr.status);
-                        //console.log("responseText: " + xhr.responseText);
+                        //console.log("AJAX failed");
+                        console.log("readyState: " + xhr.readyState + "\nstatus: " + xhr.status);
+                        console.log("responseText: " + xhr.responseText);
                     }
                 },
                 "columns": [
@@ -231,12 +230,7 @@
 
             }
 
-            function getParameterByName(name) {
-                name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
-                var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
-                 results = regex.exec(location.search);
-                return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
-            }
+            
 
     </script>
 </body>
