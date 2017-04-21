@@ -172,7 +172,7 @@
         var lang = "en";
         var status = "active";
         var searchTerm = getParameterByName("term");
-        var category = 1;
+        var category = 2;
               $('#searchTerm').append("'" + searchTerm + "'");
       //  $("a#langLink").attr('href', goMdallLangUrl(lang));
 
@@ -183,7 +183,7 @@
                 "processing": true,
                 "ajax": {
                     "url": serviceURL,
-                    "data": { lang: lang, status: status, term: searchTerm, categoryType: 1 },
+                    "data": { lang: lang, status: status, term: searchTerm, categoryType: category },
                     "dataType": "json",
                     "dataSrc": "companyResult",
                     "error": function (xhr, err) {

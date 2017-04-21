@@ -171,7 +171,7 @@
         var lang = "en";
         var status = "active";
         var searchTerm = getParameterByName("term");
-        var category = 1;
+        var category = 3;
               $('#searchTerm').append("'" + searchTerm + "'");
       //  $("a#langLink").attr('href', goMdallLangUrl(lang));
 
@@ -182,7 +182,7 @@
                 "processing": true,
                 "ajax": {
                     "url": serviceURL,
-                    "data": { lang: lang, status: status, term: searchTerm, categoryType: 1 },
+                    "data": { lang: lang, status: status, term: searchTerm, categoryType: category },
                     "dataType": "json",
                     "dataSrc": "companyResult",
                     "error": function (xhr, err) {
@@ -207,17 +207,6 @@
                                 }
 
                 ],
-                "fnInitComplete": function () {
-                  //  timeDifference(start);
-                },
-            }
-
-            function timeDifference(start) {
-
-                var end = new Date(Date.now());
-                console.log(end.getTime());
-                console.log((end.getTime() - start.getTime()) / 1000);
-
             }
 
     </script>

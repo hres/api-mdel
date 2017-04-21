@@ -9,9 +9,9 @@ namespace mdelsWebApi.Controllers
     {
         static readonly IProvinceRepository databasePlaceholder = new ProvinceRepository();
 
-        public IEnumerable<Province> GetAllProvince(string lang)
+        public IEnumerable<Province> GetAllProvince(string lang, string province)
         {
-            return databasePlaceholder.GetAll(lang);
+            return databasePlaceholder.GetAll(lang, province);
         }
 
         public Province GetProvinceByID(int id, string lang)

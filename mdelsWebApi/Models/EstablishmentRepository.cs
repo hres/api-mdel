@@ -11,9 +11,9 @@ namespace mdelsWebApi.Models
         private Establishment establishment = new Establishment();
         DBConnection dbConnection = new DBConnection("en");
 
-        public IEnumerable<Establishment> GetAll()
+        public IEnumerable<Establishment> GetAll(string establishmentName)
         {
-            establishments = dbConnection.GetAllEstablishment();
+            establishments = dbConnection.GetAllEstablishment(establishmentName);
 
             return establishments;
         }

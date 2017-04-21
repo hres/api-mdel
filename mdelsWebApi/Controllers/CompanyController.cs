@@ -8,10 +8,9 @@ namespace mdelsWebApi.Controllers
     {
         static readonly ICompanyRepository databasePlaceholder = new CompanyRepository();
 
-        public IEnumerable<Company> GetAllCompany(string company_name = "")
+        public IEnumerable<Company> GetAllCompany(string company_name)
         {
-
-            return databasePlaceholder.GetAll();
+            return databasePlaceholder.GetAll(company_name);
         }
 
 

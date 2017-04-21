@@ -8,9 +8,9 @@ namespace mdelsWebApi.Controllers
     {
         static readonly IEstablishmentRepository databasePlaceholder = new EstablishmentRepository();
 
-        public IEnumerable<Establishment> GetAllEstablishment()
+        public IEnumerable<Establishment> GetAllEstablishment(string establishmentName)
         {
-            return databasePlaceholder.GetAll();
+            return databasePlaceholder.GetAll(establishmentName);
         }
 
         public Establishment GetEstablishmentById(int id)

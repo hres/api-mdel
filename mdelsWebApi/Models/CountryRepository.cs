@@ -9,9 +9,9 @@ namespace mdelsWebApi.Models
         DBConnection dbConnection = new DBConnection("en");
 
 
-        public IEnumerable<Country> GetAll(string lang)
+        public IEnumerable<Country> GetAll(string lang, string country)
         {
-            countries = dbConnection.GetAllCountry(lang);
+            countries = dbConnection.GetAllCountry(lang, country);
 
             return countries;
         }

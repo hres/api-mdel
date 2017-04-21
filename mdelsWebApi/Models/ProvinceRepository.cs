@@ -11,9 +11,9 @@ namespace mdelsWebApi.Models
     DBConnection dbConnection = new DBConnection("en");
 
 
-    public IEnumerable<Province> GetAll(string lang)
+    public IEnumerable<Province> GetAll(string lang, string province)
     {
-            provinces = dbConnection.GetAllProvince(lang);
+            provinces = dbConnection.GetAllProvince(lang, province);
 
         return provinces;
     }

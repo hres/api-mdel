@@ -11,10 +11,9 @@ namespace mdelsWebApi.Models
         DBConnection dbConnection = new DBConnection("en");
 
 
-        public IEnumerable<Company> GetAll(string company_name = "")
+        public IEnumerable<Company> GetAll(string company_name)
         {
             companies = dbConnection.GetAllCompany(company_name);
-
             return companies;
         }
 

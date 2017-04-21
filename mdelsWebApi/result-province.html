@@ -171,7 +171,7 @@
         var lang = "en";
         //var status = "active";
         var searchTerm = getParameterByName("term");
-        var category = 1;
+        var category = 4;
               $('#searchTerm').append("'" + searchTerm + "'");
       //  $("a#langLink").attr('href', goMdallLangUrl(lang));
 
@@ -183,7 +183,7 @@
                 "processing": true,
                 "ajax": {
                     "url": serviceURL,
-                    "data": { lang: lang, status: status, term: searchTerm, categoryType: 1 },
+                    "data": { lang: lang, status: status, term: searchTerm, categoryType: category },
                     "dataType": "json",
                     "dataSrc": "provinceResult",
                     "error": function (xhr, err) {

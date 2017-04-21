@@ -6,9 +6,9 @@ namespace mdelsWebApi.Models
     public enum category
     {
         company = 1,
-        licence = 2,
-        device = 3,
-        deviceIdentifier = 4
+        establishment = 2,
+        country = 3,
+        province = 4
     }
 
     public class Search

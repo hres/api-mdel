@@ -43,7 +43,6 @@
     <!-- Google Tag Manager DO NOT REMOVE OR MODIFY - NE PAS SUPPRIMER OU MODIFIER -->
     <script>dataLayer1 = [];</script>
     <!-- End Google Tag Manager -->
-    <script src="./js/mdels.js"></script>
 
     <script src="js/mdels.js"></script>
 
@@ -175,14 +174,13 @@
         var status = "active";
         var searchTerm = getParameterByName("term");
         var category = 1;
-        console.log("Datatable start");
         $('#searchTerm').append("'" + searchTerm + "'");
-        console.log(serviceURL);
+
         window["wb-tables"] = {
             "processing": true,
             "ajax": {
                 "url": serviceURL,
-                "data": { lang: lang, status: status, term: searchTerm, categoryType: 1 },
+                "data": { lang: lang, status: status, term: searchTerm, categoryType: 1},
                 "dataType": "json",
                 "dataSrc": "companyResult",
                 "error": function (xhr, err) {
@@ -206,9 +204,6 @@
                             }
 
             ],
-            "fnInitComplete": function () {
-                console.log("Datatable complete");
-            },
         }
 
     </script>
