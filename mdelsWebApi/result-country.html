@@ -112,8 +112,8 @@
                     <table id="companyTable" class="wb-tables table table-striped table-hover table-bordered">
                         <thead>
                             <tr class="active">
-                                <th>Company Name</th>
-                                <th>Company Address</th>
+                                <th>Country Name</th>
+                                <th>Country Code</th>
                                 <th>Company ID</th>
                             </tr>
                         </thead>
@@ -184,19 +184,19 @@
                     "url": serviceURL,
                     "data": { lang: lang, status: status, term: searchTerm, categoryType: category },
                     "dataType": "json",
-                    "dataSrc": "companyResult",
+                    "dataSrc": "countryResult",
                     "error": function (xhr, err) {
                         //console.log("readyState: " + xhr.readyState + "\nstatus: " + xhr.status);
                         //console.log("responseText: " + xhr.responseText);
                     }
                 },
                 "columns": [
-                                { "data": "company_name" },
+                                { "data": "licence_name" },
                                 {
 
                                     "data": null,
                                     "render": function (data, type, full) {
-                                        return data.addr_line_1 + ' ' + data.addr_line_2 + ' ' + data.addr_line_3 + '<br>' + data.city + ', ' + data.region_cd + ', ' + data.country_cd + ', ' + data.postal_code;
+                                        return data.licence_status;
                                     }
                                 },
                                 {

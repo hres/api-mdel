@@ -31,11 +31,11 @@ namespace mdelsWebApi.Controllers
             switch (categoryType)
             {
                 case (int)category.company:
-                    if ( numberTerm > 0)
+                    if (numberTerm > 0)
                     {
                         //companyResult.Add(companyController.GetCompanyById(numberTerm, lang,status));
                         var company = new Company();
-                        company = companyController.GetCompanyByID(numberTerm) ;
+                        company = companyController.GetCompanyByID(numberTerm);
                         if (company.company_id != 0)
                         {
                             companyResult.Add(companyController.GetCompanyByID(numberTerm));
@@ -48,20 +48,15 @@ namespace mdelsWebApi.Controllers
                     return Json(new { companyResult }, JsonRequestBehavior.AllowGet);
 
                 case (int)category.establishment:
-                    
                     var establishmentResult = new List<Establishment>();
-       
+
                     if (numberTerm > 0)
                     {
                         establishmentResult.Add(establishmentController.GetEstablishmentById(numberTerm));
                     }
                     else
                     {
-                        if (status == "active")
-                        {
-                            establishmentResult = establishmentController.GetAllEstablishment(term).ToList();
-                        }
-
+                        establishmentResult = establishmentController.GetAllEstablishment(term).ToList();
                     }
                     if (establishmentResult.Count > 0)
                     {
@@ -72,9 +67,44 @@ namespace mdelsWebApi.Controllers
                             var address = new StringBuilder();
                             company = companyController.GetCompanyByID(est.company_id);
                             //search.establishment_id = est.establishment_id???
-        
+
                             search.company_id = est.company_id;
-        
+                            search.original_licence_no = est.establishment_id;      //using orig licence no for now
+
+                            if (company != null && company.company_id > 0)
+                            {
+                                search.company_name = company.company_name;
+                                search.company_address = UtilityHelper.BuildAddress(company);
+                            }
+                            searchResult.Add(search);
+                        }
+                    }
+                    return Json(new { searchResult }, JsonRequestBehavior.AllowGet);
+
+                case (int)category.country:
+                    var countryResult = new List<Country>();
+
+                    if (numberTerm > 0)
+                    {
+                        countryResult.Add(countryController.GetCountryByID(numberTerm, lang));
+                    }
+                    else
+                    {
+                        countryResult = countryController.GetAllCountry(lang, term).ToList();
+                    }
+                    if (countryResult.Count > 0)
+                    {
+                        foreach (var c in countryResult)
+                        {
+                            var search = new Search();
+                            var company = new Company();
+                            var address = new StringBuilder();
+                            //company = companyController.GetCompanyByID(); how to make this work? 
+
+                            search.licence_status = c.country_cd;
+                            search.licence_name = c.country_desc;
+                            search.company_id = 0;
+
                             if (company != null && company.company_id > 0)
                             {
                                 search.company_name = company.company_name;
@@ -85,30 +115,34 @@ namespace mdelsWebApi.Controllers
                     }
                     return Json(new { searchResult }, JsonRequestBehavior.AllowGet);
             }
-            return  Json(new { companyResult }, JsonRequestBehavior.AllowGet);
+            return Json(new { companyResult }, JsonRequestBehavior.AllowGet);
         }
 
-        
-         public ActionResult GetCompanyByIDForJson(int id, [DefaultValue(0)] int licID, [DefaultValue(0)] int devID, string identifier, string lang, string status)
+
+        public ActionResult GetCompanyByIDForJson(int id)
         {
             var companyController = new CompanyController();
-            var data = new CompanyDetail();
+            var dataList = new List<CompanyDetail>();
+            var newData = new CompanyDetail();
 
             //1. Get Company
             var company = new Company();
             company = companyController.GetCompanyByID(id);
+
             if (company != null && company.company_id > 0)
             {
-                data.company_id = company.company_id;
-                data.company_name = company.company_name;
-                data.company_address = UtilityHelper.BuildAddress(company);  
+                newData.company_id = company.company_id; 
+                newData.company_name = company.company_name;
+                newData.company_address = UtilityHelper.BuildAddress(company);
             }
 
-            var jsonResult = Json(new { data }, JsonRequestBehavior.AllowGet);            
+            dataList.Add(newData);
+
+            var jsonResult = Json(new { dataList }, JsonRequestBehavior.AllowGet);
             jsonResult.MaxJsonLength = int.MaxValue;
             return jsonResult;
         }
-        
+
 
     }
 }

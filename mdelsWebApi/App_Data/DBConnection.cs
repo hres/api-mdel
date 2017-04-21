@@ -36,8 +36,10 @@ namespace mdelsWebApi
 
             if ((!string.IsNullOrEmpty(establishmentName)))
             {
-                commandText += " WHERE UPPER(COMPANY_NAME) LIKE '%" + establishmentName.ToUpper().Trim() + "%'";
+                //commandText += " WHERE UPPER(ESTABLISHMENT_ID) LIKE '%" + establishmentName.ToUpper().Trim() + "%'";
             }
+
+            System.Diagnostics.Debug.WriteLine(commandText);
 
             using (OracleConnection con = new OracleConnection(mdelsDBConnection))
             {
@@ -86,7 +88,7 @@ namespace mdelsWebApi
                         con.Close();
                 }
             }
-
+            System.Diagnostics.Debug.WriteLine(items.Count);
             return items;
         }
 
@@ -208,10 +210,8 @@ namespace mdelsWebApi
         {
             var company = new Company();
             string commandText = "SELECT * FROM MDELS_OWNER.WQRY_EST_COMPANY WHERE COMPANY_ID = " + id;
-            System.Diagnostics.Debug.WriteLine(commandText);
-            using (
 
-                OracleConnection con = new OracleConnection(mdelsDBConnection))
+            using (OracleConnection con = new OracleConnection(mdelsDBConnection))
             {
                 OracleCommand cmd = new OracleCommand(commandText, con);
                 try
