@@ -15,15 +15,15 @@ namespace mdelsWebApi
         {
             config.Routes.MapHttpRoute(
                name: "ApiTwoUriPathExtension ID",
-               routeTemplate: "api/{controller}/{lang}.{ext}",
+               routeTemplate: "api-v1/{controller}/{lang}.{ext}",
                defaults: new { lang = RouteParameter.Optional, ext = RouteParameter.Optional });
             config.Routes.MapHttpRoute(
                 name: "ApiUriPathExtension ID",
-                routeTemplate: "api/{controller}/{lang}/{id}.{ext}",
+                routeTemplate: "api-v1/{controller}/{lang}/{id}.{ext}",
                 defaults: new { lang = RouteParameter.Optional, id = RouteParameter.Optional, ext = RouteParameter.Optional });
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
-                routeTemplate: "api/{controller}/{id}",
+                routeTemplate: "api-v1/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
             config.Formatters.JsonFormatter.MediaTypeMappings.Add(new QueryStringMapping("type", "json", new MediaTypeHeaderValue("application/json")));

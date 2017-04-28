@@ -184,13 +184,36 @@
                 "dataType": "json",
                 "data": { id: id},
                 "type": "GET",
-                "dataSrc": "dataList",
+                "dataSrc": "data",
                 "ordering": false,
                 "bFilter": false,
                 "error": function (xhr, err) {
                     //console.log("readyState: " + xhr.readyState + "\nstatus: " + xhr.status);
                     //console.log("responseText: " + xhr.responseText);
                 },
+            },
+
+            "initComplete": function (settings, json) {
+
+
+                console.log(json.companyID);
+
+               /* if ($.trim(json.data.company_id) == 0) {
+                    // alert("error");
+                }
+                else {
+                    $('#address').append(json.data.company_address);
+                    $('#companyID').append(json.data.company_id);
+                    if (licID > 0 || devID > 0) {
+                        $('#companyName').append('<a href=medical-device-detail.html?lang=en&id=' + json.data.company_id + '>' + json.data.company_name + '</a>');
+                    }
+                    else {
+                        $('#companyName').append(json.data.company_name);
+                    }
+
+                    console.log("heterf");
+
+                }*/
             },
 
             "columns": [
@@ -200,9 +223,12 @@
                          {
                              "data": "company_name",   
                          },
-                         {
-                             "data": "company_address",
-                         }
+                         /*{
+                             "data": "json.original_licence_no",
+                             "sType": "number",
+                             "visible": false,
+                             "searchable": false
+                         },*/
             ],         
         }
     </script>

@@ -122,23 +122,24 @@ namespace mdelsWebApi.Controllers
         public ActionResult GetCompanyByIDForJson(int id)
         {
             var companyController = new CompanyController();
-            var dataList = new List<CompanyDetail>();
-            var newData = new CompanyDetail();
+            var data = new CompanyDetail();
 
             //1. Get Company
             var company = new Company();
             company = companyController.GetCompanyByID(id);
 
+            System.Diagnostics.Debug.WriteLine(company.company_id);
+
             if (company != null && company.company_id > 0)
             {
-                newData.company_id = company.company_id; 
-                newData.company_name = company.company_name;
-                newData.company_address = UtilityHelper.BuildAddress(company);
+                data.company_id = company.company_id; 
+                data.company_name = company.company_name;
+                data.company_address = UtilityHelper.BuildAddress(company);
             }
 
-            dataList.Add(newData);
+            System.Diagnostics.Debug.WriteLine(company.company_id);
 
-            var jsonResult = Json(new { dataList }, JsonRequestBehavior.AllowGet);
+            var jsonResult = Json(new { data }, JsonRequestBehavior.AllowGet);
             jsonResult.MaxJsonLength = int.MaxValue;
             return jsonResult;
         }
