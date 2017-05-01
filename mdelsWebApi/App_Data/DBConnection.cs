@@ -88,7 +88,6 @@ namespace mdelsWebApi
                         con.Close();
                 }
             }
-            System.Diagnostics.Debug.WriteLine(items.Count);
             return items;
         }
 

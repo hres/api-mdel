@@ -128,16 +128,12 @@ namespace mdelsWebApi.Controllers
             var company = new Company();
             company = companyController.GetCompanyByID(id);
 
-            System.Diagnostics.Debug.WriteLine(company.company_id);
-
             if (company != null && company.company_id > 0)
             {
                 data.company_id = company.company_id; 
                 data.company_name = company.company_name;
                 data.company_address = UtilityHelper.BuildAddress(company);
             }
-
-            System.Diagnostics.Debug.WriteLine(company.company_id);
 
             var jsonResult = Json(new { data }, JsonRequestBehavior.AllowGet);
             jsonResult.MaxJsonLength = int.MaxValue;

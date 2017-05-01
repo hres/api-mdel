@@ -1,7 +1,6 @@
 ﻿var serviceURL = "./MdelsJson/GetAllListForJsonByCategory";
 
 function getParameterByName(name) {
-
     name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
     var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
      results = regex.exec(location.search);
@@ -17,8 +16,6 @@ function OnFail(result) {
 }
 
 function getDeviceListInfo(data, status, lang) {
-
-    console.log("Create Table");
 
     if (data.length == 0) {
         return "";
