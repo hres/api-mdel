@@ -85,7 +85,7 @@
 	    search: true,
 		lngLinks: [{
 			lang: "fr",
-			href: "instruments-medicaux-detail.html?lang=fr&id=" + id + "&licID=" + licID + "&devID=" + devID + "&identifier=" + identifier,
+			href: "instruments-medicaux-detail.html?lang=fr&id=" + id,
 			text: "Français",
 		}],
 		showPreContent: true,
@@ -172,65 +172,79 @@
     <!--<![endif]-->
     <script>
         var lang = "en";
-        //var id = getParameterByName("id");
+        var id = getParameterByName("id");
         //var licID = getParameterByName("licID");
         //var devID = getParameterByName("devID");
         //var identifier = getParameterByName("identifier");
         var serviceURLforDetail = "./MdelsJson/GetCompanyByIDForJson";
+
         window["wb-tables"] = {
             "processing": true,
             "ajax": {
                 "url": serviceURLforDetail,
                 "dataType": "json",
-                "data": { id: id},
+                "data": { id: id, lang: lang},
                 "type": "GET",
                 "dataSrc": "data",
-                "ordering": false,
-                "bFilter": false,
-                "error": function (xhr, err) {
-                    //console.log("readyState: " + xhr.readyState + "\nstatus: " + xhr.status);
-                    //console.log("responseText: " + xhr.responseText);
-                },
             },
-
             "initComplete": function (settings, json) {
+                
+                console.log(json.data);
 
-
-                console.log(json.companyID);
-
-               /* if ($.trim(json.data.company_id) == 0) {
-                    // alert("error");
+                if ($.trim(json.data.company_id) == 0) {
+                   // alert("error");
                 }
                 else {
                     $('#address').append(json.data.company_address);
                     $('#companyID').append(json.data.company_id);
                     if (licID > 0 || devID > 0) {
-                        $('#companyName').append('<a href=medical-device-detail.html?lang=en&id=' + json.data.company_id + '>' + json.data.company_name + '</a>');
+                        $('#companyName').append('<a href=medical-device-detail.html?lang=en&id=' + json.company_id + '>Full listings of ' +  json.data.company_name + '</a>');
                     }
-                    else {
+                    else
+                    {
                         $('#companyName').append(json.data.company_name);
                     }
-
-                    console.log("heterf");
-
-                }*/
+                }
             },
-
+            //"ordering": false,
+            //"bFilter": false,
             "columns": [
+                {
+                    "data": "Data"
+                },
+                {
+                    "data": null,
+                    "render": function(json)
+                    {
+                        return "please";
+                    }
+                },
+                {
+                    "data": "Please"
+                },
+                /*
+                
                          {
-                             "data": "company_name",        //seems to have trouble putting a number here
+                            "data": "data.company_address",
                          },
                          {
-                             "data": "company_name",   
+                             "data": null,
+                             "render": function (data, type, full) {
+                                    $('td').attr('valign', 'top');
+                                    return "<div><strongCompany Name&nbsp;:&nbsp;" + data.company_name;
+                                }
                          },
-                         /*{
-                             "data": "json.original_licence_no",
-                             "sType": "number",
-                             "visible": false,
-                             "searchable": false
-                         },*/
-            ],         
+                         {
+                             "data": null,
+                             "render": function (data, type, full) {
+                                 $('td').attr('valign', 'top');
+                                 return "<div><strong>Company ID&nbsp;:&nbsp;" + data.company_id;
+                             }
+                         }
+            */
+            ]
         }
+        
     </script>
 </body>
 </html>

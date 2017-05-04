@@ -113,8 +113,8 @@
                     <table id="companyTable" class="wb-tables table table-striped table-hover table-bordered">
                         <thead>
                             <tr class="active">
+                                <th>Company Name</th>
                                 <th>Establishment ID</th>
-
                                 <th>Company ID</th>
                             </tr>
                         </thead>
@@ -185,7 +185,7 @@
                     "url": serviceURL,
                     "data": { lang: lang, status: status, term: searchTerm, categoryType: category },
                     "dataType": "json",
-                    "dataSrc": "searchResult",
+                    "dataSrc": "searchResult",          //why does 'searchResult' work here, but establishmentResult doesn't, but for country/company, searchResult doesn't work but country/companyResult does?
                     "error": function (xhr, err) {
                         //console.log("readyState: " + xhr.readyState + "\nstatus: " + xhr.status);
                         //console.log("responseText: " + xhr.responseText);
@@ -193,10 +193,15 @@
                 },
                 "columns": [
                                 {
-                                    "data": "company_name",     //cannot get establishment.id into here for the life of me
-
+                                    "data": "company_name",     //cannot get establishment id into here for the life of me
                                 },
 
+                                {
+                                    "data": null,
+                                    "render": function (data, type, full) {
+                                        return '<a href=medical-device-detail.html?lang=en&id=' + data.original_licence_no + '>' + data.original_licence_no + '</a>';
+                                    }
+                                },
                                 {
                                     "data": null,
                                     "render": function (data, type, full) {

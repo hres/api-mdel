@@ -36,10 +36,8 @@ namespace mdelsWebApi
 
             if ((!string.IsNullOrEmpty(establishmentName)))
             {
-                //commandText += " WHERE UPPER(ESTABLISHMENT_ID) LIKE '%" + establishmentName.ToUpper().Trim() + "%'";
+                commandText += " WHERE UPPER(ESTABLISHMENT_ID) LIKE '%" + establishmentName.ToUpper().Trim() + "%'";
             }
-
-            System.Diagnostics.Debug.WriteLine(commandText);
 
             using (OracleConnection con = new OracleConnection(mdelsDBConnection))
             {
@@ -270,7 +268,7 @@ namespace mdelsWebApi
                 {
                     commandText += " WHERE UPPER(COUNTRY_CD) = " + country.ToUpper().Trim();
                 }
-                else                                //if the country string is not 2 characters
+                else                                //if the country string is not 2 characters, the user was probably searching by name
                 {
                     if (lang == "fr")
                     {
@@ -372,7 +370,7 @@ namespace mdelsWebApi
                 {
                     commandText += " WHERE UPPER(REGION_CD) = " + province.ToUpper().Trim();
                 }
-                else                                //if the province string is not 2 characters
+                else                                //if the province string is not 2 characters, the user probably was searching by name
                 {
                     if (lang == "fr")
                     {
@@ -427,7 +425,7 @@ namespace mdelsWebApi
             string commandText = "SELECT * FROM MDELS_OWNER.WQRY_EST_PROVINCE WHERE REGION_ID = " + id;
             using (
 
-                OracleConnection con = new OracleConnection(mdelsDBConnection))
+            OracleConnection con = new OracleConnection(mdelsDBConnection))
             {
                 OracleCommand cmd = new OracleCommand(commandText, con);
                 try

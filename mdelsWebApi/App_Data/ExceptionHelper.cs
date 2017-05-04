@@ -65,7 +65,7 @@ namespace mdelsWebApi
             }
             catch
             {
-                throw;
+                    throw;
             }
         }
     }

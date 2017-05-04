@@ -103,7 +103,7 @@ namespace mdelsWebApi.Controllers
 
                             search.licence_status = c.country_cd;
                             search.licence_name = c.country_desc;
-                            search.company_id = 0;
+                            search.company_id = 555;
 
                             if (company != null && company.company_id > 0)
                             {
@@ -114,6 +114,41 @@ namespace mdelsWebApi.Controllers
                         }
                     }
                     return Json(new { searchResult }, JsonRequestBehavior.AllowGet);
+
+                case (int)category.province:
+                    var provinceResult = new List<Province>();
+
+                    if (numberTerm > 0)
+                    {
+                        provinceResult.Add(provinceController.GetProvinceByID(numberTerm, lang));
+                    }
+                    else
+                    {
+                        provinceResult = provinceController.GetAllProvince(lang, term).ToList();
+                    }
+                    if (provinceResult.Count > 0)
+                    {
+                        foreach (var p in provinceResult)
+                        {
+                            var search = new Search();
+                            var company = new Company();
+                            var address = new StringBuilder();
+                            //company = companyController.GetCompanyByID(); how to make this work? 
+
+                            search.licence_status = p.region_cd;
+                            search.licence_name = p.region_desc;
+                            search.device_name = p.country_cd;
+
+                            if (company != null && company.company_id > 0)
+                            {
+                                search.company_name = company.company_name;
+                                search.company_address = UtilityHelper.BuildAddress(company);
+                            }
+                            searchResult.Add(search);
+                        }
+                    }
+                    return Json(new { searchResult }, JsonRequestBehavior.AllowGet);
+
             }
             return Json(new { companyResult }, JsonRequestBehavior.AllowGet);
         }

@@ -184,29 +184,38 @@
                     "url": serviceURL,
                     "data": { lang: lang, status: status, term: searchTerm, categoryType: category },
                     "dataType": "json",
-                    "dataSrc": "countryResult",
+                    "dataSrc": "searchResult",
                     "error": function (xhr, err) {
                         //console.log("readyState: " + xhr.readyState + "\nstatus: " + xhr.status);
                         //console.log("responseText: " + xhr.responseText);
                     }
                 },
                 "columns": [
-                                { "data": "licence_name" },
-                                {
 
-                                    "data": null,
-                                    "render": function (data, type, full) {
-                                        return data.licence_status;
-                                    }
-                                },
-                                {
-                                    "data": null,
-                                    "render": function (data, type, full) {
-                                        return '<a href=medical-device-detail.html?lang=en&id=' + data.company_id + '>' + data.company_id + '</a>';
-                                    }
-                                }
-
+                    {
+                        "data": null,
+                        "render": function(json)
+                        {
+                            return json.licence_name;
+                        }
+                    },
+                    {
+                        "data": null,
+                        "render": function (json) {
+                            return json.licence_status;
+                        }
+                    },
+                    {
+                        "data": null,
+                        "render": function (json) {
+                            return json.licence_name;
+                        }
+                    },
+      
                 ],
+                "initComplete": function (settings, json) {
+                        
+                }
             }
 
     </script>
