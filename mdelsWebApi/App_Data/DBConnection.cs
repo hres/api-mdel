@@ -36,7 +36,7 @@ namespace mdelsWebApi
 
             if ((!string.IsNullOrEmpty(establishmentName)))
             {
-                commandText += " WHERE UPPER(ESTABLISHMENT_ID) LIKE '%" + establishmentName.ToUpper().Trim() + "%'";
+                //commandText += " WHERE UPPER(ESTABLISHMENT_ID) LIKE '%" + establishmentName.ToUpper().Trim() + "%'";
             }
 
             using (OracleConnection con = new OracleConnection(mdelsDBConnection))

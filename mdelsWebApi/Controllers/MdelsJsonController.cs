@@ -70,6 +70,7 @@ namespace mdelsWebApi.Controllers
 
                             search.company_id = est.company_id;
                             search.original_licence_no = est.establishment_id;      //using orig licence no for now
+                            search.company_name = company.company_name;
 
                             if (company != null && company.company_id > 0)
                             {
@@ -138,7 +139,6 @@ namespace mdelsWebApi.Controllers
                             search.licence_status = p.region_cd;
                             search.licence_name = p.region_desc;
                             search.device_name = p.country_cd;
-
                             if (company != null && company.company_id > 0)
                             {
                                 search.company_name = company.company_name;

@@ -113,8 +113,9 @@
                         <p class="col-sm-2"><strong>Company&nbsp;ID&nbsp;:&nbsp;</strong></p>
                         <div><p class="col-sm-10" id="companyID"></p></div>
                     </div>
-                    <div class="table-responsive">
-                        <table class="wb-tables table-responsive table-bordered table-condensed table-striped">
+                    <!--
+                        <div class="table-responsive">
+                        <table class="table-bordered table-condensed table-striped">
                             <caption class="wb-inv text-left">Device details</caption>
                             <thead>
                                 <tr class="bg-primary">
@@ -122,10 +123,16 @@
                                     <th>Company Name</th>
                                     <th>Company Address</th>
                                 </tr>
+                                <tr>
+                                    <td id="cID"></td>
+                                    <td id="cName"></td>
+                                    <td id="cAddr"></td>
+                                </tr>
                             </thead>
                             <tbody id="tbodyMain"></tbody>
                         </table>
                     </div>
+                        -->
                 </div>
             </section>
 
@@ -173,11 +180,40 @@
     <script>
         var lang = "en";
         var id = getParameterByName("id");
-        //var licID = getParameterByName("licID");
-        //var devID = getParameterByName("devID");
-        //var identifier = getParameterByName("identifier");
+
         var serviceURLforDetail = "./MdelsJson/GetCompanyByIDForJson";
 
+        $.ajax({
+            "url": serviceURLforDetail,
+            "dataType": "json",
+            "data": { id: id, lang: lang},
+            "type": "GET",
+            "dataSrc": "data",
+            "success": function (json) {
+
+                if ($.trim(json.data.company_id) == 0) {
+                   // alert("error");
+                }
+                else {
+                    $('#address').append(json.data.company_address);
+                    $('#companyID').append(json.data.company_id);
+                    if (id > 0) {
+                        $('#companyName').append('<b>' + json.data.company_name + '</b>');
+                        $('#companyName').append('</br><a href=medical-device-detail.html?lang=en&id=' + json.data.company_id + '>Full listings of ' +  json.data.company_name + '</a>');
+                    }
+                    else
+                    {
+                        $('#companyName').append('<b>' + json.data.company_name + '</b>');
+                    }
+                }
+
+                $('#cID').append(json.data.company_id);
+                $('#cName').append('<a href=medical-device-detail.html?lang=en&id=' + json.data.company_name + '>' + json.data.company_name + '</a>');
+                $('#cAddr').append(json.data.company_address);
+            }
+        });
+
+        /*
         window["wb-tables"] = {
             "processing": true,
             "ajax": {
@@ -189,7 +225,7 @@
             },
             "initComplete": function (settings, json) {
                 
-                console.log(json.data);
+                //console.log(json.data);
 
                 if ($.trim(json.data.company_id) == 0) {
                    // alert("error");
@@ -198,53 +234,23 @@
                     $('#address').append(json.data.company_address);
                     $('#companyID').append(json.data.company_id);
                     if (licID > 0 || devID > 0) {
-                        $('#companyName').append('<a href=medical-device-detail.html?lang=en&id=' + json.company_id + '>Full listings of ' +  json.data.company_name + '</a>');
+                        $('#companyName').append('<a href=medical-device-detail.html?lang=en&id=' + json.data.company_id + '>Full listings of ' +  json.data.company_name + '</a>');
                     }
                     else
                     {
                         $('#companyName').append(json.data.company_name);
                     }
                 }
+
+                $('#cID').append(json.data.company_id);
+                $('#cName').append('<a href=medical-device-detail.html?lang=en&id=' + json.data.company_name + '>' + json.data.company_name + '</a>');
+                $('#cAddr').append(json.data.company_address);
+
             },
             //"ordering": false,
             //"bFilter": false,
-            "columns": [
-                {
-                    "data": "Data"
-                },
-                {
-                    "data": null,
-                    "render": function(json)
-                    {
-                        return "please";
-                    }
-                },
-                {
-                    "data": "Please"
-                },
-                /*
-                
-                         {
-                            "data": "data.company_address",
-                         },
-                         {
-                             "data": null,
-                             "render": function (data, type, full) {
-                                    $('td').attr('valign', 'top');
-                                    return "<div><strongCompany Name&nbsp;:&nbsp;" + data.company_name;
-                                }
-                         },
-                         {
-                             "data": null,
-                             "render": function (data, type, full) {
-                                 $('td').attr('valign', 'top');
-                                 return "<div><strong>Company ID&nbsp;:&nbsp;" + data.company_id;
-                             }
-                         }
-            */
-            ]
         }
-        
+        */
     </script>
 </body>
 </html>

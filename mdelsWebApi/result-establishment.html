@@ -193,23 +193,26 @@
                 },
                 "columns": [
                                 {
-                                    "data": "company_name",     //cannot get establishment id into here for the life of me
+                                    "data": null,
+                                    "render": function (json, type, full) {
+                                        return '<a href=medical-device-detail.html?lang=en&id=' + json.company_id + '>' + json.company_name + '</a>';
+                                    }
                                 },
 
                                 {
                                     "data": null,
-                                    "render": function (data, type, full) {
-                                        return '<a href=medical-device-detail.html?lang=en&id=' + data.original_licence_no + '>' + data.original_licence_no + '</a>';
+                                    "render": function (json, type, full) {
+                                        return '<a href=medical-device-detail.html?lang=en&id=' + json.original_licence_no + '>' + json.original_licence_no + '</a>';
                                     }
                                 },
                                 {
                                     "data": null,
-                                    "render": function (data, type, full) {
-                                        return '<a href=medical-device-detail.html?lang=en&id=' + data.company_id + '>' + data.company_id + '</a>';
+                                    "render": function (json, type, full) {
+                                        return '<a href=medical-device-detail.html?lang=en&id=' + json.company_id + '>' + json.company_id + '</a>';
                                     }
                                 }
 
-                ]
+                ],
             }
 
     </script>
