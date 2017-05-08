@@ -269,6 +269,7 @@
     <Content Include="bin\WebActivatorEx.dll" />
     <Content Include="bin\WebGrease.dll" />
     <Content Include="bin\WebTemplateCore.dll" />
+    <Content Include="detail-establishment.html" />
     <Content Include="detail-company.html" />
     <Content Include="detail-province.html" />
     <Content Include="genericError.html" />

@@ -89,6 +89,74 @@ namespace mdelsWebApi
             return items;
         }
 
+        public List<Establishment> GetEstablishmentList(IEnumerable<Company> companyList)
+        {
+            var items = new List<Establishment>();
+
+            string commandText = "SELECT * FROM MDELS_OWNER.WQRY_ESTABLISHMENT";
+
+            using (OracleConnection con = new OracleConnection(mdelsDBConnection))
+            {
+                OracleCommand cmd = new OracleCommand(commandText, con);
+                try
+                {
+                    con.Open();
+                    using (OracleDataReader dr = cmd.ExecuteReader())
+                    {
+                        if (dr.HasRows)
+                        {
+                            while (dr.Read())
+                            {
+                                var item = new Establishment();
+
+                                item.establishment_id = dr["ESTABLISHMENT_ID"] == DBNull.Value ? 0 : Convert.ToInt32(dr["ESTABLISHMENT_ID"]);
+                                item.company_id = dr["COMPANY_ID"] == DBNull.Value ? 0 : Convert.ToInt32(dr["COMPANY_ID"]);
+
+                                var tempID = item.company_id;
+                                foreach (Company c in companyList)
+                                {
+                                    if(tempID == c.company_id)
+                                    {
+                                        item.entry_date = dr["ENTRY_DATE"] == DBNull.Value ? (DateTime?)null : Convert.ToDateTime(dr["ENTRY_DATE"]);
+                                        item.application_type = dr["APPLICATION_TYPE"] == DBNull.Value ? string.Empty : dr["APPLICATION_TYPE"].ToString().Trim();
+                                        item.licence_status = dr["LICENCE_STATUS"] == DBNull.Value ? string.Empty : dr["LICENCE_STATUS"].ToString().Trim();
+                                        item.status_date = dr["STATUS_DATE"] == DBNull.Value ? (DateTime?)null : Convert.ToDateTime(dr["STATUS_DATE"]);
+                                        item.imp_dist_class_I = dr["IMP_DIST_CLASS_I"] == DBNull.Value ? string.Empty : dr["IMP_DIST_CLASS_I"].ToString().Trim();
+                                        item.imp_dist_class_I = dr["IMP_DIST_CLASS_2_3_4"] == DBNull.Value ? string.Empty : dr["IMP_DIST_CLASS_2_3_4"].ToString().Trim();
+                                        item.dist_flag = dr["DIST_FLAG"] == DBNull.Value ? string.Empty : dr["DIST_FLAG"].ToString().Trim();
+                                        item.class_I_flag = dr["CLASS_I_FLAG"] == DBNull.Value ? string.Empty : dr["CLASS_I_FLAG"].ToString().Trim();
+                                        item.imp_dist_class_II = dr["IMP_DIST_CLASS_II"] == DBNull.Value ? string.Empty : dr["IMP_DIST_CLASS_II"].ToString().Trim();
+                                        item.imp_dist_class_III = dr["IMP_DIST_CLASS_III"] == DBNull.Value ? string.Empty : dr["IMP_DIST_CLASS_III"].ToString().Trim();
+                                        item.imp_dist_class_IV = dr["IMP_DIST_CLASS_IV"] == DBNull.Value ? string.Empty : dr["IMP_DIST_CLASS_IV"].ToString().Trim();
+                                        item.dist_class_II = dr["DIST_CLASS_II"] == DBNull.Value ? string.Empty : dr["DIST_CLASS_II"].ToString().Trim();
+                                        item.dist_class_III = dr["DIST_CLASS_III"] == DBNull.Value ? string.Empty : dr["DIST_CLASS_III"].ToString().Trim();
+                                        item.dist_class_IV = dr["DIST_CLASS_IV"] == DBNull.Value ? string.Empty : dr["DIST_CLASS_IV"].ToString().Trim();
+                                        item.not_imoprter = dr["NOT_IMPORTER"] == DBNull.Value ? string.Empty : dr["NOT_IMPORTER"].ToString().Trim();
+                                        item.not_import_dist = dr["NOT_IMPORT_DIST"] == DBNull.Value ? string.Empty : dr["NOT_IMPORT_DIST"].ToString().Trim();
+                                        items.Add(item);
+                                        break;
+                                    }
+                                }
+
+                                
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    string errorMessages = string.Format("DbConnection.cs - GetAllEstablishment()");
+                    ExceptionHelper.LogException(ex, errorMessages);
+                }
+                finally
+                {
+                    if (con.State == ConnectionState.Open)
+                        con.Close();
+                }
+            }
+            return items;
+        }
+
         public Establishment GetEstablishmentById(int id)
         {
             Establishment establishment = new Establishment();
@@ -255,11 +323,20 @@ namespace mdelsWebApi
             return company;
         }
 
-        public List<Company> GetCompanyByCountry(string cd)
+        public List<Company> GetAllCompanyByLocation(string cd, string searchType)
         {
             var items = new List<Company>();
-            string commandText = "SELECT * FROM MDELS_OWNER.WQRY_EST_COMPANY WHERE COUNTRY_CD = '" + cd + "'";
-
+            string commandText = "SELECT * FROM MDELS_OWNER.WQRY_EST_COMPANY"; 
+            
+            if(searchType == "province")
+            {
+                commandText += " WHERE REGION_CD = '" + cd + "'";
+            }
+            else
+            {
+                commandText += " WHERE COUNTRY_CD = '" + cd + "'";
+            }
+            
             using (OracleConnection con = new OracleConnection(mdelsDBConnection))
             {
                 OracleCommand cmd = new OracleCommand(commandText, con);
@@ -287,7 +364,6 @@ namespace mdelsWebApi
                                 item.region_cd = dr["REGION_CD"] == DBNull.Value ? string.Empty : dr["REGION_CD"].ToString().Trim();
                                 item.company_status = dr["COMPANY_STATUS"] == DBNull.Value ? string.Empty : dr["COMPANY_STATUS"].ToString().Trim();
                                 item.status_dt = dr["STATUS_DT"] == DBNull.Value ? (DateTime?)null : Convert.ToDateTime(dr["STATUS_DT"]);
-
                                 items.Add(item);
                             }
                         }
@@ -437,7 +513,7 @@ namespace mdelsWebApi
                             {
                                 var item = new Province();
                                 item.country_cd = dr["COUNTRY_CD"] == DBNull.Value ? string.Empty : dr["COUNTRY_CD"].ToString().Trim();
-                                item.region_cd = dr["REGION_ID"] == DBNull.Value ? string.Empty : dr["REGION_ID"].ToString().Trim();
+                                item.region_cd = dr["REGION_CD"] == DBNull.Value ? string.Empty : dr["REGION_CD"].ToString().Trim();
                                 item.region_desc = dr["REGION_DESC"] == DBNull.Value ? string.Empty : dr["REGION_DESC"].ToString().Trim();
                                 item.region_desc_f = dr["REGION_DESC_F"] == DBNull.Value ? string.Empty : dr["REGION_DESC_F"].ToString().Trim();
                                 items.Add(item);
@@ -462,7 +538,7 @@ namespace mdelsWebApi
         public Province GetProvinceById(string id, string lang)
         {
             var province = new Province();
-            string commandText = "SELECT * FROM MDELS_OWNER.WQRY_EST_PROVINCE WHERE REGION_ID = '" + id + "'";
+            string commandText = "SELECT * FROM MDELS_OWNER.WQRY_EST_PROVINCE WHERE REGION_DESC = '" + id + "'";
             using (OracleConnection con = new OracleConnection(mdelsDBConnection))
             {
                 OracleCommand cmd = new OracleCommand(commandText, con);
@@ -540,7 +616,7 @@ namespace mdelsWebApi
                 }
                 catch (Exception ex)
                 {
-                    string errorMessages = string.Format("DbConnection.cs - GetCompanyByCountry()");
+                    string errorMessages = string.Format("DbConnection.cs - GetCompanyByProvince()");
                     ExceptionHelper.LogException(ex, errorMessages);
                 }
                 finally

@@ -22,5 +22,11 @@ namespace mdelsWebApi.Controllers
             }
             return establishment;
         }
+
+        public IEnumerable<Establishment> GetEstablishmentList(IEnumerable<Company> companyList)
+        {
+            return databasePlaceholder.GetEstablishmentList(companyList);
+        }
+
     }
 }

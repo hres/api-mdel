@@ -32,6 +32,13 @@ namespace mdelsWebApi.Models
 
     }
 
+    public class Detail
+    {
+        public int establishment_id { get; set; }
+        public int company_id { get; set; }
+        public string company_name { get; set; }
+        public string company_address { get; set; }
+}
 
     public class CompanyDetail
     {
@@ -44,12 +51,19 @@ namespace mdelsWebApi.Models
     public class CountryDetail
     {
         public Company company;
+
         public IList<Company> companyList { get; set; }
+
+        public IList<Establishment> establishmentList { get; set; }
+
     }
 
     public class EstablishmentDetail
     {
-
+        public int establishment_id { get; set; }
+        public int company_id { get; set; }
+        public string company_name { get; set; }
+        public string company_address { get; set; }
     }
 
     public class provinceDetail

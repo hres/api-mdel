@@ -24,5 +24,13 @@ namespace mdelsWebApi.Models
             establishment = dbConnection.GetEstablishmentById(id);
             return establishment;
         }
+
+        public IEnumerable<Establishment> GetEstablishmentList(IEnumerable<Company> companyList)
+        {
+            establishments = dbConnection.GetEstablishmentList(companyList);
+
+            return establishments;
+        }
+
     }
 }

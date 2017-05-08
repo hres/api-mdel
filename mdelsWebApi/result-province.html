@@ -192,7 +192,8 @@
                      {
                          "data": null,
                          "render": function (json) {
-                             return '<a href=detail-province.html?lang=en&cd=' + json.region_cd + '&category=' + category + '>' + json.region_desc + '</a>';
+                             return '<a href=detail-province.html?lang=en&province=' + json.region_cd + '&category=' + category + '>' + json.region_desc + '</a>';
+                             //return '<a href=detail-province.html?lang=en&province=' + json.region_desc.toString().replace(/ /g, "%20") + '&category=' + category + '>' + json.region_desc + '</a>';
                          }
                      },
                      {

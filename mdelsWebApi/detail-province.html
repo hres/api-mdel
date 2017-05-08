@@ -114,8 +114,8 @@
                     <div><p id="companyName"></p></div>
                     <div><p class="mrgn-tp-0" id="address"></p></div>
                     <div class="row">
-                        <p class="col-sm-2"><strong>Country&nbsp;:&nbsp;</strong></p>
-                        <div><p class="col-sm-10" id="countryTitle"></p></div>
+                        <p class="col-sm-2"><strong>Province&nbsp;:&nbsp;</strong></p>
+                        <div><p class="col-sm-10" id="provinceTitle"></p></div>
                     </div>
                         <div class="table-responsive">
                         <table class="wb-tables table-bordered table-condensed table-striped">
@@ -123,7 +123,7 @@
                             <thead>
                                 <tr class="bg-primary">
                                     <th>Company Name</th>
-                                    <th>Company Address</th>
+                                    <th>Establishment ID</th>
                                     <th>Company ID</th>
                                 </tr>
                             </thead>
@@ -176,46 +176,45 @@
     <!--<![endif]-->
     <script>
         var lang = "en";
-        var cd = getParameterByName("cd");
-        var serviceURLforDetail = "./MdelsJson/GetCompanyByProvinceForJson";
+        var province = getParameterByName("province");
+        var serviceURLforDetail = "./MdelsJson/GetEstablishmentByProvinceForJson";
 
         window["wb-tables"] = {
             "processing": true,
             "ajax": {
                 "url": serviceURLforDetail,
                 "dataType": "json",
-                "data": { lang: lang, cd: cd},
+                "data": { lang: lang, cd: province},
                 "type": "GET",
-                "dataSrc": "data.companyList",          //data.companyList worked (for company_name at least)
+                "dataSrc": "detailList",          //data.companyList worked (for company_name at least)
                 "error": function (xhr, err) {
                     //console.log("readyState: " + xhr.readyState + "\nstatus: " + xhr.status);
                     //console.log("responseText: " + xhr.responseText);
                 }
             },
-
             "columns": [
-                {
-                    "data": "company_name"
-                },
-                {
-                    "data": null,
-                    "render": function (companyList) {
-
-                        return companyList.addr_line_1 + '<br/>' + companyList.city + companyList.region_cd + ',' + companyList.country_cd + '<br/>' + companyList.postal_code;
-                    }
-                },
-                {  
-                    "data": null,
-                    "sType": "number",
-                    "render": function (companyList)
-                    {
-                        return '<a href=company-detail.html?lang=en&id=' + companyList.company_id + '>' + companyList.company_id + '</a>';
-                    }
-                }
+                           {
+                               "data": "company_name"
+                           },
+                           {
+                               "data": null,
+                               "sType": "number",
+                               "render": function (detailList) {
+                                   return '<a href=detail-establishment.html?lang=en&id=' + detailList.establishment_id + '>' + detailList.establishment_id + '</a>';
+                                   //return detailList.company_address;
+                               }
+                           },
+                           {
+                               "data": null,
+                               "sType": "number",
+                               "render": function (detailList) {
+                                   return '<a href=detail-company.html?lang=en&id=' + detailList.company_id + '>' + detailList.company_id + '</a>';
+                               }
+                           }
             ],
 
             "initComplete": function (settings, json) {
-
+                $('#provinceTitle').append(province);
                 /*
                 if ($.trim(json.data.company_id) == 0) {
                    // alert("error");
@@ -232,7 +231,7 @@
                     }
                 }
                 */
-                $('#countryTitle').append(cd);
+                
 
             },
             //"ordering": false,

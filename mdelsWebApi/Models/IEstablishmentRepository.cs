@@ -10,5 +10,6 @@ namespace mdelsWebApi.Models
     {
         IEnumerable<Establishment> GetAll(string establishmentName);
         Establishment Get(int id);
+        IEnumerable<Establishment> GetEstablishmentList(IEnumerable<Company> companylist);
     }
 }

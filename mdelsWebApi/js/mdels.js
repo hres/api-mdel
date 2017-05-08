@@ -1,14 +1,16 @@
 ﻿var serviceURL = "./MdelsJson/GetAllListForJsonByCategory";
 
 function getParameterByName(name) {
+  
     name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
     var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
-     results = regex.exec(location.search);
+    results = regex.exec(location.search);
     return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
 }
 
 function formatParameter(parm) {
-    return parm = parm.replace(/ /g, "%20");
+    
+    return parm.toString().replace(/ /g, "%20");
 }
 
 function OnFail(result) {

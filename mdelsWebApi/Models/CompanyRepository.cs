@@ -24,15 +24,9 @@ namespace mdelsWebApi.Models
             return company;
         }
 
-        public IEnumerable<Company> GetAllCompanyByCountry(string cd)
+        public IEnumerable<Company> GetAllCompanyByLocation(string cd, string searchType)
         {
-            companies = dbConnection.GetCompanyByCountry(cd);
-            return companies;
-        }
-
-        public IEnumerable<Company> GetAllCompanyByProvince(string cd)
-        {
-            companies = dbConnection.GetCompanyByProvince(cd);
+            companies = dbConnection.GetAllCompanyByLocation(cd, searchType);
             return companies;
         }
 

@@ -163,15 +163,15 @@ namespace mdelsWebApi.Controllers
             return Json(new { companyResult }, JsonRequestBehavior.AllowGet);
         }
 
-
         public ActionResult GetCompanyByIDForJson([DefaultValue(0)] int id, [DefaultValue("en")] string lang)
         {
             var companyController = new CompanyController();
-            var countryController = new CountryController();
-            var data = new CompanyDetail();
+            var data = new EstablishmentDetail();
+
 
             //1. Get Company
             var company = new Company();
+
             company = companyController.GetCompanyByID(id);
 
             if (company != null && company.company_id > 0)
@@ -187,55 +187,120 @@ namespace mdelsWebApi.Controllers
 
         }
 
-        public ActionResult GetCompanyByCountryForJson([DefaultValue("en")] string lang, [DefaultValue("")] string cd)
+        public ActionResult GetEstablishmentByIDForJson([DefaultValue(0)] int id, [DefaultValue("en")] string lang)
         {
             var companyController = new CompanyController();
-            var countryController = new CountryController();
-            var data = new CountryDetail();
+            var establishmentController = new EstablishmentController();
+            var data = new EstablishmentDetail();
+            
 
-            var country = new Country();
-            country = countryController.GetCountryByID(cd, lang);
-            if (country != null)
+            //1. Get Company
+            var establishment = new Establishment();
+            
+            establishment = establishmentController.GetEstablishmentById(id);
+
+            if (establishment != null && establishment.company_id > 0)
             {
-                var companyList = new List<Company>();
-                companyList = companyController.GetAllCompanyByCountry(cd).ToList();
-                data.companyList = new List<Company>();
+                
 
-                foreach (Company c in companyList)
-                {
-                    data.companyList.Add(c);
-                }
+                data.establishment_id = establishment.establishment_id;
+                data.company_id = establishment.company_id;
 
+                var company = companyController.GetCompanyByID(data.company_id);
+
+                data.company_name = company.company_name;
+                data.company_address = UtilityHelper.BuildAddress(company);
             }
 
             var jsonResult = Json(new { data }, JsonRequestBehavior.AllowGet);
             jsonResult.MaxJsonLength = int.MaxValue;
             return jsonResult;
+
+        }
+
+        public ActionResult GetEstablishmentByCountryForJson([DefaultValue("en")] string lang, [DefaultValue("")] string cd)
+        {
+            var companyController = new CompanyController();
+            var establishmentController = new EstablishmentController();
+            var countryController = new CountryController();
+            var country = new Country();
+
+            var detailList = new List<Detail>();
+
+            country = countryController.GetCountryByID(cd, lang);
+            if (country != null)
+            {
+                var companyList = new List<Company>();
+                var establishmentList = new List<Establishment>();
+
+                companyList = companyController.GetAllCompanyByLocation(cd, "country").ToList();
+
+                establishmentList = establishmentController.GetEstablishmentList(companyList).ToList();
+
+                foreach (Establishment e in establishmentList)
+                {
+                    var detail = new Detail();
+
+                    foreach (Company c in companyList)
+                    {
+                        if (e.company_id == c.company_id)
+                        {
+                            detail.establishment_id = e.establishment_id;
+                            detail.company_id = c.company_id;
+                            detail.company_name = c.company_name;
+                            detail.company_address = UtilityHelper.BuildAddress(c);
+                            detailList.Add(detail);
+                            break;
+                        }
+                    }
+                }
+            }
+
+            var jsonResult = Json(new { detailList }, JsonRequestBehavior.AllowGet);
+            jsonResult.MaxJsonLength = int.MaxValue;
+            return jsonResult;
         }
 
 
-        public ActionResult GetCompanyByProvinceForJson([DefaultValue("en")] string lang, [DefaultValue(0)] string cd)
+        public ActionResult GetEstablishmentByProvinceForJson([DefaultValue("en")] string lang, [DefaultValue(0)] string cd)
         {
             var companyController = new CompanyController();
+            var establishmentController = new EstablishmentController();
             var provinceController = new ProvinceController();
-            var data = new CountryDetail();
-
             var province = new Province();
+
+            var detailList = new List<Detail>();
+
             province = provinceController.GetProvinceByID(cd, lang);
             if (province != null)
             {
                 var companyList = new List<Company>();
-                companyList = companyController.GetAllCompanyByProvince(cd).ToList();
-                data.companyList = new List<Company>();
+                var establishmentList = new List<Establishment>();
 
-                foreach (Company c in companyList)
+                companyList = companyController.GetAllCompanyByLocation(cd, "province").ToList();
+
+                establishmentList = establishmentController.GetEstablishmentList(companyList).ToList();
+
+                foreach (Establishment e in establishmentList)
                 {
-                    data.companyList.Add(c);
-                }
+                    var detail = new Detail();
 
+                    foreach (Company c in companyList)
+                    {
+                        if (e.company_id == c.company_id)
+                        {
+                            detail.establishment_id = e.establishment_id;
+                            detail.company_id = c.company_id;
+                            detail.company_name = c.company_name;
+                            detail.company_address = UtilityHelper.BuildAddress(c);
+                            detailList.Add(detail);
+                            break;
+                        }
+                    }
+                }
             }
 
-            var jsonResult = Json(new { data }, JsonRequestBehavior.AllowGet);
+            var jsonResult = Json(new { detailList }, JsonRequestBehavior.AllowGet);
             jsonResult.MaxJsonLength = int.MaxValue;
             return jsonResult;
         }
