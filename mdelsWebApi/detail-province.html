@@ -102,7 +102,7 @@
                     <div class="row">
                         <h2 class="col-sm-6 mrgn-tp-sm">Manufacturer</h2>
                         <div class="mrgn-tp-sm pull-right">
-                           <a id="topLink" href="./main-en.html">New Search</a>
+                           <a id="topLink" href="./search-by-province.html">New Search</a>
                             <br />
                         </div>
                         <div class="mrgn-tp-sm pull-right">
@@ -237,25 +237,6 @@
             //"ordering": false,
             //"bFilter": false,
         }
-        function setSearchURL() {
-            var category = getParameterByName("category");
-            if (category == 1) {
-                $('#topLink').attr("href", "./search-by-company.html");
-            }
-            else if (category == 2) {
-                $('#topLink').attr("href", "./search-by-establishment.html");
-            }
-            else if (category == 3) {
-                $('#topLink').attr("href", "./search-by-country.html");
-            }
-            else if (category == 4) {
-                $('#topLink').attr("href", "./search-by-province.html");
-            }
-            else {
-                $('#topLink').attr("href", "./search-by-company.html");
-            }
-        }
-
         
     </script>
 </body>
