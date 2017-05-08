@@ -9,6 +9,6 @@ namespace mdelsWebApi.Models
     interface ICountryRepository
     {
         IEnumerable<Country> GetAll(string lang, string country);
-        Country Get(int id, string lang);
+        Country Get(string id, string lang);
     }
 }

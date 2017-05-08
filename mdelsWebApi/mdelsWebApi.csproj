@@ -269,11 +269,14 @@
     <Content Include="bin\WebActivatorEx.dll" />
     <Content Include="bin\WebGrease.dll" />
     <Content Include="bin\WebTemplateCore.dll" />
+    <Content Include="detail-company.html" />
+    <Content Include="detail-province.html" />
     <Content Include="genericError.html" />
     <Content Include="index-fr.html" />
     <Content Include="js\JSONtoCSV.js" />
     <Content Include="js\mdels.js" />
     <Content Include="main-en.html" />
+    <Content Include="detail-country.html" />
     <Content Include="medical-device-detail.html" />
     <Content Include="result-establishment.html" />
     <Content Include="result-company.html" />

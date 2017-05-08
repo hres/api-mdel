@@ -69,7 +69,7 @@ namespace mdelsWebApi.Controllers
                             //search.establishment_id = est.establishment_id???
 
                             search.company_id = est.company_id;
-                            search.original_licence_no = est.establishment_id;      //using orig licence no for now
+                            search.establishment_id = est.establishment_id;      //using orig licence no for now
                             search.company_name = company.company_name;
 
                             if (company != null && company.company_id > 0)
@@ -84,15 +84,19 @@ namespace mdelsWebApi.Controllers
 
                 case (int)category.country:
                     var countryResult = new List<Country>();
-
+                    /*
                     if (numberTerm > 0)
                     {
                         countryResult.Add(countryController.GetCountryByID(numberTerm, lang));
                     }
                     else
                     {
-                        countryResult = countryController.GetAllCountry(lang, term).ToList();
+                        
                     }
+                    */
+
+                    countryResult = countryController.GetAllCountry(lang, term).ToList();
+
                     if (countryResult.Count > 0)
                     {
                         foreach (var c in countryResult)
@@ -102,9 +106,8 @@ namespace mdelsWebApi.Controllers
                             var address = new StringBuilder();
                             //company = companyController.GetCompanyByID(); how to make this work? 
 
-                            search.licence_status = c.country_cd;
-                            search.licence_name = c.country_desc;
-                            search.company_id = 555;
+                            search.country_cd = c.country_cd;
+                            search.country_name = c.country_desc;
 
                             if (company != null && company.company_id > 0)
                             {
@@ -119,6 +122,8 @@ namespace mdelsWebApi.Controllers
                 case (int)category.province:
                     var provinceResult = new List<Province>();
 
+                    /*
+
                     if (numberTerm > 0)
                     {
                         provinceResult.Add(provinceController.GetProvinceByID(numberTerm, lang));
@@ -127,6 +132,10 @@ namespace mdelsWebApi.Controllers
                     {
                         provinceResult = provinceController.GetAllProvince(lang, term).ToList();
                     }
+                    */
+
+                    provinceResult = provinceController.GetAllProvince(lang, term).ToList();
+
                     if (provinceResult.Count > 0)
                     {
                         foreach (var p in provinceResult)
@@ -136,9 +145,10 @@ namespace mdelsWebApi.Controllers
                             var address = new StringBuilder();
                             //company = companyController.GetCompanyByID(); how to make this work? 
 
-                            search.licence_status = p.region_cd;
-                            search.licence_name = p.region_desc;
-                            search.device_name = p.country_cd;
+                            search.region_cd = p.region_cd;
+                            search.region_desc = p.region_desc;
+                            search.country_cd = p.country_cd;
+
                             if (company != null && company.company_id > 0)
                             {
                                 search.company_name = company.company_name;
@@ -154,9 +164,10 @@ namespace mdelsWebApi.Controllers
         }
 
 
-        public ActionResult GetCompanyByIDForJson(int id)
+        public ActionResult GetCompanyByIDForJson([DefaultValue(0)] int id, [DefaultValue("en")] string lang)
         {
             var companyController = new CompanyController();
+            var countryController = new CountryController();
             var data = new CompanyDetail();
 
             //1. Get Company
@@ -165,9 +176,36 @@ namespace mdelsWebApi.Controllers
 
             if (company != null && company.company_id > 0)
             {
-                data.company_id = company.company_id; 
+                data.company_id = company.company_id;
                 data.company_name = company.company_name;
                 data.company_address = UtilityHelper.BuildAddress(company);
+            }
+
+            var jsonResult = Json(new { data }, JsonRequestBehavior.AllowGet);
+            jsonResult.MaxJsonLength = int.MaxValue;
+            return jsonResult;
+
+        }
+
+        public ActionResult GetCompanyByCountryForJson([DefaultValue("en")] string lang, [DefaultValue("")] string cd)
+        {
+            var companyController = new CompanyController();
+            var countryController = new CountryController();
+            var data = new CountryDetail();
+
+            var country = new Country();
+            country = countryController.GetCountryByID(cd, lang);
+            if (country != null)
+            {
+                var companyList = new List<Company>();
+                companyList = companyController.GetAllCompanyByCountry(cd).ToList();
+                data.companyList = new List<Company>();
+
+                foreach (Company c in companyList)
+                {
+                    data.companyList.Add(c);
+                }
+
             }
 
             var jsonResult = Json(new { data }, JsonRequestBehavior.AllowGet);
@@ -176,5 +214,31 @@ namespace mdelsWebApi.Controllers
         }
 
 
+        public ActionResult GetCompanyByProvinceForJson([DefaultValue("en")] string lang, [DefaultValue(0)] string cd)
+        {
+            var companyController = new CompanyController();
+            var provinceController = new ProvinceController();
+            var data = new CountryDetail();
+
+            var province = new Province();
+            province = provinceController.GetProvinceByID(cd, lang);
+            if (province != null)
+            {
+                var companyList = new List<Company>();
+                companyList = companyController.GetAllCompanyByProvince(cd).ToList();
+                data.companyList = new List<Company>();
+
+                foreach (Company c in companyList)
+                {
+                    data.companyList.Add(c);
+                }
+
+            }
+
+            var jsonResult = Json(new { data }, JsonRequestBehavior.AllowGet);
+            jsonResult.MaxJsonLength = int.MaxValue;
+            return jsonResult;
+        }
     }
 }
+

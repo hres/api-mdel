@@ -23,5 +23,15 @@ namespace mdelsWebApi.Controllers
             }
             return company;
         }
+
+        public IEnumerable<Company> GetAllCompanyByCountry(string cd)
+        {
+            return databasePlaceholder.GetAllCompanyByCountry(cd);
+        }
+
+        public IEnumerable<Company> GetAllCompanyByProvince(string cd)
+        {
+            return databasePlaceholder.GetAllCompanyByProvince(cd);
+        }
     }
 }

@@ -114,7 +114,6 @@
                             <tr class="active">
                                 <th>Country Name</th>
                                 <th>Country Code</th>
-                                <th>Company ID</th>
                             </tr>
                         </thead>
                         <tbody id="tbodyCompany"></tbody>
@@ -181,8 +180,8 @@
             window["wb-tables"] = {
                 "processing": true,
                 "ajax": {
-                    "url": serviceURL,
-                    "data": { lang: lang, status: status, term: searchTerm, categoryType: category },
+                    "url": serviceURL,      //determines which function in MdelsJson to call
+                    "data": { lang: lang, status: status, term: searchTerm, categoryType: category },       //the parameters for the function call
                     "dataType": "json",
                     "dataSrc": "searchResult",
                     "error": function (xhr, err) {
@@ -196,22 +195,22 @@
                         "data": null,
                         "render": function(json)
                         {
-                            return json.licence_name;
+                            return '<a href=detail-country.html?lang=en&cd=' + json.country_cd + '&category=' + category + '>' + json.country_name + '</a>';
                         }
                     },
                     {
                         "data": null,
                         "render": function (json) {
-                            return json.licence_status;
+                            return json.country_cd;
                         }
                     },
-                    {
+                    /*{
                         "data": null,
                         "render": function (json) {
-                            return json.licence_name;
+                            return '<a href=medical-device-detail.html?lang=en&id=' + json.company_id + '&category=' + category + '>' + json.company_id + '</a>';
                         }
                     },
-      
+      */
                 ],
                 "initComplete": function (settings, json) {
                         

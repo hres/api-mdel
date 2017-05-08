@@ -206,7 +206,7 @@ namespace mdelsWebApi
         public Company GetCompanyById(int id)
         {
             var company = new Company();
-            string commandText = "SELECT * FROM MDELS_OWNER.WQRY_EST_COMPANY WHERE COMPANY_ID = " + id;
+            string commandText = "SELECT * FROM MDELS_OWNER.WQRY_EST_COMPANY WHERE COMPANY_ID = '" + id + "'";
 
             using (OracleConnection con = new OracleConnection(mdelsDBConnection))
             {
@@ -214,7 +214,7 @@ namespace mdelsWebApi
                 try
                 {
                     con.Open();
-                    using (OracleDataReader dr = cmd.ExecuteReader())
+                    using (OracleDataReader dr = cmd.ExecuteReader())   //this line errors in getCountryById
                     {
                         if (dr.HasRows)
                         {
@@ -255,6 +255,57 @@ namespace mdelsWebApi
             return company;
         }
 
+        public List<Company> GetCompanyByCountry(string cd)
+        {
+            var items = new List<Company>();
+            string commandText = "SELECT * FROM MDELS_OWNER.WQRY_EST_COMPANY WHERE COUNTRY_CD = '" + cd + "'";
+
+            using (OracleConnection con = new OracleConnection(mdelsDBConnection))
+            {
+                OracleCommand cmd = new OracleCommand(commandText, con);
+                try
+                {
+                    con.Open();
+                    using (OracleDataReader dr = cmd.ExecuteReader())
+                    {
+                        if (dr.HasRows)
+                        {
+                            while (dr.Read())
+                            {
+                                var item = new Company();
+                                item.company_id = dr["COMPANY_ID"] == DBNull.Value ? 0 : Convert.ToInt32(dr["COMPANY_ID"]);
+                                item.company_name = dr["COMPANY_NAME"] == DBNull.Value ? string.Empty : dr["COMPANY_NAME"].ToString().Trim();
+                                item.addr_line_1 = dr["ADDR_LINE_1"] == DBNull.Value ? string.Empty : dr["ADDR_LINE_1"].ToString().Trim();
+                                item.addr_line_2 = dr["ADDR_LINE_2"] == DBNull.Value ? string.Empty : dr["ADDR_LINE_2"].ToString().Trim();
+                                item.addr_line_3 = dr["ADDR_LINE_3"] == DBNull.Value ? string.Empty : dr["ADDR_LINE_3"].ToString().Trim();
+                                item.addr_line_4 = dr["ADDR_LINE_4"] == DBNull.Value ? string.Empty : dr["ADDR_LINE_4"].ToString().Trim();
+                                item.addr_line_5 = dr["ADDR_LINE_5"] == DBNull.Value ? string.Empty : dr["ADDR_LINE_5"].ToString().Trim();
+                                item.postal_code = dr["POSTAL_CODE"] == DBNull.Value ? string.Empty : dr["POSTAL_CODE"].ToString().Trim();
+                                item.region_code = dr["REGION_CODE"] == DBNull.Value ? string.Empty : dr["REGION_CODE"].ToString().Trim();
+                                item.city = dr["CITY"] == DBNull.Value ? string.Empty : dr["CITY"].ToString().Trim();
+                                item.country_cd = dr["COUNTRY_CD"] == DBNull.Value ? string.Empty : dr["COUNTRY_CD"].ToString().Trim();
+                                item.region_cd = dr["REGION_CD"] == DBNull.Value ? string.Empty : dr["REGION_CD"].ToString().Trim();
+                                item.company_status = dr["COMPANY_STATUS"] == DBNull.Value ? string.Empty : dr["COMPANY_STATUS"].ToString().Trim();
+                                item.status_dt = dr["STATUS_DT"] == DBNull.Value ? (DateTime?)null : Convert.ToDateTime(dr["STATUS_DT"]);
+
+                                items.Add(item);
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    string errorMessages = string.Format("DbConnection.cs - GetCompanyByCountry()");
+                    ExceptionHelper.LogException(ex, errorMessages);
+                }
+                finally
+                {
+                    if (con.State == ConnectionState.Open)
+                        con.Close();
+                }
+            }
+            return items;
+        }
 
         public List<Country> GetAllCountry(string lang, string country)
         {
@@ -280,8 +331,6 @@ namespace mdelsWebApi
                     }
                 }
             }
-
-            System.Diagnostics.Debug.WriteLine(commandText);
 
             using (OracleConnection con = new OracleConnection(mdelsDBConnection))
             {
@@ -318,19 +367,17 @@ namespace mdelsWebApi
             return items;
         }
 
-        public Country GetCountryById(int id, string lang)
+        public Country GetCountryById(string id, string lang)
         {
             var country = new Country();
-            string commandText = "SELECT * FROM MDELS_OWNER.WQRY_EST_COUNTRY WHERE COUNTRY_ID = " + id;
-            using (
-
-                OracleConnection con = new OracleConnection(mdelsDBConnection))
+            string commandText = "SELECT * FROM MDELS_OWNER.WQRY_EST_COUNTRY WHERE COUNTRY_CD = '" + id + "'";
+            using (OracleConnection con = new OracleConnection(mdelsDBConnection))
             {
                 OracleCommand cmd = new OracleCommand(commandText, con);
                 try
                 {
                     con.Open();
-                    using (OracleDataReader dr = cmd.ExecuteReader())
+                    using (OracleDataReader dr = cmd.ExecuteReader())   //this line errors
                     {
                         if (dr.HasRows)
                         {
@@ -366,20 +413,13 @@ namespace mdelsWebApi
 
             if ((!string.IsNullOrEmpty(province)))
             {
-                if (province.Length == 2)        //if the province string is only 2 characters, the user probably wanted the province code
+                if (lang == "fr")
                 {
-                    commandText += " WHERE UPPER(REGION_CD) = " + province.ToUpper().Trim();
+                    commandText += " WHERE UPPER(REGION_DESC_F) LIKE '%" + province.ToUpper().Trim() + "%'";    //get the french province name if language is french
                 }
-                else                                //if the province string is not 2 characters, the user probably was searching by name
+                else
                 {
-                    if (lang == "fr")
-                    {
-                        commandText += " WHERE UPPER(REGION_DESC_F) LIKE '%" + province.ToUpper().Trim() + "%'";    //get the french province name if language is french
-                    }
-                    else
-                    {
-                        commandText += " WHERE UPPER(REGION_DESC) LIKE '%" + province.ToUpper().Trim() + "%'";      //get the english province name otherwise
-                    }
+                    commandText += " WHERE UPPER(REGION_DESC) LIKE '%" + province.ToUpper().Trim() + "%'";      //get the english province name otherwise
                 }
             }
 
@@ -419,13 +459,11 @@ namespace mdelsWebApi
             return items;
         }
 
-        public Province GetProvinceById(int id, string lang)
+        public Province GetProvinceById(string id, string lang)
         {
             var province = new Province();
-            string commandText = "SELECT * FROM MDELS_OWNER.WQRY_EST_PROVINCE WHERE REGION_ID = " + id;
-            using (
-
-            OracleConnection con = new OracleConnection(mdelsDBConnection))
+            string commandText = "SELECT * FROM MDELS_OWNER.WQRY_EST_PROVINCE WHERE REGION_ID = '" + id + "'";
+            using (OracleConnection con = new OracleConnection(mdelsDBConnection))
             {
                 OracleCommand cmd = new OracleCommand(commandText, con);
                 try
@@ -460,5 +498,59 @@ namespace mdelsWebApi
             }
             return province;
         }
+
+
+        public List<Company> GetCompanyByProvince(string cd)
+        {
+            var items = new List<Company>();
+            string commandText = "SELECT * FROM MDELS_OWNER.WQRY_EST_COMPANY WHERE REGION_CD = '" + cd + "'";
+
+            using (OracleConnection con = new OracleConnection(mdelsDBConnection))
+            {
+                OracleCommand cmd = new OracleCommand(commandText, con);
+                try
+                {
+                    con.Open();
+                    using (OracleDataReader dr = cmd.ExecuteReader())
+                    {
+                        if (dr.HasRows)
+                        {
+                            while (dr.Read())
+                            {
+                                var item = new Company();
+                                item.company_id = dr["COMPANY_ID"] == DBNull.Value ? 0 : Convert.ToInt32(dr["COMPANY_ID"]);
+                                item.company_name = dr["COMPANY_NAME"] == DBNull.Value ? string.Empty : dr["COMPANY_NAME"].ToString().Trim();
+                                item.addr_line_1 = dr["ADDR_LINE_1"] == DBNull.Value ? string.Empty : dr["ADDR_LINE_1"].ToString().Trim();
+                                item.addr_line_2 = dr["ADDR_LINE_2"] == DBNull.Value ? string.Empty : dr["ADDR_LINE_2"].ToString().Trim();
+                                item.addr_line_3 = dr["ADDR_LINE_3"] == DBNull.Value ? string.Empty : dr["ADDR_LINE_3"].ToString().Trim();
+                                item.addr_line_4 = dr["ADDR_LINE_4"] == DBNull.Value ? string.Empty : dr["ADDR_LINE_4"].ToString().Trim();
+                                item.addr_line_5 = dr["ADDR_LINE_5"] == DBNull.Value ? string.Empty : dr["ADDR_LINE_5"].ToString().Trim();
+                                item.postal_code = dr["POSTAL_CODE"] == DBNull.Value ? string.Empty : dr["POSTAL_CODE"].ToString().Trim();
+                                item.region_code = dr["REGION_CODE"] == DBNull.Value ? string.Empty : dr["REGION_CODE"].ToString().Trim();
+                                item.city = dr["CITY"] == DBNull.Value ? string.Empty : dr["CITY"].ToString().Trim();
+                                item.country_cd = dr["COUNTRY_CD"] == DBNull.Value ? string.Empty : dr["COUNTRY_CD"].ToString().Trim();
+                                item.region_cd = dr["REGION_CD"] == DBNull.Value ? string.Empty : dr["REGION_CD"].ToString().Trim();
+                                item.company_status = dr["COMPANY_STATUS"] == DBNull.Value ? string.Empty : dr["COMPANY_STATUS"].ToString().Trim();
+                                item.status_dt = dr["STATUS_DT"] == DBNull.Value ? (DateTime?)null : Convert.ToDateTime(dr["STATUS_DT"]);
+
+                                items.Add(item);
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    string errorMessages = string.Format("DbConnection.cs - GetCompanyByCountry()");
+                    ExceptionHelper.LogException(ex, errorMessages);
+                }
+                finally
+                {
+                    if (con.State == ConnectionState.Open)
+                        con.Close();
+                }
+            }
+            return items;
+        }
+
     }
 }

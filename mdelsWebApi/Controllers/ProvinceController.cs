@@ -14,7 +14,7 @@ namespace mdelsWebApi.Controllers
             return databasePlaceholder.GetAll(lang, province);
         }
 
-        public Province GetProvinceByID(int id, string lang)
+        public Province GetProvinceByID(string id, string lang)
         {
             Province province = databasePlaceholder.Get(id, lang);
             if (province == null)

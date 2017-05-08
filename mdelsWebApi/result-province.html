@@ -113,6 +113,7 @@
                             <tr class="active">
                                 <th>Province Description</th>
                                 <th>Province Code</th>
+                                <th>Country</th>
                             </tr>
                         </thead>
                         <tbody id="tbodyCompany"></tbody>
@@ -191,13 +192,19 @@
                      {
                          "data": null,
                          "render": function (json) {
-                             return json.licence_name;
+                             return '<a href=detail-province.html?lang=en&cd=' + json.region_cd + '&category=' + category + '>' + json.region_desc + '</a>';
                          }
                      },
                      {
                          "data": null,
                          "render": function (json) {
-                             return json.licence_status;
+                             return json.region_cd;
+                         }
+                     },
+                     {
+                         "data": null,
+                         "render": function (json) {
+                             return json.country_cd;
                          }
                      },
 

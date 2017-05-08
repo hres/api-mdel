@@ -114,11 +114,12 @@
                     <div><p id="companyName"></p></div>
                     <div><p class="mrgn-tp-0" id="address"></p></div>
                     <div class="row">
-                        <p class="col-sm-2"><strong>Company&nbsp;ID&nbsp;:&nbsp;</strong></p>
+                        <!--<p class="col-sm-2"><strong>Company&nbsp;ID&nbsp;:&nbsp;</strong></p>-->
                         <div><p class="col-sm-10" id="companyID"></p></div>
                     </div>
+                    <!--
                         <div class="table-responsive">
-                        <table class="wb-tables table-bordered table-condensed table-striped">
+                        <table class="table-bordered table-condensed table-striped">
                             <caption class="wb-inv text-left">Device details</caption>
                             <thead>
                                 <tr class="bg-primary">
@@ -126,15 +127,18 @@
                                     <th>Company Name</th>
                                     <th>Company Address</th>
                                 </tr>
+
                                 <tr>
                                     <td id="cID"></td>
                                     <td id="cName"></td>
                                     <td id="cAddr"></td>
                                 </tr>
+                                   
                             </thead>
                             <tbody id="tbodyMain"></tbody>
                         </table>
                     </div>
+                         -->
                 </div>
             </section>
 
@@ -182,17 +186,17 @@
     <script>
         var lang = "en";
         var id = getParameterByName("id");
-        var cd = getParameterByName("cd");
         var serviceURLforDetail = "./MdelsJson/GetCompanyByIDForJson";
-        /*
+       
+        
         $.ajax({
             "url": serviceURLforDetail,
             "dataType": "json",
-            "data": { id: id, lang: lang, cd: cd},
+            "data": { id: id, lang: lang},
             "type": "GET",
             "dataSrc": "data",
+            
             "success": function (json) {
-
                 if ($.trim(json.data.company_id) == 0) {
                    // alert("error");
                 }
@@ -201,7 +205,6 @@
                     $('#companyID').append(json.data.company_id);
                     if (id > 0) {
                         $('#companyName').append('<b>' + json.data.company_name + '</b>');
-                        $('#companyName').append('</br><a href=medical-device-detail.html?lang=en&id=' + json.data.company_id + '>Full listings of ' +  json.data.company_name + '</a>');
                     }
                     else
                     {
@@ -209,29 +212,57 @@
                     }
                 }
 
-                $('#cID').append(json.data.company_id);
-                $('#cName').append('<a href=medical-device-detail.html?lang=en&id=' + json.data.company_name + '>' + json.data.company_name + '</a>');
-                $('#cAddr').append(json.data.company_address);
+                $('#cID').append(json.company_id);
+                $('#cName').append(json.company_name);
+                //$('#cName').append('<a href=medical-device-detail.html?lang=en&id=' + json.data.company_name + '>' + json.data.company_name + '</a>');
+                $('#cAddr').append(json.company_address);
                 setSearchURL();
             }
         });
-        */
 
+        /*
         window["wb-tables"] = {
             "processing": true,
             "ajax": {
                 "url": serviceURLforDetail,
                 "dataType": "json",
-                "data": { id: id, lang: lang, cd: cd},
-                "type": "GET",
+                "data": { id: id, lang: lang},
+                //"type": "GET",
                 "dataSrc": "data",
                 "error": function (xhr, err) {
-                    console.log("readyState: " + xhr.readyState + "\nstatus: " + xhr.status);
+                    //console.log("readyState: " + xhr.readyState + "\nstatus: " + xhr.status);
                     //console.log("responseText: " + xhr.responseText);
                 }
             },
+            "columns":
+                [
+                    {
+                        "data": null,
+                        "sType": "number",
+                        "render": function(json)
+                        {
+                            return json.data.company_id;
+                        }
+                    },
+                    {
+                        "data": null,
+                        "render": function (json) {
+                            return "hey";
+                        }
+                    },
+                    {
+                        "data": null,
+                        "render": function (json) {
+                            return "hey";
+                        }
+                    },
+                ],
             "initComplete": function (settings, json) {
+
+                console.log(json.data.company_id);
+
                 /*
+
                 if ($.trim(json.data.company_id) == 0) {
                    // alert("error");
                 }
@@ -247,18 +278,14 @@
                     }
                 }
                 
-                $('#cID').append(json.data.company_id);
-                $('#cName').append('<a href=medical-device-detail.html?lang=en&id=' + json.data.company_name + '>' + json.data.company_name + '</a>');
-                $('#cAddr').append(json.data.company_address);
-                */
 
+                
+                
             },
             //"ordering": false,
             //"bFilter": false,
         }
-
-        console.log("here");
-
+        */
         function setSearchURL() {
             var category = getParameterByName("category");
             if (category == 1) {

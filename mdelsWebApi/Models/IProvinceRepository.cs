@@ -5,6 +5,6 @@ namespace mdelsWebApi.Models
     interface IProvinceRepository
     {
         IEnumerable<Province> GetAll(string lang, string province);
-        Province Get(int id, string lang);
+        Province Get(string id, string lang);
     }
 }

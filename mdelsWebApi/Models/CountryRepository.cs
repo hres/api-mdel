@@ -17,7 +17,7 @@ namespace mdelsWebApi.Models
         }
 
 
-        public Country Get(int id, string lang)
+        public Country Get(string id, string lang)
         {
             country = dbConnection.GetCountryById(id, lang);
             return country;
