@@ -163,9 +163,7 @@ namespace mdelsWebApi
 
             string commandText = "SELECT * FROM MDELS_OWNER.WQRY_ESTABLISHMENT WHERE ESTABLISHMENT_ID = " + id;
 
-            using (
-
-                OracleConnection con = new OracleConnection(mdelsDBConnection))
+            using (OracleConnection con = new OracleConnection(mdelsDBConnection))
             {
                 OracleCommand cmd = new OracleCommand(commandText, con);
                 try
@@ -178,7 +176,7 @@ namespace mdelsWebApi
                             while (dr.Read())
                             {
                                 var item = new Establishment();
-                                item.company_id = dr["ESTABLISHMENT_ID"] == DBNull.Value ? 0 : Convert.ToInt32(dr["ESTABLISHMENT_ID"]);
+                                item.establishment_id = dr["ESTABLISHMENT_ID"] == DBNull.Value ? 0 : Convert.ToInt32(dr["ESTABLISHMENT_ID"]);
                                 item.company_id = dr["COMPANY_ID"] == DBNull.Value ? 0 : Convert.ToInt32(dr["COMPANY_ID"]);
                                 item.entry_date = dr["ENTRY_DATE"] == DBNull.Value ? (DateTime?)null : Convert.ToDateTime(dr["ENTRY_DATE"]);
                                 item.application_type = dr["APPLICATION_TYPE"] == DBNull.Value ? string.Empty : dr["APPLICATION_TYPE"].ToString().Trim();

@@ -48,6 +48,7 @@ namespace mdelsWebApi.Controllers
                     return Json(new { companyResult }, JsonRequestBehavior.AllowGet);
 
                 case (int)category.establishment:
+
                     var establishmentResult = new List<Establishment>();
 
                     if (numberTerm > 0)
@@ -62,22 +63,24 @@ namespace mdelsWebApi.Controllers
                     {
                         foreach (var est in establishmentResult)
                         {
-                            var search = new Search();
-                            var company = new Company();
-                            var address = new StringBuilder();
-                            company = companyController.GetCompanyByID(est.company_id);
-                            //search.establishment_id = est.establishment_id???
-
-                            search.company_id = est.company_id;
-                            search.establishment_id = est.establishment_id;      //using orig licence no for now
-                            search.company_name = company.company_name;
-
-                            if (company != null && company.company_id > 0)
+                            if (est.establishment_id > 0)
                             {
+                                var search = new Search();
+                                var company = new Company();
+                                var address = new StringBuilder();
+                                company = companyController.GetCompanyByID(est.company_id);
+
+                                search.company_id = est.company_id;
+                                search.establishment_id = est.establishment_id;      //using orig licence no for now
                                 search.company_name = company.company_name;
-                                search.company_address = UtilityHelper.BuildAddress(company);
+
+                                if (company != null && company.company_id > 0)
+                                {
+                                    search.company_name = company.company_name;
+                                    search.company_address = UtilityHelper.BuildAddress(company);
+                                }
+                                searchResult.Add(search);
                             }
-                            searchResult.Add(search);
                         }
                     }
                     return Json(new { searchResult }, JsonRequestBehavior.AllowGet);
@@ -215,7 +218,6 @@ namespace mdelsWebApi.Controllers
             var jsonResult = Json(new { data }, JsonRequestBehavior.AllowGet);
             jsonResult.MaxJsonLength = int.MaxValue;
             return jsonResult;
-
         }
 
         public ActionResult GetEstablishmentByCountryForJson([DefaultValue("en")] string lang, [DefaultValue("")] string cd)
