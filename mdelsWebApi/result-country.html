@@ -91,7 +91,7 @@
 
     <div class="container">
         <main role="main" property="mainContentOfPage" class="container">
-            <h1 property="name" id="wb-cont">Medical devices active licences search results</h1>
+            <h1 property="name" id="wb-cont">Medical devices establishment licences search results</h1>
             <div class="mrgn-bttm-md">
                 <strong>Search results for: <span id="searchTerm"></span></strong>
             </div>
@@ -102,7 +102,7 @@
                 <header class="panel-heading">
                     <h2 class="panel-title"></h2>
                     <div class="row">
-                        <h2 class="col-sm-6 mrgn-tp-sm">List of returned Countries</h2>
+                        <h2 class="col-sm-6 mrgn-tp-sm">List of returned countries</h2>
                         <div class="mrgn-tp-sm mrgn-rght-md pull-right">
                             <a href="search-by-country.html">New search</a>
                         </div>
@@ -166,6 +166,51 @@
     <!--<![endif]-->
 
     <script>
+
+        var lang = "en";
+        var cd = getParameterByName("term");
+        var serviceURLforDetail = "./MdelsJson/GetEstablishmentByCountryForJson";
+
+        window["wb-tables"] = {
+            "processing": true,
+            "ajax": {
+                "url": serviceURLforDetail,
+                "dataType": "json",
+                "data": { lang: lang, cd: cd },
+                "type": "GET",
+                "dataSrc": "detailList",          //data.companyList worked (for company_name at least)
+                "error": function (xhr, err) {
+                    //console.log("readyState: " + xhr.readyState + "\nstatus: " + xhr.status);
+                    //console.log("responseText: " + xhr.responseText);
+                }
+            },
+
+            "columns": [
+                {
+                    "data": "company_name"
+                },
+                {
+                    "data": null,
+                    "sType": "number",
+                    "render": function (detailList) {
+                        return '<a href=detail-establishment.html?lang=en&id=' + detailList.establishment_id + '>' + detailList.establishment_id + '</a>';
+                        //return detailList.company_address;
+                    }
+                },
+                /*
+                {
+                    "data": null,
+                    "sType": "number",
+                    "render": function (detailList) {
+                        return '<a href=detail-company.html?lang=en&id=' + detailList.company_id + '>' + detailList.company_id + '</a>';
+                    }
+                }
+                */
+            ],
+        }
+
+        /*
+
         var dtable;
         var lang = "en";
         var status = "active";
@@ -204,19 +249,12 @@
                             return json.country_cd;
                         }
                     },
-                    /*{
-                        "data": null,
-                        "render": function (json) {
-                            return '<a href=medical-device-detail.html?lang=en&id=' + json.company_id + '&category=' + category + '>' + json.company_id + '</a>';
-                        }
-                    },
-      */
                 ],
                 "initComplete": function (settings, json) {
                         
                 }
             }
-
+            */
     </script>
 </body>
 </html>

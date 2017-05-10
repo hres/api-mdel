@@ -285,6 +285,8 @@
     <Content Include="result-country.html" />
     <Content Include="Scripts\ai.1.0.4-build00190.js" />
     <Content Include="Scripts\ai.1.0.4-build00190.min.js" />
+    <Content Include="Scripts\AutoComplete\jquery.autocomplete.css" />
+    <Content Include="Scripts\AutoComplete\jquery.autocomplete.js" />
     <Content Include="Scripts\DataTables-1.10.13\Buttons-1.2.4\css\buttons.bootstrap.css" />
     <Content Include="Scripts\DataTables-1.10.13\Buttons-1.2.4\css\buttons.bootstrap.min.css" />
     <Content Include="Scripts\DataTables-1.10.13\Buttons-1.2.4\css\buttons.bootstrap4.css" />

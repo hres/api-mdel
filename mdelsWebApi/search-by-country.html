@@ -110,7 +110,7 @@
                                 <div>1. Country Name</div>
                                 <p>2. Country Id</p>
 
-                                <input name="term" type="text" id="term" autofocus list="list-liste" placeholder="[Enter text here to search for a Country.]" class="full-width" required="required">
+                                <input name="term" type="text" id="term" autofocus list="list-liste" placeholder="[Enter text here to search for a Country.]" class="full-width xdsoft_autocomplete" required="required">
                                 <datalist id="list-liste" data-ajax-replace="./list-liste-eng.txt" class="wb-data-ajax-replace-inited"> </datalist>
                             </div>
 
@@ -165,6 +165,33 @@
     </script>
     <!--[if lt IE 10 | !IE ]><!-->
     <script src="./js/jquery.xdomainrequest.min.js"></script>
+    <script src="scripts/autocomplete/jquery.autocomplete.js"></script>
+    <link href="scripts/autocomplete/jquery.autocomplete.css" rel="stylesheet" />
     <!--<![endif]-->
 </body>
 </html>
+
+<script>
+
+        var category = "country";
+        var myList = new Array;
+        $.ajax({
+            "url": "./MdelsJson/autoCompleteList",
+            "data": { category: category },
+            "dataType": "json",
+            "dataSrc": "list",
+            "success": function (json) {
+                for (var i = 0; i < json.list.length; i++) {
+                    myList[i] = json.list[i];
+                }
+
+                $(function () {
+                    $("#term").autocomplete({
+                        source: [myList]
+                    });
+                });
+
+            }
+        });
+
+</script>

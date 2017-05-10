@@ -328,11 +328,11 @@ namespace mdelsWebApi
             
             if(searchType == "province")
             {
-                commandText += " WHERE REGION_CD = '" + cd + "'";
+                commandText += " WHERE UPPER(REGION_CD) LIKE '%" + getLocationCodeFromName(cd, searchType).ToUpper().Trim() + "%'";
             }
             else
             {
-                commandText += " WHERE COUNTRY_CD = '" + cd + "'";
+                commandText += " WHERE UPPER(COUNTRY_CD) LIKE '%" + getLocationCodeFromName(cd, searchType).ToUpper().Trim() + "%'";
             }
             
             using (OracleConnection con = new OracleConnection(mdelsDBConnection))
@@ -391,7 +391,7 @@ namespace mdelsWebApi
             {
                 if (country.Length == 2)        //if the country string is only 2 characters, the user probably wanted the country code
                 {
-                    commandText += " WHERE UPPER(COUNTRY_CD) = " + country.ToUpper().Trim();
+                    commandText += " WHERE UPPER(COUNTRY_CD) = '" + country.ToUpper().Trim() + "'";
                 }
                 else                                //if the country string is not 2 characters, the user was probably searching by name
                 {
@@ -624,6 +624,58 @@ namespace mdelsWebApi
                 }
             }
             return items;
+        }
+
+        private string getLocationCodeFromName(string cd, string searchType)
+        {
+            string location = "";
+            string commandText;
+
+            if (searchType == "province")
+            {
+                commandText = "SELECT * FROM WQRY_EST_PROVINCE WHERE UPPER(REGION_DESC) LIKE '%" + cd.ToUpper().Trim() + "%'";
+            }
+            else
+            {
+                commandText = "SELECT * FROM WQRY_EST_COUNTRY WHERE UPPER(COUNTRY_DESC) LIKE '%" + cd.ToUpper().Trim() + "%'";
+            }
+
+            using (OracleConnection con = new OracleConnection(mdelsDBConnection))
+            {
+                OracleCommand cmd = new OracleCommand(commandText, con);
+                try
+                {
+                    con.Open();
+                    using (OracleDataReader dr = cmd.ExecuteReader())
+                    {
+                        if (dr.HasRows)
+                        {
+                            while (dr.Read())
+                            {
+                                if (searchType == "province")
+                                {
+                                    location = dr["REGION_CD"] == DBNull.Value ? string.Empty : dr["REGION_CD"].ToString().Trim();
+                                }
+                                else
+                                {
+                                    location = dr["COUNTRY_CD"] == DBNull.Value ? string.Empty : dr["COUNTRY_CD"].ToString().Trim();
+                                }
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    string errorMessages = string.Format("DbConnection.cs - GetCompanyByCountry()");
+                    ExceptionHelper.LogException(ex, errorMessages);
+                }
+                finally
+                {
+                    if (con.State == ConnectionState.Open)
+                        con.Close();
+                }
+            }
+            return location;
         }
 
     }

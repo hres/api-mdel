@@ -57,7 +57,7 @@ namespace mdelsWebApi.Controllers
                     }
                     else
                     {
-                        establishmentResult = establishmentController.GetAllEstablishment(term).ToList();
+                        //establishmentResult = establishmentController.GetAllEstablishment(term).ToList();
                     }
                     if (establishmentResult.Count > 0)
                     {
@@ -165,7 +165,7 @@ namespace mdelsWebApi.Controllers
             }
             return Json(new { companyResult }, JsonRequestBehavior.AllowGet);
         }
-
+      
         public ActionResult GetCompanyByIDForJson([DefaultValue(0)] int id, [DefaultValue("en")] string lang)
         {
             var companyController = new CompanyController();
@@ -225,12 +225,13 @@ namespace mdelsWebApi.Controllers
             var companyController = new CompanyController();
             var establishmentController = new EstablishmentController();
             var countryController = new CountryController();
-            var country = new Country();
+            var countryList = new List<Country>();
 
             var detailList = new List<Detail>();
 
-            country = countryController.GetCountryByID(cd, lang);
-            if (country != null)
+            countryList = countryController.GetAllCountry(lang, cd).ToList();
+
+            if (countryList.Count > 0)
             {
                 var companyList = new List<Company>();
                 var establishmentList = new List<Establishment>();
@@ -306,6 +307,64 @@ namespace mdelsWebApi.Controllers
             jsonResult.MaxJsonLength = int.MaxValue;
             return jsonResult;
         }
-    }
-}
 
+        public ActionResult autoCompleteList([DefaultValue("company")] string category)
+        {
+
+            var list = new List<string>();
+
+            switch (category)
+            {
+                case "company":
+                    var companyList = new List<Company>();
+                    var companyController = new CompanyController();
+                    companyList = companyController.GetAllCompany("").ToList();
+
+                    foreach (Company c in companyList)
+                    {
+                        list.Add(c.company_name);
+                    }
+                    break;
+
+                case "country":
+                    var countryList = new List<Country>();
+                    var countryController = new CountryController();
+                    countryList = countryController.GetAllCountry("en", "").ToList();
+                    foreach (Country c in countryList)
+                    {
+                        list.Add(c.country_desc);
+                    }
+                    break;
+
+                case "establishment":
+                    var establishmentList = new List<Establishment>();
+                    var establishmentController = new EstablishmentController();
+                    establishmentList = establishmentController.GetAllEstablishment("").ToList();
+                    foreach (Establishment e in establishmentList)
+                    {
+                        list.Add(e.establishment_id.ToString());
+                    }
+                    break;
+
+                case "province":
+                    var provinceList = new List<Province>();
+                    var provinceController = new ProvinceController();
+                    provinceList = provinceController.GetAllProvince("en", "").ToList();
+                    foreach (Province p in provinceList)
+                    {
+                        list.Add(p.region_desc);
+                    }
+                    break;
+
+            }
+
+            
+
+            var jsonResult = Json(new { list }, JsonRequestBehavior.AllowGet);
+            jsonResult.MaxJsonLength = int.MaxValue;
+            return jsonResult;
+        }
+
+    }
+
+}
