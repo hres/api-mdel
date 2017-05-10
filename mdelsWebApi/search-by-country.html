@@ -187,7 +187,11 @@
                 myList = myList.sort();
                 $(function () {
                     $("#term").autocomplete({
-                        source: [myList.sort()]
+                        source: [myList],
+                        "highlight": true,
+                        "minLength": 2,
+                        "limit": 500,
+                        "visibleLimit": 10
                     });
                 });
 
