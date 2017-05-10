@@ -184,6 +184,8 @@
                 for (var i = 0; i < json.list.length; i++) {
                     myList[i] = json.list[i];
                 }
+                
+                myList = myList.sort();
 
                 $(function () {
                     $("#term").autocomplete({

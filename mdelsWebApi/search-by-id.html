@@ -92,7 +92,7 @@
     <div class="container">
         <main role="main" property="mainContentOfPage" class="container">
             <div class="wb-frmvld">
-                <form name="mdels" action="result-establishment.html" method="get" id="mdels">
+                <form name="mdels" action="result-id.html" method="get" id="mdels">
                     <h1 property="name" id="wb-cont">MDEL</h1>
                     <div class="panel panel-default">
                         <div class="panel-heading">
@@ -109,7 +109,7 @@
                                 <p>Enter text below to search by:</p>
                                 <p>1. Establishment Id</p>
 
-                                <input name="term" type="text" id="term" autofocus list="list-liste" placeholder="[Enter text here to search for an Establishment id.]" class="full-width" required="required">
+                                <input name="term" type="text" id="term" autofocus list="list-liste" placeholder="[Enter text here to search for a Company or Establishment id.]" class="full-width" required="required">
                                 <datalist id="list-liste" data-ajax-replace="./list-liste-eng.txt" class="wb-data-ajax-replace-inited"> </datalist>
                             </div>
 
@@ -172,7 +172,7 @@
 
 <script>
 
-        var category = "establishment";
+        var category = "id";
         var myList = new Array;
         $.ajax({
             "url": "./MdelsJson/autoCompleteList",
@@ -183,6 +183,8 @@
                 for (var i = 0; i < json.list.length; i++) {
                     myList[i] = json.list[i];
                 }
+
+                myList = myList.sort();
 
                 $(function () {
                     $("#term").autocomplete({

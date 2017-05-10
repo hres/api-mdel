@@ -6,7 +6,7 @@ namespace mdelsWebApi.Models
     public enum category
     {
         company = 1,
-        establishment = 2,
+        id = 2,
         country = 3,
         province = 4
     }

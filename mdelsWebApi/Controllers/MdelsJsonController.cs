@@ -47,42 +47,58 @@ namespace mdelsWebApi.Controllers
                     }
                     return Json(new { companyResult }, JsonRequestBehavior.AllowGet);
 
-                case (int)category.establishment:
+                case (int)category.id:
 
-                    var establishmentResult = new List<Establishment>();
+                    var companyIDResult = new Company();
+                    var establishmentResult = new Establishment();
 
-                    if (numberTerm > 0)
+                    if (numberTerm < 10000)
                     {
-                        establishmentResult.Add(establishmentController.GetEstablishmentById(numberTerm));
+                        establishmentResult = establishmentController.GetEstablishmentById(numberTerm);
+
+                        if (establishmentResult.establishment_id > 0)
+                        {
+                            var search = new Search();
+                            var company = new Company();
+                            var address = new StringBuilder();
+                            company = companyController.GetCompanyByID(establishmentResult.company_id);
+
+                            search.company_id = establishmentResult.company_id;
+                            search.establishment_id = establishmentResult.establishment_id;
+                            search.company_name = company.company_name;
+
+                            if (company != null && company.company_id > 0)
+                            {
+                                search.company_name = company.company_name;
+                                search.company_address = UtilityHelper.BuildAddress(company);
+                            }
+                            searchResult.Add(search);
+                        }
+
                     }
                     else
                     {
-                        //establishmentResult = establishmentController.GetAllEstablishment(term).ToList();
-                    }
-                    if (establishmentResult.Count > 0)
-                    {
-                        foreach (var est in establishmentResult)
+                        companyIDResult = companyController.GetCompanyByID(numberTerm);
+
+                        if (companyIDResult.company_id > 0)
                         {
-                            if (est.establishment_id > 0)
+                            var search = new Search();
+                            var company = new Company();
+                            var address = new StringBuilder();
+                            var establishmentIDResult = new Establishment();
+
+                            search.company_id = companyIDResult.company_id;
+                            search.establishment_id = establishmentIDResult.establishment_id;
+
+                            if (company != null && companyIDResult.company_id > 0)
                             {
-                                var search = new Search();
-                                var company = new Company();
-                                var address = new StringBuilder();
-                                company = companyController.GetCompanyByID(est.company_id);
-
-                                search.company_id = est.company_id;
-                                search.establishment_id = est.establishment_id;      //using orig licence no for now
-                                search.company_name = company.company_name;
-
-                                if (company != null && company.company_id > 0)
-                                {
-                                    search.company_name = company.company_name;
-                                    search.company_address = UtilityHelper.BuildAddress(company);
-                                }
-                                searchResult.Add(search);
+                                search.company_name = companyIDResult.company_name;
+                                search.company_address = UtilityHelper.BuildAddress(company);
                             }
+                            searchResult.Add(search);
                         }
                     }
+                    
                     return Json(new { searchResult }, JsonRequestBehavior.AllowGet);
 
                 case (int)category.country:
@@ -168,57 +184,74 @@ namespace mdelsWebApi.Controllers
       
         public ActionResult GetCompanyByIDForJson([DefaultValue(0)] int id, [DefaultValue("en")] string lang)
         {
-            var companyController = new CompanyController();
-            var data = new EstablishmentDetail();
 
-
-            //1. Get Company
-            var company = new Company();
-
-            company = companyController.GetCompanyByID(id);
-
-            if (company != null && company.company_id > 0)
+            if (id < 10000)          //establishment ID's range from 1 to 4 digits
             {
-                data.company_id = company.company_id;
-                data.company_name = company.company_name;
-                data.company_address = UtilityHelper.BuildAddress(company);
-            }
+                var companyController = new CompanyController();
+                var establishmentController = new EstablishmentController();
+                var data = new EstablishmentDetail();
 
-            var jsonResult = Json(new { data }, JsonRequestBehavior.AllowGet);
-            jsonResult.MaxJsonLength = int.MaxValue;
-            return jsonResult;
+
+                //1. Get Company
+                var establishment = new Establishment();
+
+                establishment = establishmentController.GetEstablishmentById(id);
+
+                if (establishment != null && establishment.company_id > 0)
+                {
+
+
+                    data.establishment_id = establishment.establishment_id;
+                    data.company_id = establishment.company_id;
+
+                    var company = companyController.GetCompanyByID(data.company_id);
+
+                    data.company_name = company.company_name;
+                    data.company_address = UtilityHelper.BuildAddress(company);
+                }
+
+                var jsonResult = Json(new { data }, JsonRequestBehavior.AllowGet);
+                jsonResult.MaxJsonLength = int.MaxValue;
+                return jsonResult;
+
+            }
+            else
+            {
+                var companyController = new CompanyController();
+                var data = new EstablishmentDetail();
+
+
+                //1. Get Company
+                var company = new Company();
+
+                company = companyController.GetCompanyByID(id);
+
+                if (company != null && company.company_id > 0)
+                {
+                    data.company_id = company.company_id;
+                    data.company_name = company.company_name;
+                    data.company_address = UtilityHelper.BuildAddress(company);
+                }
+
+                var jsonResult = Json(new { data }, JsonRequestBehavior.AllowGet);
+                jsonResult.MaxJsonLength = int.MaxValue;
+                return jsonResult;
+
+            }
+            
 
         }
 
+        /*
         public ActionResult GetEstablishmentByIDForJson([DefaultValue(0)] int id, [DefaultValue("en")] string lang)
         {
-            var companyController = new CompanyController();
-            var establishmentController = new EstablishmentController();
-            var data = new EstablishmentDetail();
             
-
-            //1. Get Company
-            var establishment = new Establishment();
-            
-            establishment = establishmentController.GetEstablishmentById(id);
-
-            if (establishment != null && establishment.company_id > 0)
-            {
-                
-
-                data.establishment_id = establishment.establishment_id;
-                data.company_id = establishment.company_id;
-
-                var company = companyController.GetCompanyByID(data.company_id);
-
-                data.company_name = company.company_name;
-                data.company_address = UtilityHelper.BuildAddress(company);
-            }
 
             var jsonResult = Json(new { data }, JsonRequestBehavior.AllowGet);
             jsonResult.MaxJsonLength = int.MaxValue;
             return jsonResult;
         }
+        */
 
         public ActionResult GetEstablishmentByCountryForJson([DefaultValue("en")] string lang, [DefaultValue("")] string cd)
         {
@@ -336,14 +369,33 @@ namespace mdelsWebApi.Controllers
                     }
                     break;
 
-                case "establishment":
+                case "id":
                     var establishmentList = new List<Establishment>();
                     var establishmentController = new EstablishmentController();
                     establishmentList = establishmentController.GetAllEstablishment("").ToList();
+
                     foreach (Establishment e in establishmentList)
                     {
                         list.Add(e.establishment_id.ToString());
+                        list.Add(e.company_id.ToString());
                     }
+
+                    /*
+                    var companyIDList = new List<Company>();
+                    var companyIDController = new CompanyController();
+                    companyIDList = companyIDController.GetAllCompany("").ToList();
+
+                    foreach (Company c in companyIDList)
+                    {
+                        
+                    }
+
+                    */
+
+
+
+
+
                     break;
 
                 case "province":

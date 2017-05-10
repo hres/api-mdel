@@ -269,7 +269,7 @@
     <Content Include="bin\WebActivatorEx.dll" />
     <Content Include="bin\WebGrease.dll" />
     <Content Include="bin\WebTemplateCore.dll" />
-    <Content Include="detail-establishment.html" />
+    <Content Include="detail-id.html" />
     <Content Include="detail-company.html" />
     <Content Include="detail-province.html" />
     <Content Include="genericError.html" />
@@ -279,7 +279,7 @@
     <Content Include="main-en.html" />
     <Content Include="detail-country.html" />
     <Content Include="medical-device-detail.html" />
-    <Content Include="result-establishment.html" />
+    <Content Include="result-id.html" />
     <Content Include="result-company.html" />
     <Content Include="result-province.html" />
     <Content Include="result-country.html" />
@@ -501,7 +501,7 @@
     <Content Include="Scripts\Stuk-jszip-5250332\test\jquery-1.8.3.min.js" />
     <Content Include="Scripts\Stuk-jszip-5250332\test\smile.gif" />
     <Content Include="Scripts\Stuk-jszip-5250332\vendor\FileSaver.js" />
-    <Content Include="search-by-establishment.html" />
+    <Content Include="search-by-id.html" />
     <Content Include="search-by-province.html" />
     <Content Include="search-by-country.html" />
     <Content Include="search-by-company.html" />
