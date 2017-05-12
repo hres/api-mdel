@@ -117,28 +117,32 @@
                         <!--<p class="col-sm-2"><strong>Company&nbsp;ID&nbsp;:&nbsp;</strong></p>-->
                         <div><p class="col-sm-10" id="companyID"></p></div>
                     </div>
-                    <!--
+                    <div class="row">
+                        <div><p class="col-sm-10" id="estID"></p></div>
+                    </div>
                         <div class="table-responsive">
                         <table class="table-bordered table-condensed table-striped">
                             <caption class="wb-inv text-left">Device details</caption>
                             <thead>
                                 <tr class="bg-primary">
-                                    <th>Company ID</th>
                                     <th>Company Name</th>
+                                    <th>Company ID</th>
+                                    <th>Establishment ID</th>
                                     <th>Company Address</th>
                                 </tr>
 
                                 <tr>
-                                    <td id="cID"></td>
                                     <td id="cName"></td>
+                                    <td id="cID"></td>
+                                    <td id="eID"></td>
                                     <td id="cAddr"></td>
                                 </tr>
-                                   
+
                             </thead>
                             <tbody id="tbodyMain"></tbody>
                         </table>
+                     <br/>
                     </div>
-                         -->
                 </div>
             </section>
 
@@ -184,11 +188,10 @@
     <script src="./js/jquery.xdomainrequest.min.js"></script>
     <!--<![endif]-->
     <script>
+
         var lang = "en";
         var id = getParameterByName("id");
         var serviceURLforDetail = "./MdelsJson/GetCompanyByIDForJson";
-       
-        
         $.ajax({
             "url": serviceURLforDetail,
             "dataType": "json",
@@ -197,26 +200,18 @@
             "dataSrc": "data",
             
             "success": function (json) {
-                if ($.trim(json.data.company_id) == 0) {
-                   // alert("error");
-                }
-                else {
-                    $('#address').append(json.data.company_address);
-                    $('#companyID').append(json.data.company_id);
-                    if (id > 0) {
-                        $('#companyName').append('<b>' + json.data.company_name + '</b>');
-                    }
-                    else
-                    {
-                        $('#companyName').append('<b>' + json.data.company_name + '</b>');
-                    }
-                }
 
-                $('#cID').append(json.company_id);
-                $('#cName').append(json.company_name);
-                //$('#cName').append('<a href=medical-device-detail.html?lang=en&id=' + json.data.company_name + '>' + json.data.company_name + '</a>');
-                $('#cAddr').append(json.company_address);
-                setSearchURL();
+                $('#cAddr').append(json.data.company_address);
+                $('#cID').append('<a href=detail-id.html?lang=en&id=' + json.data.company_id + '>' + json.data.company_id + '</a>');
+                $('#cName').append('<b>' + json.data.company_name + '</b>');
+                
+                for (var x = 0; x < json.data.establishmentList.length; x++) {
+                    $('#eID').append('<a href=detail-id.html?lang=en&id=' + json.data.establishmentList[x].establishment_id + '>' + json.data.establishmentList[x].establishment_id + '</a>');
+                    if(x < json.data.establishmentList.length - 1)
+                    {
+                        $('#eID').append('&nbsp;&bull;&nbsp;')
+                    }
+                }
             }
         });
 

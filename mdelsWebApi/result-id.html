@@ -114,7 +114,7 @@
                         <thead>
                             <tr class="active">
                                 <th>Company Name</th>
-                                <th>Establishment ID</th>
+                                <th id="th2"></th>
                                 <th>Company ID</th>
                             </tr>
                         </thead>
@@ -178,6 +178,15 @@
 
             var start = new Date(Date.now());
             //console.log(start.getTime());
+            
+            if (searchTerm < 10000)
+            {
+                $('#th2').append("Establishment ID");
+            }
+            else
+            {
+                $('#th2').append("Company Address");
+            }
 
             window["wb-tables"] = {
                 "processing": true,
@@ -202,7 +211,12 @@
                                 {
                                     "data": null,
                                     "render": function (json, type, full) {
-                                        return '<a href=detail-establishment.html?lang=en&id=' + json.establishment_id + '&category=' + category + '>' + json.establishment_id + '</a>';
+                                        if (searchTerm < 10000) {
+                                            return '<a href=detail-id.html?lang=en&id=' + json.establishment_id + '&category=' + category + '>' + json.establishment_id + '</a>';
+                                        }
+                                        else {
+                                            return '<a href=detail-id.html?lang=en&id=' + json.company_address + '&category=' + category + '>' + json.company_address + '</a>';
+                                        }
                                     }
                                 },
                                 {

@@ -50,4 +50,5 @@ function JSONtoCSV(fileName, url) {
             //what to do if it's some other browser?
         }
     });
+
 }

@@ -33,7 +33,6 @@ namespace mdelsWebApi.Controllers
                 case (int)category.company:
                     if (numberTerm > 0)
                     {
-                        //companyResult.Add(companyController.GetCompanyById(numberTerm, lang,status));
                         var company = new Company();
                         company = companyController.GetCompanyByID(numberTerm);
                         if (company.company_id != 0)
@@ -69,7 +68,6 @@ namespace mdelsWebApi.Controllers
 
                             if (company != null && company.company_id > 0)
                             {
-                                search.company_name = company.company_name;
                                 search.company_address = UtilityHelper.BuildAddress(company);
                             }
                             searchResult.Add(search);
@@ -85,15 +83,13 @@ namespace mdelsWebApi.Controllers
                             var search = new Search();
                             var company = new Company();
                             var address = new StringBuilder();
-                            var establishmentIDResult = new Establishment();
 
                             search.company_id = companyIDResult.company_id;
-                            search.establishment_id = establishmentIDResult.establishment_id;
 
                             if (company != null && companyIDResult.company_id > 0)
                             {
                                 search.company_name = companyIDResult.company_name;
-                                search.company_address = UtilityHelper.BuildAddress(company);
+                                search.company_address = UtilityHelper.BuildAddress(companyIDResult);
                             }
                             searchResult.Add(search);
                         }
@@ -103,16 +99,6 @@ namespace mdelsWebApi.Controllers
 
                 case (int)category.country:
                     var countryResult = new List<Country>();
-                    /*
-                    if (numberTerm > 0)
-                    {
-                        countryResult.Add(countryController.GetCountryByID(numberTerm, lang));
-                    }
-                    else
-                    {
-                        
-                    }
-                    */
 
                     countryResult = countryController.GetAllCountry(lang, term).ToList();
 
@@ -141,18 +127,6 @@ namespace mdelsWebApi.Controllers
                 case (int)category.province:
                     var provinceResult = new List<Province>();
 
-                    /*
-
-                    if (numberTerm > 0)
-                    {
-                        provinceResult.Add(provinceController.GetProvinceByID(numberTerm, lang));
-                    }
-                    else
-                    {
-                        provinceResult = provinceController.GetAllProvince(lang, term).ToList();
-                    }
-                    */
-
                     provinceResult = provinceController.GetAllProvince(lang, term).ToList();
 
                     if (provinceResult.Count > 0)
@@ -162,7 +136,6 @@ namespace mdelsWebApi.Controllers
                             var search = new Search();
                             var company = new Company();
                             var address = new StringBuilder();
-                            //company = companyController.GetCompanyByID(); how to make this work? 
 
                             search.region_cd = p.region_cd;
                             search.region_desc = p.region_desc;
@@ -199,11 +172,13 @@ namespace mdelsWebApi.Controllers
 
                 if (establishment != null && establishment.company_id > 0)
                 {
-
-
                     data.establishment_id = establishment.establishment_id;
                     data.company_id = establishment.company_id;
-
+                    data.import = establishment.not_importer;
+                    data.dist_class[0] = establishment.dist_class_I;
+                    data.dist_class[1] = establishment.dist_class_II;
+                    data.dist_class[2] = establishment.dist_class_III;
+                    data.dist_class[3] = establishment.dist_class_IV;
                     var company = companyController.GetCompanyByID(data.company_id);
 
                     data.company_name = company.company_name;
@@ -220,17 +195,20 @@ namespace mdelsWebApi.Controllers
                 var companyController = new CompanyController();
                 var data = new EstablishmentDetail();
 
-
                 //1. Get Company
                 var company = new Company();
 
                 company = companyController.GetCompanyByID(id);
-
+                
                 if (company != null && company.company_id > 0)
                 {
                     data.company_id = company.company_id;
                     data.company_name = company.company_name;
                     data.company_address = UtilityHelper.BuildAddress(company);
+                    List<Company> cList = new List<Company>();
+                    cList.Add(company);
+                    data.establishmentList = new EstablishmentController().GetEstablishmentList(cList).ToList();
+
                 }
 
                 var jsonResult = Json(new { data }, JsonRequestBehavior.AllowGet);
@@ -241,17 +219,6 @@ namespace mdelsWebApi.Controllers
             
 
         }
-
-        /*
-        public ActionResult GetEstablishmentByIDForJson([DefaultValue(0)] int id, [DefaultValue("en")] string lang)
-        {
-            
-
-            var jsonResult = Json(new { data }, JsonRequestBehavior.AllowGet);
-            jsonResult.MaxJsonLength = int.MaxValue;
-            return jsonResult;
-        }
-        */
 
         public ActionResult GetEstablishmentByCountryForJson([DefaultValue("en")] string lang, [DefaultValue("")] string cd)
         {
@@ -285,6 +252,7 @@ namespace mdelsWebApi.Controllers
                             detail.company_id = c.company_id;
                             detail.company_name = c.company_name;
                             detail.company_address = UtilityHelper.BuildAddress(c);
+                            detail.country_cd = c.country_cd;
                             detailList.Add(detail);
                             break;
                         }
@@ -379,22 +347,6 @@ namespace mdelsWebApi.Controllers
                         list.Add(e.establishment_id.ToString());
                         list.Add(e.company_id.ToString());
                     }
-
-                    /*
-                    var companyIDList = new List<Company>();
-                    var companyIDController = new CompanyController();
-                    companyIDList = companyIDController.GetAllCompany("").ToList();
-
-                    foreach (Company c in companyIDList)
-                    {
-                        
-                    }
-
-                    */
-
-
-
-
 
                     break;
 

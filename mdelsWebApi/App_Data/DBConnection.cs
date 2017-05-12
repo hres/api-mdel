@@ -68,7 +68,7 @@ namespace mdelsWebApi
                                 item.dist_class_II = dr["DIST_CLASS_II"] == DBNull.Value ? string.Empty : dr["DIST_CLASS_II"].ToString().Trim();
                                 item.dist_class_III = dr["DIST_CLASS_III"] == DBNull.Value ? string.Empty : dr["DIST_CLASS_III"].ToString().Trim();
                                 item.dist_class_IV = dr["DIST_CLASS_IV"] == DBNull.Value ? string.Empty : dr["DIST_CLASS_IV"].ToString().Trim();
-                                item.not_imoprter = dr["NOT_IMPORTER"] == DBNull.Value ? string.Empty : dr["NOT_IMPORTER"].ToString().Trim();
+                                item.not_importer = dr["NOT_IMPORTER"] == DBNull.Value ? string.Empty : dr["NOT_IMPORTER"].ToString().Trim();
                                 item.not_import_dist = dr["NOT_IMPORT_DIST"] == DBNull.Value ? string.Empty : dr["NOT_IMPORT_DIST"].ToString().Trim();
                                 items.Add(item);
                             }
@@ -131,7 +131,7 @@ namespace mdelsWebApi
                                         item.dist_class_II = dr["DIST_CLASS_II"] == DBNull.Value ? string.Empty : dr["DIST_CLASS_II"].ToString().Trim();
                                         item.dist_class_III = dr["DIST_CLASS_III"] == DBNull.Value ? string.Empty : dr["DIST_CLASS_III"].ToString().Trim();
                                         item.dist_class_IV = dr["DIST_CLASS_IV"] == DBNull.Value ? string.Empty : dr["DIST_CLASS_IV"].ToString().Trim();
-                                        item.not_imoprter = dr["NOT_IMPORTER"] == DBNull.Value ? string.Empty : dr["NOT_IMPORTER"].ToString().Trim();
+                                        item.not_importer = dr["NOT_IMPORTER"] == DBNull.Value ? string.Empty : dr["NOT_IMPORTER"].ToString().Trim();
                                         item.not_import_dist = dr["NOT_IMPORT_DIST"] == DBNull.Value ? string.Empty : dr["NOT_IMPORT_DIST"].ToString().Trim();
                                         items.Add(item);
                                         break;
@@ -192,7 +192,7 @@ namespace mdelsWebApi
                                 item.dist_class_II = dr["DIST_CLASS_II"] == DBNull.Value ? string.Empty : dr["DIST_CLASS_II"].ToString().Trim();
                                 item.dist_class_III = dr["DIST_CLASS_III"] == DBNull.Value ? string.Empty : dr["DIST_CLASS_III"].ToString().Trim();
                                 item.dist_class_IV = dr["DIST_CLASS_IV"] == DBNull.Value ? string.Empty : dr["DIST_CLASS_IV"].ToString().Trim();
-                                item.not_imoprter = dr["NOT_IMPORTER"] == DBNull.Value ? string.Empty : dr["NOT_IMPORTER"].ToString().Trim();
+                                item.not_importer = dr["NOT_IMPORTER"] == DBNull.Value ? string.Empty : dr["NOT_IMPORTER"].ToString().Trim();
                                 item.not_import_dist = dr["NOT_IMPORT_DIST"] == DBNull.Value ? string.Empty : dr["NOT_IMPORT_DIST"].ToString().Trim();
                                 establishment = item;
                             }

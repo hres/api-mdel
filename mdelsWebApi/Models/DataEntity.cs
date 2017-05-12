@@ -23,13 +23,9 @@ namespace mdelsWebApi.Models
         public string company_name { get; set; }
         public string company_address { get; set; }
         public string device_name { get; set; }
-        public string import { get; set; }
-        public string[] dist_Class = new string[4];
         public string region_cd { get; set; }
         public string region_desc { get; set; }
         public int establishment_id { get; set; }
-
-
     }
 
     public class Detail
@@ -38,6 +34,9 @@ namespace mdelsWebApi.Models
         public int company_id { get; set; }
         public string company_name { get; set; }
         public string company_address { get; set; }
+
+        public string country_cd { get; set; }
+
 }
 
     public class CompanyDetail
@@ -64,6 +63,13 @@ namespace mdelsWebApi.Models
         public int company_id { get; set; }
         public string company_name { get; set; }
         public string company_address { get; set; }
+        public string import { get; set; }
+
+        public string[] dist_class = new string[4];
+
+        public IList<Establishment> establishmentList { get; set; }
+
+
     }
 
     public class provinceDetail

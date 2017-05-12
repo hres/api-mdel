@@ -112,8 +112,9 @@
                     <table id="companyTable" class="wb-tables table table-striped table-hover table-bordered">
                         <thead>
                             <tr class="active">
-                                <th>Country Name</th>
-                                <th>Country Code</th>
+                                <th>Company Name</th>
+                                <th>Company ID</th>
+                                <th>Establishment ID</th>
                             </tr>
                         </thead>
                         <tbody id="tbodyCompany"></tbody>
@@ -186,26 +187,26 @@
             },
 
             "columns": [
-                {
-                    "data": "company_name"
-                },
-                {
-                    "data": null,
-                    "sType": "number",
-                    "render": function (detailList) {
-                        return '<a href=detail-establishment.html?lang=en&id=' + detailList.establishment_id + '>' + detailList.establishment_id + '</a>';
-                        //return detailList.company_address;
-                    }
-                },
-                /*
-                {
-                    "data": null,
-                    "sType": "number",
-                    "render": function (detailList) {
-                        return '<a href=detail-company.html?lang=en&id=' + detailList.company_id + '>' + detailList.company_id + '</a>';
-                    }
-                }
-                */
+                 {
+                     "data": "company_name"
+                 },
+                 {
+                     "data": null,
+                     "sType": "number",
+                     "render": function (detailList) {
+                         return '<a href=detail-company.html?lang=en&id=' + detailList.company_id + '>' + detailList.company_id + '</a>';
+                         //return detailList.company_address;
+                     }
+                 },
+                 {
+                     "data": null,
+                     "sType": "number",
+                     "render": function (detailList) {
+                         return '<a href=detail-id.html?lang=en&id=' + detailList.establishment_id + '>' + detailList.establishment_id + '</a>';
+                     }
+                 },
+              
+              
             ],
         }
 

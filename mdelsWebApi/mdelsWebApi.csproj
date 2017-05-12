@@ -269,6 +269,8 @@
     <Content Include="bin\WebActivatorEx.dll" />
     <Content Include="bin\WebGrease.dll" />
     <Content Include="bin\WebTemplateCore.dll" />
+    <Content Include="links.html" />
+    <Content Include="CSV-downloads.html" />
     <Content Include="detail-id.html" />
     <Content Include="detail-company.html" />
     <Content Include="detail-province.html" />

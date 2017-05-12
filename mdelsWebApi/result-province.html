@@ -101,7 +101,7 @@
                 <header class="panel-heading">
                     <h2 class="panel-title"></h2>
                     <div class="row">
-                        <h2 class="col-sm-6 mrgn-tp-sm">List of returned provinces</h2>
+                        <h2 class="col-sm-6 mrgn-tp-sm">List of returned companies</h2>
                         <div class="mrgn-tp-sm mrgn-rght-md pull-right">
                             <a href="search-by-province.html">New search</a>
                         </div>
@@ -111,9 +111,9 @@
                     <table id="companyTable" class="wb-tables table table-striped table-hover table-bordered">
                         <thead>
                             <tr class="active">
-                                <th>Province Description</th>
-                                <th>Province Code</th>
-                                <th>Country</th>
+                                <th>Company Name</th>
+                                <th>Company ID</th>
+                                <th>Establishment ID</th>
                             </tr>
                         </thead>
                         <tbody id="tbodyCompany"></tbody>
@@ -167,47 +167,44 @@
 
     <script>
 
-        var dtable;
         var lang = "en";
-        //var status = "active";
-        var searchTerm = getParameterByName("term");
-        var category = 4;
-        $('#searchTerm').append("'" + searchTerm + "'");
-      //  $("a#langLink").attr('href', goMdallLangUrl(lang));
+        var cd = getParameterByName("term");
+        var serviceURLforDetail = "./MdelsJson/GetEstablishmentByProvinceForJson";
 
 
         window["wb-tables"] = {
             "processing": true,
             "ajax": {
-                "url": serviceURL,
-                "data": { lang: lang, status: status, term: searchTerm, categoryType: category },
+                "url": serviceURLforDetail,
                 "dataType": "json",
-                "dataSrc": "searchResult",
+                "data": { lang: lang, cd: cd },
+                "type": "GET",
+                "dataSrc": "detailList",          //data.companyList worked (for company_name at least)
                 "error": function (xhr, err) {
-
+                    //console.log("readyState: " + xhr.readyState + "\nstatus: " + xhr.status);
+                    //console.log("responseText: " + xhr.responseText);
                 }
             },
-            "columns": [
 
-                     {
-                         "data": null,
-                         "render": function (json) {
-                             return '<a href=detail-province.html?lang=en&province=' + json.region_cd + '&category=' + category + '>' + json.region_desc + '</a>';
-                             //return '<a href=detail-province.html?lang=en&province=' + json.region_desc.toString().replace(/ /g, "%20") + '&category=' + category + '>' + json.region_desc + '</a>';
-                         }
-                     },
-                     {
-                         "data": null,
-                         "render": function (json) {
-                             return json.region_cd;
-                         }
-                     },
-                     {
-                         "data": null,
-                         "render": function (json) {
-                             return json.country_cd;
-                         }
-                     },
+            "columns": [
+                {
+                    "data": "company_name"
+                },
+                {
+                    "data": null,
+                    "sType": "number",
+                    "render": function (detailList) {
+                        return '<a href=detail-company.html?lang=en&id=' + detailList.company_id + '>' + detailList.company_id + '</a>';
+                        //return detailList.company_address;
+                    }
+                },
+                {
+                    "data": null,
+                    "sType": "number",
+                    "render": function (detailList) {
+                        return '<a href=detail-id.html?lang=en&id=' + detailList.establishment_id + '>' + detailList.establishment_id + '</a>';
+                    }
+                },
 
             ],
             "fnInitComplete": function () {

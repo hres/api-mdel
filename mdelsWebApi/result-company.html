@@ -189,7 +189,12 @@
                 }
             },
             "columns": [
-                            { "data": "company_name" },
+                            {
+                                "data": null,
+                                "render": function (data, type, full) {
+                                    return '<a href=detail-company.html?lang=en&id=' + data.company_id + '>' + data.company_name + '</a>';
+                                }
+                            },
                             {
                                 "data": null,
                                 "render": function (data, type, full) {
@@ -199,7 +204,7 @@
                             {
                                 "data": null,
                                 "render": function (data, type, full) {
-                                    return '<a href=detail-company.html?lang=en&id=' + data.company_id + '>' + data.company_id + '</a>';
+                                    return '<a href=detail-id.html?lang=en&id=' + data.company_id + '>' + data.company_id + '</a>';
                                 }
                             }
 

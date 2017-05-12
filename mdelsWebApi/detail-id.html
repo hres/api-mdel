@@ -53,11 +53,13 @@
                 style="display:none;visibility:hidden"></iframe>
     </noscript>
     <script>
-(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start': new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0], j=d.createElement
+        (function (w, d, s, l, i) {
+            w[l] = w[l] || []; w[l].push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' }); var f = d.getElementsByTagName(s)[0], j = d.createElement
 
-(s),dl=l!='dataLayer1'?'&l='+l:'';j.async=true;j.src='//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})
+            (s), dl = l != 'dataLayer1' ? '&l=' + l : ''; j.async = true; j.src = '//www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+        })
 
-(window,document,'script','dataLayer1','GTM-TLGQ9K');
+        (window, document, 'script', 'dataLayer1', 'GTM-TLGQ9K');
     </script>
     <!-- End Google Tag Manager -->
     <div id="def-top">
@@ -74,23 +76,23 @@
         var identifier = getParameterByName("identifier");
         var status = "active";
         var jsonbread = [{ title: "Home", href: "http://www.canada.ca/en/index.html" },
-        { title: "Drugs & Health Products",href: "http://www.hc-sc.gc.ca/dhp-mps/index-eng.php" },
-        { title: "Medical Devices",href: "http://www.hc-sc.gc.ca/dhp-mps/md-im/index-eng.php" },
-        { title: "Licences",href: "http://www.hc-sc.gc.ca/dhp-mps/md-im/licen/index-eng.php" },
+        { title: "Drugs & Health Products", href: "http://www.hc-sc.gc.ca/dhp-mps/index-eng.php" },
+        { title: "Medical Devices", href: "http://www.hc-sc.gc.ca/dhp-mps/md-im/index-eng.php" },
+        { title: "Licences", href: "http://www.hc-sc.gc.ca/dhp-mps/md-im/licen/index-eng.php" },
         { title: "Medical Devices Licence Listing Search" }];
 
-	//console.log(jsonbread);
-	defTop.outerHTML = wet.builder.top({
-	    cdnEnv: "prod",
-	    search: true,
-		lngLinks: [{
-			lang: "fr",
-			href: "instruments-medicaux-detail.html?lang=fr&id=" + id,
-			text: "Français",
-		}],
-		showPreContent: true,
-		breadcrumbs:jsonbread,
-	});
+        //console.log(jsonbread);
+        defTop.outerHTML = wet.builder.top({
+            cdnEnv: "prod",
+            search: true,
+            lngLinks: [{
+                lang: "fr",
+                href: "instruments-medicaux-detail.html?lang=fr&id=" + id,
+                text: "Français",
+            }],
+            showPreContent: true,
+            breadcrumbs: jsonbread,
+        });
     </script>
 
     <div class="container">
@@ -102,7 +104,7 @@
                     <div class="row">
                         <h2 class="col-sm-6 mrgn-tp-sm">Manufacturer</h2>
                         <div class="mrgn-tp-sm pull-right">
-                           <a id="topLink" href="./search-by-establishment.html">New Search</a>
+                            <a id="topLink" href="./search-by-company.html">New Search</a>
                             <br />
                         </div>
                         <div class="mrgn-tp-sm pull-right">
@@ -111,34 +113,45 @@
                     </div>
                 </div>
                 <div class="panel-body">
-                    <div><p id="companyName"></p></div>
+                    <div><p id="companyName"><p/></div>
                     <div><p class="mrgn-tp-0" id="address"></p></div>
                     <div class="row">
-                        <!--<p class="col-sm-2"><strong>Company&nbsp;ID&nbsp;:&nbsp;</strong></p>-->
                         <div><p class="col-sm-10" id="companyID"></p></div>
                     </div>
-                    <!--
+                    <div class="row">
+                        <div><p class="col-sm-10" id="importer"></p></div>
+                    </div>
+                    <div class="row">
+                        <div><p class="col-sm-10" id="dist_class"></p></div>
+                    </div>
+                    
                         <div class="table-responsive">
                         <table class="table-bordered table-condensed table-striped">
                             <caption class="wb-inv text-left">Device details</caption>
                             <thead>
                                 <tr class="bg-primary">
-                                    <th>Company ID</th>
                                     <th>Company Name</th>
+                                    <th>Company ID</th>
+                                    <th>Establishment ID</th>
                                     <th>Company Address</th>
+                                    <th>Importer</th>
+                                    <th>Distributor Class</th>
                                 </tr>
 
                                 <tr>
-                                    <td id="cID"></td>
                                     <td id="cName"></td>
+                                    <td id="cID"></td>
+                                    <td id="eID"></td>
                                     <td id="cAddr"></td>
+                                    <td id="cImport"></td>
+                                    <td id="cDist"></td>
                                 </tr>
-                                   
+
                             </thead>
                             <tbody id="tbodyMain"></tbody>
                         </table>
+                     <br/>
                     </div>
-                         -->
                 </div>
             </section>
 
@@ -156,6 +169,8 @@
                     showPostContent: true,
                     showShare: true,
                 });
+    
+
             </script>
         </main>
     </div>
@@ -167,17 +182,17 @@
     <!-- footer-en.html-End-->
     <!-- Write closure template -->
     <script type="text/javascript">
-            var defFooter = document.getElementById("def-footer");
-            defFooter.outerHTML = wet.builder.footer({
-                cdnEnv: "prod",
-                showFeatures: true,
-            });
+        var defFooter = document.getElementById("def-footer");
+        defFooter.outerHTML = wet.builder.footer({
+            cdnEnv: "prod",
+            showFeatures: true,
+        });
     </script>
     <!-- Write closure template -->
     <script type="text/javascript">
-                document.write(wet.builder.refFooter({
-                    cdnEnv: "prod"
-                }));
+        document.write(wet.builder.refFooter({
+            cdnEnv: "prod"
+        }));
     </script>
 
     <!--[if lt IE 10 | !IE ]><!-->
@@ -186,106 +201,30 @@
     <script>
         var lang = "en";
         var id = getParameterByName("id");
-        var serviceURLforDetail = "./MdelsJson/GetEstablishmentByIDForJson";
-       
-        
+        var serviceURLforDetail = "./MdelsJson/GetCompanyByIDForJson";
+
+
         $.ajax({
             "url": serviceURLforDetail,
             "dataType": "json",
-            "data": { id: id, lang: lang},
+            "data": { id: id, lang: lang },
             "type": "GET",
             "dataSrc": "data",
-            
-            "success": function (json) {
-                if ($.trim(json.data.company_id) == 0) {
-                   // alert("error");
-                }
-                else {
-                    $('#address').append(json.data.company_address);
-                    $('#companyID').append(json.data.company_id);
-                    if (id > 0) {
-                        $('#companyName').append('<b>' + json.data.company_name + '</b>');
-                    }
-                    else
-                    {
-                        $('#companyName').append('<b>' + json.data.company_name + '</b>');
-                    }
-                }
 
-                $('#cID').append(json.company_id);
-                $('#cName').append(json.company_name);
-                //$('#cName').append('<a href=medical-device-detail.html?lang=en&id=' + json.data.company_name + '>' + json.data.company_name + '</a>');
-                $('#cAddr').append(json.company_address);
+            "success": function (json) {
+
+
+                console.log(json.data);
+
+                $('#cAddr').append('&nbsp;' + json.data.company_address + '&nbsp;');
+                $('#cID').append('&nbsp;' + json.data.company_id + '&nbsp;');
+                $('#eID').append('<a href=detail-id.html?lang=en&id=' + json.data.establishment_id + '>' + json.data.establishment_id + '</a>');
+                $('#cName').append(json.data.company_name + '&nbsp;');
+                $('#cImport').append('&nbsp;<b>' + json.data.import + '</b>&nbsp;');
+                $('#cDist').append('&nbsp;&nbsp;' + "<b>I</b>: " + json.data.dist_class[0] + '&nbsp;&nbsp;&nbsp;&nbsp;' + " <b>II</b> " + json.data.dist_class[1] + '<br/>' + '&nbsp;' + " <b>III:</b> " + json.data.dist_class[2] + '&nbsp;&nbsp;&nbsp;&nbsp;' + " <b>IV:</b> " + json.data.dist_class[3]);
             }
         });
 
-        /*
-        window["wb-tables"] = {
-            "processing": true,
-            "ajax": {
-                "url": serviceURLforDetail,
-                "dataType": "json",
-                "data": { id: id, lang: lang},
-                //"type": "GET",
-                "dataSrc": "data",
-                "error": function (xhr, err) {
-                    //console.log("readyState: " + xhr.readyState + "\nstatus: " + xhr.status);
-                    //console.log("responseText: " + xhr.responseText);
-                }
-            },
-            "columns":
-                [
-                    {
-                        "data": null,
-                        "sType": "number",
-                        "render": function(json)
-                        {
-                            return json.data.company_id;
-                        }
-                    },
-                    {
-                        "data": null,
-                        "render": function (json) {
-                            return "hey";
-                        }
-                    },
-                    {
-                        "data": null,
-                        "render": function (json) {
-                            return "hey";
-                        }
-                    },
-                ],
-            "initComplete": function (settings, json) {
-
-                console.log(json.data.company_id);
-
-                /*
-
-                if ($.trim(json.data.company_id) == 0) {
-                   // alert("error");
-                }
-                else {
-                    $('#address').append(json.data.company_address);
-                    $('#companyID').append(json.data.company_id);
-                    if (licID > 0 || devID > 0) {
-                        $('#companyName').append('<a href=medical-device-detail.html?lang=en&id=' + json.data.company_id + '>Full listings of ' +  json.data.company_name + '</a>');
-                    }
-                    else
-                    {
-                        $('#companyName').append(json.data.company_name);
-                    }
-                }
-                
-
-                
-                
-            },
-            //"ordering": false,
-            //"bFilter": false,
-        }
-        */
-        
     </script>
 </body>
 </html>

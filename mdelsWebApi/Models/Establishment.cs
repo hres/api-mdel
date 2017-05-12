@@ -21,7 +21,7 @@ namespace mdelsWebApi.Models
         public string dist_class_II { get; set; }
         public string dist_class_III { get; set; }
         public string dist_class_IV { get; set; }
-        public string not_imoprter { get; set; }
+        public string not_importer { get; set; }
         public string not_import_dist { get; set; } 
 
     }
