@@ -212,10 +212,6 @@
             "dataSrc": "data",
 
             "success": function (json) {
-
-
-                console.log(json.data);
-
                 $('#cAddr').append('&nbsp;' + json.data.company_address + '&nbsp;');
                 $('#cID').append('&nbsp;' + json.data.company_id + '&nbsp;');
                 $('#eID').append('<a href=detail-id.html?lang=en&id=' + json.data.establishment_id + '>' + json.data.establishment_id + '</a>');
