@@ -125,26 +125,20 @@ namespace mdelsWebApi.Controllers
         {
             var est = new Establishment();
             var establishmentController = new EstablishmentController();
-            var detail = new EstablishmentDetail();
-            var data = new List<EstablishmentDetail>();
+            var data = new EstablishmentDetail();
 
             est = establishmentController.GetEstablishmentById(id);
-            detail.company_id = est.company_id;
-            detail.company_name = est.company_name;
-            detail.company_address = UtilityHelper.BuildAddress(est);
-            detail.establishment_id = est.establishment_id;
-            detail.dist_class[0] = est.dist_class_I;
-            detail.dist_class[1] = est.dist_class_II;
-            detail.dist_class[2] = est.dist_class_III;
-            detail.dist_class[3] = est.dist_class_IV;
-            detail.import = est.not_importer;
+            data.company_id = est.company_id;
+            data.company_name = est.company_name;
+            data.company_address = UtilityHelper.BuildAddress(est);
+            data.establishment_id = est.establishment_id;
+            data.dist_class[0] = est.dist_class_I;
+            data.dist_class[1] = est.dist_class_II;
+            data.dist_class[2] = est.dist_class_III;
+            data.dist_class[3] = est.dist_class_IV;
+            data.import = est.not_importer;
 
-            data.Add(detail); //I have a list because dataTables expects an array, not a single value
-                              //to return the array, just change {detail} below to {data}
-                              //I couldn't get the datatable to NOT have sorting options
-                              //which make the table feel cumbersome if there is only 1 item.
-
-            return Json(new { detail }, JsonRequestBehavior.AllowGet);
+            return Json(new { data }, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult autoCompleteList([DefaultValue("company")] string category)
@@ -158,10 +152,13 @@ namespace mdelsWebApi.Controllers
                     var companyList = new List<Company>();
                     var companyController = new CompanyController();
                     companyList = companyController.GetAllCompany("").ToList();
+                    var estList = new List<Establishment>();
+                    var estController = new EstablishmentController();
+                    estList = estController.GetEstablishmentList(companyList).ToList();
 
-                    foreach (Company c in companyList)
+                    foreach (Establishment e in estList)
                     {
-                        list.Add(c.company_name);
+                        list.Add(e.company_name);
                     }
                     break;
 
