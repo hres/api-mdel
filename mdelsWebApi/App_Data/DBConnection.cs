@@ -171,7 +171,16 @@ namespace mdelsWebApi
         public Establishment GetEstablishmentById(int id)
         {
             Establishment establishment = new Establishment();
-            string commandText = "SELECT * FROM MDELS_OWNER.WQRY_ESTABLISHMENT INNER JOIN MDELS_OWNER.WQRY_EST_COMPANY ON MDELS_OWNER.WQRY_ESTABLISHMENT.COMPANY_ID = MDELS_OWNER.WQRY_EST_COMPANY.COMPANY_ID WHERE ESTABLISHMENT_ID = " + id;
+            string commandText = "";
+
+            if (id >= 10000)
+            {
+                commandText += "SELECT * FROM MDELS_OWNER.WQRY_ESTABLISHMENT INNER JOIN MDELS_OWNER.WQRY_EST_COMPANY ON MDELS_OWNER.WQRY_ESTABLISHMENT.COMPANY_ID = MDELS_OWNER.WQRY_EST_COMPANY.COMPANY_ID WHERE MDELS_OWNER.WQRY_ESTABLISHMENT.COMPANY_ID = " + id;
+            }
+            else
+            {
+                commandText += "SELECT * FROM MDELS_OWNER.WQRY_ESTABLISHMENT INNER JOIN MDELS_OWNER.WQRY_EST_COMPANY ON MDELS_OWNER.WQRY_ESTABLISHMENT.COMPANY_ID = MDELS_OWNER.WQRY_EST_COMPANY.COMPANY_ID WHERE ESTABLISHMENT_ID = " + id;
+            }
 
             using (OracleConnection con = new OracleConnection(mdelsDBConnection))
             {

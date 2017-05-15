@@ -173,6 +173,7 @@ namespace mdelsWebApi.Controllers
                     break;
 
                 case "id":
+
                     var establishmentList = new List<Establishment>();
                     var establishmentController = new EstablishmentController();
                     establishmentList = establishmentController.GetAllEstablishment("").ToList();

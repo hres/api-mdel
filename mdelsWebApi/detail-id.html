@@ -104,7 +104,7 @@
                     <div class="row">
                         <h2 class="col-sm-6 mrgn-tp-sm">Manufacturer</h2>
                         <div class="mrgn-tp-sm pull-right">
-                            <a id="topLink" href="./search-by-company.html">New Search</a>
+                            <a id="topLink" href="">New Search</a>
                             <br />
                         </div>
                         <div class="mrgn-tp-sm pull-right">
@@ -202,7 +202,7 @@
         var lang = "en";
         var id = getParameterByName("id");
         var serviceURLforDetail = "./MdelsJson/GetEstablishmentByIDForJson";
-
+        var category = getParameterByName("category");
 
         $.ajax({
             "url": serviceURLforDetail,
@@ -220,6 +220,28 @@
                 $('#cDist').append('&nbsp;&nbsp;' + "<b>I</b>: " + json.data.dist_class[0] + '&nbsp;&nbsp;&nbsp;&nbsp;' + " <b>II</b> " + json.data.dist_class[1] + '<br/>' + '&nbsp;' + " <b>III:</b> " + json.data.dist_class[2] + '&nbsp;&nbsp;&nbsp;&nbsp;' + " <b>IV:</b> " + json.data.dist_class[3]);
             }
         });
+
+        if (category == 2)
+        {
+            $("#topLink").attr("href", "./search-by-id.html");
+            $("#botLink").attr("href", "./search-by-id.html");
+        }
+        else if (category == 3)
+        {
+            $("#topLink").attr("href", "./search-by-country.html");
+            $("#botLink").attr("href", "./search-by-country.html");
+        }
+        else if (category == 4)
+        {
+            $("#topLink").attr("href", "./search-by-province.html");
+            $("#botLink").attr("href", "./search-by-province.html");
+        }
+        else
+        {
+            $("#topLink").attr("href", "./search-by-company.html");
+            $("#botLink").attr("href", "./search-by-company.html");
+        }
+        
 
     </script>
 </body>
