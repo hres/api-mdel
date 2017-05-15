@@ -22,7 +22,18 @@ namespace mdelsWebApi.Models
         public string dist_class_III { get; set; }
         public string dist_class_IV { get; set; }
         public string not_importer { get; set; }
-        public string not_import_dist { get; set; } 
+        public string not_import_dist { get; set; }
+        public string company_name { get; set; }
+        public string addr_line_1 { get; set; }
+        public string addr_line_2 { get; set; }
+        public string addr_line_3 { get; set; }
+        public string addr_line_4 { get; set; }
+        public string addr_line_5 { get; set; }
+        public string postal_code { get; set; }
+        public string region_code { get; set; }
+        public string city { get; set; }
+        public string country_cd { get; set; }
+        public string region_cd { get; set; }
 
     }
 }

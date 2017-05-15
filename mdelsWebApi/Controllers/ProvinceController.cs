@@ -14,6 +14,7 @@ namespace mdelsWebApi.Controllers
             return databasePlaceholder.GetAll(lang, province);
         }
 
+        /*
         public Province GetProvinceByID(string id, string lang)
         {
             Province province = databasePlaceholder.Get(id, lang);
@@ -23,6 +24,7 @@ namespace mdelsWebApi.Controllers
             }
             return province;
         }
+        */
 
     }
 }

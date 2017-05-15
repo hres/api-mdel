@@ -15,6 +15,7 @@ namespace mdelsWebApi.Controllers
         public ActionResult GetAllListForJsonByCategory(string lang, string status, string term, int categoryType)
         {
             var companyResult = new List<Company>();
+            var establishmentList = new List<Establishment>();
             var searchResult = new List<Search>();
             var companyController = new CompanyController();
             var establishmentController = new EstablishmentController();
@@ -44,109 +45,74 @@ namespace mdelsWebApi.Controllers
                     {
                         companyResult = companyController.GetAllCompany(term).ToList();
                     }
-                    return Json(new { companyResult }, JsonRequestBehavior.AllowGet);
+
+                    establishmentList = establishmentController.GetEstablishmentList(companyResult).ToList();
+
+                    foreach (Establishment e in establishmentList)
+                    {
+                        Search s = new Search();
+                        s.company_id = e.company_id;
+                        s.company_name = e.company_name;
+                        s.company_address = UtilityHelper.BuildAddress(e);
+                        s.establishment_id = e.establishment_id;
+                        searchResult.Add(s);
+                    }
+
+                    return Json(new { searchResult }, JsonRequestBehavior.AllowGet);
 
                 case (int)category.id:
 
-                    var companyIDResult = new Company();
+                    var sTerm = Int32.Parse(term);
+
                     var establishmentResult = new Establishment();
+                    establishmentResult = establishmentController.GetEstablishmentById(sTerm);
+                    Search search = new Search();
 
-                    if (numberTerm < 10000)
+                    if (establishmentResult != null)
                     {
-                        establishmentResult = establishmentController.GetEstablishmentById(numberTerm);
-
-                        if (establishmentResult.establishment_id > 0)
-                        {
-                            var search = new Search();
-                            var company = new Company();
-                            var address = new StringBuilder();
-                            company = companyController.GetCompanyByID(establishmentResult.company_id);
-
-                            search.company_id = establishmentResult.company_id;
-                            search.establishment_id = establishmentResult.establishment_id;
-                            search.company_name = company.company_name;
-
-                            if (company != null && company.company_id > 0)
-                            {
-                                search.company_address = UtilityHelper.BuildAddress(company);
-                            }
-                            searchResult.Add(search);
-                        }
-
-                    }
-                    else
-                    {
-                        companyIDResult = companyController.GetCompanyByID(numberTerm);
-
-                        if (companyIDResult.company_id > 0)
-                        {
-                            var search = new Search();
-                            var company = new Company();
-                            var address = new StringBuilder();
-
-                            search.company_id = companyIDResult.company_id;
-
-                            if (company != null && companyIDResult.company_id > 0)
-                            {
-                                search.company_name = companyIDResult.company_name;
-                                search.company_address = UtilityHelper.BuildAddress(companyIDResult);
-                            }
-                            searchResult.Add(search);
-                        }
+                        search.company_id = establishmentResult.company_id;
+                        search.company_name = establishmentResult.company_name;
+                        search.company_address = UtilityHelper.BuildAddress(establishmentResult);
+                        search.establishment_id = establishmentResult.establishment_id;
+                        searchResult.Add(search);
                     }
                     
                     return Json(new { searchResult }, JsonRequestBehavior.AllowGet);
 
                 case (int)category.country:
-                    var countryResult = new List<Country>();
+                    companyResult = companyController.GetAllCompanyByLocation(term, "country").ToList();
+                    establishmentList = establishmentController.GetEstablishmentList(companyResult).ToList();
 
-                    countryResult = countryController.GetAllCountry(lang, term).ToList();
-
-                    if (countryResult.Count > 0)
+                    if (establishmentList.Count > 0)
                     {
-                        foreach (var c in countryResult)
+
+                        foreach (Establishment e in establishmentList)
                         {
-                            var search = new Search();
-                            var company = new Company();
-                            var address = new StringBuilder();
-                            //company = companyController.GetCompanyByID(); how to make this work? 
-
-                            search.country_cd = c.country_cd;
-                            search.country_name = c.country_desc;
-
-                            if (company != null && company.company_id > 0)
-                            {
-                                search.company_name = company.company_name;
-                                search.company_address = UtilityHelper.BuildAddress(company);
-                            }
-                            searchResult.Add(search);
+                            Search s = new Search();
+                            s.company_id = e.company_id;
+                            s.company_name = e.company_name;
+                            s.company_address = UtilityHelper.BuildAddress(e);
+                            s.establishment_id = e.establishment_id;
+                            searchResult.Add(s);
                         }
                     }
                     return Json(new { searchResult }, JsonRequestBehavior.AllowGet);
 
                 case (int)category.province:
-                    var provinceResult = new List<Province>();
 
-                    provinceResult = provinceController.GetAllProvince(lang, term).ToList();
+                    companyResult = companyController.GetAllCompanyByLocation(term, "province").ToList();
+                    establishmentList = establishmentController.GetEstablishmentList(companyResult).ToList();
 
-                    if (provinceResult.Count > 0)
+                    if (establishmentList.Count > 0)
                     {
-                        foreach (var p in provinceResult)
+                        foreach (Establishment e in establishmentList)
                         {
-                            var search = new Search();
-                            var company = new Company();
-                            var address = new StringBuilder();
-
-                            search.region_cd = p.region_cd;
-                            search.region_desc = p.region_desc;
-                            search.country_cd = p.country_cd;
-
-                            if (company != null && company.company_id > 0)
-                            {
-                                search.company_name = company.company_name;
-                                search.company_address = UtilityHelper.BuildAddress(company);
-                            }
-                            searchResult.Add(search);
+                            Search s = new Search();
+                            s.company_id = e.company_id;
+                            s.company_name = e.company_name;
+                            s.company_address = UtilityHelper.BuildAddress(e);
+                            s.establishment_id = e.establishment_id;
+                            searchResult.Add(s);
                         }
                     }
                     return Json(new { searchResult }, JsonRequestBehavior.AllowGet);
@@ -154,159 +120,31 @@ namespace mdelsWebApi.Controllers
             }
             return Json(new { companyResult }, JsonRequestBehavior.AllowGet);
         }
-      
-        public ActionResult GetCompanyByIDForJson([DefaultValue(0)] int id, [DefaultValue("en")] string lang)
+        
+        public ActionResult GetEstablishmentByIDForJson([DefaultValue("0")] int id)
         {
-
-            if (id < 10000)          //establishment ID's range from 1 to 4 digits
-            {
-                var companyController = new CompanyController();
-                var establishmentController = new EstablishmentController();
-                var data = new EstablishmentDetail();
-
-
-                //1. Get Company
-                var establishment = new Establishment();
-
-                establishment = establishmentController.GetEstablishmentById(id);
-
-                if (establishment != null && establishment.company_id > 0)
-                {
-                    data.establishment_id = establishment.establishment_id;
-                    data.company_id = establishment.company_id;
-                    data.import = establishment.not_importer;
-                    data.dist_class[0] = establishment.dist_class_I;
-                    data.dist_class[1] = establishment.dist_class_II;
-                    data.dist_class[2] = establishment.dist_class_III;
-                    data.dist_class[3] = establishment.dist_class_IV;
-                    var company = companyController.GetCompanyByID(data.company_id);
-
-                    data.company_name = company.company_name;
-                    data.company_address = UtilityHelper.BuildAddress(company);
-                }
-
-                var jsonResult = Json(new { data }, JsonRequestBehavior.AllowGet);
-                jsonResult.MaxJsonLength = int.MaxValue;
-                return jsonResult;
-
-            }
-            else
-            {
-                var companyController = new CompanyController();
-                var data = new EstablishmentDetail();
-
-                //1. Get Company
-                var company = new Company();
-
-                company = companyController.GetCompanyByID(id);
-                
-                if (company != null && company.company_id > 0)
-                {
-                    data.company_id = company.company_id;
-                    data.company_name = company.company_name;
-                    data.company_address = UtilityHelper.BuildAddress(company);
-                    List<Company> cList = new List<Company>();
-                    cList.Add(company);
-                    data.establishmentList = new EstablishmentController().GetEstablishmentList(cList).ToList();
-
-                }
-
-                var jsonResult = Json(new { data }, JsonRequestBehavior.AllowGet);
-                jsonResult.MaxJsonLength = int.MaxValue;
-                return jsonResult;
-
-            }
-            
-
-        }
-
-        public ActionResult GetEstablishmentByCountryForJson([DefaultValue("en")] string lang, [DefaultValue("")] string cd)
-        {
-            var companyController = new CompanyController();
+            var est = new Establishment();
             var establishmentController = new EstablishmentController();
-            var countryController = new CountryController();
-            var countryList = new List<Country>();
+            var detail = new EstablishmentDetail();
+            var data = new List<EstablishmentDetail>();
 
-            var detailList = new List<Detail>();
+            est = establishmentController.GetEstablishmentById(id);
+            detail.company_id = est.company_id;
+            detail.company_name = est.company_name;
+            detail.company_address = UtilityHelper.BuildAddress(est);
+            detail.establishment_id = est.establishment_id;
+            detail.dist_class[0] = est.dist_class_I;
+            detail.dist_class[1] = est.dist_class_II;
+            detail.dist_class[2] = est.dist_class_III;
+            detail.dist_class[3] = est.dist_class_IV;
+            detail.import = est.not_importer;
 
-            countryList = countryController.GetAllCountry(lang, cd).ToList();
+            data.Add(detail); //I have a list because dataTables expects an array, not a single value
+                              //to return the array, just change {detail} below to {data}
+                              //I couldn't get the datatable to NOT have sorting options
+                              //which make the table feel cumbersome if there is only 1 item.
 
-            if (countryList.Count > 0)
-            {
-                var companyList = new List<Company>();
-                var establishmentList = new List<Establishment>();
-
-                companyList = companyController.GetAllCompanyByLocation(cd, "country").ToList();
-
-                establishmentList = establishmentController.GetEstablishmentList(companyList).ToList();
-
-                foreach (Establishment e in establishmentList)
-                {
-                    var detail = new Detail();
-
-                    foreach (Company c in companyList)
-                    {
-                        if (e.company_id == c.company_id)
-                        {
-                            detail.establishment_id = e.establishment_id;
-                            detail.company_id = c.company_id;
-                            detail.company_name = c.company_name;
-                            detail.company_address = UtilityHelper.BuildAddress(c);
-                            detail.country_cd = c.country_cd;
-                            detailList.Add(detail);
-                            break;
-                        }
-                    }
-                }
-            }
-
-            var jsonResult = Json(new { detailList }, JsonRequestBehavior.AllowGet);
-            jsonResult.MaxJsonLength = int.MaxValue;
-            return jsonResult;
-        }
-
-
-        public ActionResult GetEstablishmentByProvinceForJson([DefaultValue("en")] string lang, [DefaultValue(0)] string cd)
-        {
-            var companyController = new CompanyController();
-            var establishmentController = new EstablishmentController();
-            var provinceController = new ProvinceController();
-            var province = new Province();
-
-            var detailList = new List<Detail>();
-
-            province = provinceController.GetProvinceByID(cd, lang);
-            if (province != null)
-            {
-                var companyList = new List<Company>();
-                var establishmentList = new List<Establishment>();
-
-                companyList = companyController.GetAllCompanyByLocation(cd, "province").ToList();
-
-                establishmentList = establishmentController.GetEstablishmentList(companyList).ToList();
-
-                foreach (Establishment e in establishmentList)
-                {
-                    var detail = new Detail();
-
-                    foreach (Company c in companyList)
-                    {
-                        if (e.company_id == c.company_id)
-                        {
-                            detail.establishment_id = e.establishment_id;
-                            detail.company_id = c.company_id;
-                            detail.company_name = c.company_name;
-                            detail.company_address = UtilityHelper.BuildAddress(c);
-                            detailList.Add(detail);
-                            break;
-                        }
-                    }
-                }
-            }
-
-            var jsonResult = Json(new { detailList }, JsonRequestBehavior.AllowGet);
-            jsonResult.MaxJsonLength = int.MaxValue;
-            return jsonResult;
+            return Json(new { detail }, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult autoCompleteList([DefaultValue("company")] string category)
@@ -361,8 +199,6 @@ namespace mdelsWebApi.Controllers
                     break;
 
             }
-
-            
 
             var jsonResult = Json(new { list }, JsonRequestBehavior.AllowGet);
             jsonResult.MaxJsonLength = int.MaxValue;

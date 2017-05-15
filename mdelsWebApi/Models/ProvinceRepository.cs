@@ -18,13 +18,13 @@ namespace mdelsWebApi.Models
         return provinces;
     }
 
-
+        /*
     public Province Get(string id, string lang)
     {
         province = dbConnection.GetProvinceById(id, lang);
         return province;
     }
-
+    */
 
     }
 }

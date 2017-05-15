@@ -201,7 +201,7 @@
     <script>
         var lang = "en";
         var id = getParameterByName("id");
-        var serviceURLforDetail = "./MdelsJson/GetCompanyByIDForJson";
+        var serviceURLforDetail = "./MdelsJson/GetEstablishmentByIDForJson";
 
 
         $.ajax({
@@ -214,7 +214,7 @@
             "success": function (json) {
                 $('#cAddr').append('&nbsp;' + json.data.company_address + '&nbsp;');
                 $('#cID').append('&nbsp;' + json.data.company_id + '&nbsp;');
-                $('#eID').append('<a href=detail-id.html?lang=en&id=' + json.data.establishment_id + '>' + json.data.establishment_id + '</a>');
+                $('#eID').append('&nbsp;' + json.data.establishment_id + '&nbsp;');
                 $('#cName').append(json.data.company_name + '&nbsp;');
                 $('#cImport').append('&nbsp;<b>' + json.data.import + '</b>&nbsp;');
                 $('#cDist').append('&nbsp;&nbsp;' + "<b>I</b>: " + json.data.dist_class[0] + '&nbsp;&nbsp;&nbsp;&nbsp;' + " <b>II</b> " + json.data.dist_class[1] + '<br/>' + '&nbsp;' + " <b>III:</b> " + json.data.dist_class[2] + '&nbsp;&nbsp;&nbsp;&nbsp;' + " <b>IV:</b> " + json.data.dist_class[3]);

@@ -47,6 +47,19 @@ namespace mdelsWebApi
             return address.ToString();
         }
 
+        public static string BuildAddress(Establishment company)
+        {
+            var address = new StringBuilder();
+            address.Append(company.addr_line_1).Append(" ");
+            address.Append(company.addr_line_2).Append(" ");
+            address.Append(company.addr_line_3).AppendLine();
+            address.Append(company.city).Append(",");
+            address.Append(company.region_cd).Append(",");
+            address.Append(company.country_cd).Append(",");
+            address.Append(company.postal_code);
+            return address.ToString();
+        }
+
         public static int GetNumberTerm(string term)
         {
             int result;

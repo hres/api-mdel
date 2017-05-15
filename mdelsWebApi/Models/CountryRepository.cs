@@ -16,11 +16,12 @@ namespace mdelsWebApi.Models
             return countries;
         }
 
-
+        /*
         public Country Get(string id, string lang)
         {
             country = dbConnection.GetCountryById(id, lang);
             return country;
         }
+        */
     }
 }
