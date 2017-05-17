@@ -24,9 +24,9 @@ namespace mdelsWebApi.Models
             return company;
         }
 
-        public IEnumerable<Company> GetAllCompanyByLocation(string cd, string searchType)
+        public IEnumerable<Company> GetAllCompanyByLocation(string cd, string searchType, string lang)
         {
-            companies = dbConnection.GetAllCompanyByLocation(cd, searchType);
+            companies = dbConnection.GetAllCompanyByLocation(cd, searchType, lang);
             return companies;
         }
 

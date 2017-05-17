@@ -80,8 +80,8 @@
 	    search: true,
 		lngLinks: [{
 			lang: "en",
-			href: "recherche-par-province.html",
-			text: "Français",
+			href: "search-by-id.html",
+			text: "English",
 		}],
 		showPreContent: true,
 		breadcrumbs:jsonbread,
@@ -92,25 +92,25 @@
     <div class="container">
         <main role="main" property="mainContentOfPage" class="container">
             <div class="wb-frmvld">
-                <form name="mdels" action="result-province.html" method="get" id="mdels">
+                <form name="mdels" action="resultat-id.html" method="get" id="mdels">
                     <h1 property="name" id="wb-cont">MDEL</h1>
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <h2 class="panel-title"></h2>
                             <div class="row">
-                                <h2 class="col-sm-6 mrgn-tp-sm">Province Search</h2>
+                                <h2 class="col-sm-6 mrgn-tp-sm">Establishment Search</h2>
                                 <div class="mrgn-tp-sm mrgn-rght-md pull-right">
-                                    <a href="main-en.html">Main search</a>
+                                    <a href="main-fr.html">Main search</a>
                                 </div>
                             </div>
                         </div>
                         <div class="panel-body">
                             <div class="form-group">
                                 <p>Enter text below to search by:</p>
-                                <div>1. Province name</div>
-                                <p>2. Province Id</p>
+                                <div>1. Company ID</div>
+                                <p>2. Establishment Id</p>
 
-                                <input name="term" type="text" id="term" autofocus list="list-liste" placeholder="[Enter text here to search for a Province.]" class="full-width" required="required">
+                                <input name="term" type="text" id="term" autofocus list="list-liste" placeholder="[Enter text here to search for a Company or Establishment id.]" class="full-width" required="required">
                                 <datalist id="list-liste" data-ajax-replace="./list-liste-eng.txt" class="wb-data-ajax-replace-inited"> </datalist>
                             </div>
 
@@ -170,10 +170,10 @@
     <!--<![endif]-->
 </body>
 </html>
-
+    
 <script>
 
-        var category = "province";
+        var category = "id";
         var myList = new Array;
         $.ajax({
             "url": "./MdelsJson/autoCompleteList",

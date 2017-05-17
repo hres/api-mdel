@@ -353,20 +353,33 @@ namespace mdelsWebApi
             return company;
         }
 
-        public List<Company> GetAllCompanyByLocation(string cd, string searchType)
+        public List<Company> GetAllCompanyByLocation(string cd, string searchType, string lang)
         {
             var items = new List<Company>();
-            string commandText = "SELECT * FROM MDELS_OWNER.WQRY_EST_COMPANY"; 
-            
-            if(searchType == "province")
+            string commandText = "";
+            List<string> codes = getLocationCodeFromName(cd, searchType, lang);
+
+            if (searchType == "province")
             {
-                commandText += " WHERE UPPER(REGION_CD) LIKE '%" + getLocationCodeFromName(cd, searchType).ToUpper().Trim() + "%'";
+                commandText = "SELECT * FROM MDELS_OWNER.WQRY_EST_COMPANY WHERE UPPER(REGION_CD) = '";
+                commandText += codes[0] + "'";
+
+                for (int i = 1; i < codes.Count; i++)
+                {
+                    commandText += " OR UPPER(REGION_CD) = '" + codes[i] + "'";
+                }
             }
             else
             {
-                commandText += " WHERE UPPER(COUNTRY_CD) LIKE '%" + getLocationCodeFromName(cd, searchType).ToUpper().Trim() + "%'";
+                commandText = "SELECT * FROM MDELS_OWNER.WQRY_EST_COMPANY WHERE UPPER(COUNTRY_CD) = '";
+                commandText += codes[0] + "'";
+
+                for (int i = 1; i < codes.Count; i++)
+                {
+                    commandText += " OR UPPER(COUNTRY_CD) = '" + codes[i] + "'";
+                }
             }
-            
+
             using (OracleConnection con = new OracleConnection(mdelsDBConnection))
             {
                 OracleCommand cmd = new OracleCommand(commandText, con);
@@ -529,18 +542,36 @@ namespace mdelsWebApi
         }
 
        
-        private string getLocationCodeFromName(string cd, string searchType)
+        private List<string> getLocationCodeFromName(string cd, string searchType, string lang)
         {
-            string location = "";
+            List<string> codes = new List<string>();
             string commandText;
+
+            codes.Add(cd);
 
             if (searchType == "province")
             {
-                commandText = "SELECT * FROM WQRY_EST_PROVINCE WHERE UPPER(REGION_DESC) LIKE '%" + cd.ToUpper().Trim() + "%'";
+                if(lang == "fr")
+                {
+                    commandText = "SELECT REGION_CD FROM WQRY_EST_PROVINCE WHERE UPPER(REGION_DESC_F) LIKE '%" + cd.ToUpper().Trim() + "%'";
+                }
+                else
+                {
+                    commandText = "SELECT REGION_CD FROM WQRY_EST_PROVINCE WHERE UPPER(REGION_DESC) LIKE '%" + cd.ToUpper().Trim() + "%'";
+                }
+                
             }
             else
             {
-                commandText = "SELECT * FROM WQRY_EST_COUNTRY WHERE UPPER(COUNTRY_DESC) LIKE '%" + cd.ToUpper().Trim() + "%'";
+                if (lang == "fr")
+                {
+                    commandText = "SELECT COUNTRY_CD FROM WQRY_EST_COUNTRY WHERE UPPER(COUNTRY_DESC_F) LIKE '%" + cd.ToUpper().Trim() + "%'";
+                }
+                else
+                {
+                    commandText = "SELECT COUNTRY_CD FROM WQRY_EST_COUNTRY WHERE UPPER(COUNTRY_DESC) LIKE '%" + cd.ToUpper().Trim() + "%'";
+                }
+                
             }
 
             using (OracleConnection con = new OracleConnection(mdelsDBConnection))
@@ -557,11 +588,11 @@ namespace mdelsWebApi
                             {
                                 if (searchType == "province")
                                 {
-                                    location = dr["REGION_CD"] == DBNull.Value ? string.Empty : dr["REGION_CD"].ToString().Trim();
+                                    codes.Add(dr["REGION_CD"] == DBNull.Value ? string.Empty : dr["REGION_CD"].ToString().Trim());
                                 }
                                 else
                                 {
-                                    location = dr["COUNTRY_CD"] == DBNull.Value ? string.Empty : dr["COUNTRY_CD"].ToString().Trim();
+                                    codes.Add(dr["COUNTRY_CD"] == DBNull.Value ? string.Empty : dr["COUNTRY_CD"].ToString().Trim());
                                 }
                             }
                         }
@@ -578,7 +609,7 @@ namespace mdelsWebApi
                         con.Close();
                 }
             }
-            return location;
+            return codes;
         }
 
     }

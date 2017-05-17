@@ -6,7 +6,7 @@ namespace mdelsWebApi.Models
     {
         IEnumerable<Company> GetAll(string company_name);
         Company Get(int id);
-        IEnumerable<Company> GetAllCompanyByLocation(string cd, string searchType);
+        IEnumerable<Company> GetAllCompanyByLocation(string cd, string searchType, string lang);
    
     }
 }

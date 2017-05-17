@@ -80,7 +80,8 @@ namespace mdelsWebApi.Controllers
                     return Json(new { searchResult }, JsonRequestBehavior.AllowGet);
 
                 case (int)category.country:
-                    companyResult = companyController.GetAllCompanyByLocation(term, "country").ToList();
+
+                    companyResult = companyController.GetAllCompanyByLocation(term, "country", lang).ToList();
                     establishmentList = establishmentController.GetEstablishmentList(companyResult).ToList();
 
                     if (establishmentList.Count > 0)
@@ -100,7 +101,7 @@ namespace mdelsWebApi.Controllers
 
                 case (int)category.province:
 
-                    companyResult = companyController.GetAllCompanyByLocation(term, "province").ToList();
+                    companyResult = companyController.GetAllCompanyByLocation(term, "province", lang).ToList();
                     establishmentList = establishmentController.GetEstablishmentList(companyResult).ToList();
 
                     if (establishmentList.Count > 0)
@@ -141,7 +142,7 @@ namespace mdelsWebApi.Controllers
             return Json(new { data }, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult autoCompleteList([DefaultValue("company")] string category)
+        public ActionResult autoCompleteList([DefaultValue("company")] string category, [DefaultValue("en")] string lang)
         {
 
             var list = new List<string>();
@@ -168,7 +169,14 @@ namespace mdelsWebApi.Controllers
                     countryList = countryController.GetAllCountry("en", "").ToList();
                     foreach (Country c in countryList)
                     {
-                        list.Add(c.country_desc);
+                        if(lang == "fr")
+                        { 
+                            list.Add(c.country_desc_f);
+                        }
+                        else
+                        {
+                            list.Add(c.country_desc);
+                        }
                     }
                     break;
 
@@ -192,7 +200,14 @@ namespace mdelsWebApi.Controllers
                     provinceList = provinceController.GetAllProvince("en", "").ToList();
                     foreach (Province p in provinceList)
                     {
-                        list.Add(p.region_desc);
+                        if (lang == "fr")
+                        {
+                            list.Add(p.region_desc_f);
+                        }
+                        else
+                        {
+                            list.Add(p.region_desc);
+                        }
                     }
                     break;
 

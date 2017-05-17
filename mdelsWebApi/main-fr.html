@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <!-- Web Experience Toolkit (WET) / Boîte à outils de l'expérience Web (BOEW)
         wet-boew.github.io/wet-boew/License-en.html / wet-boew.github.io/wet-boew/Licence-fr.html -->
-    <title>Medical Devices Active Licence Listing</title>
+    <title>Drug and Health Product Register</title>
     <meta content="width=device-width,initial-scale=1" name="viewport">
     <!-- Meta data -->
     <meta name="dcterms.language" title="ISO639-2" content="eng" />
@@ -27,6 +27,10 @@
     <script type="text/javascript" src="https://www.canada.ca/etc/designs/canada/cdts/gcweb/v4_0_22/cdts/compiled/wet-en.js"></script>
     <script type="text/javascript" src="https://www.canada.ca/etc/designs/canada/cdts/gcweb/v4_0_22/cdts/compiled/plugins-en.js"></script>
     <script src="scripts/google-analytics.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+
     <!--<script type="text/javascript" src="./gcweb_4.0.22/wet-en.js"></script>
     <script type="text/javascript" src="./gcweb_4.0.22/plugins-en.js"></script>-->
     <!-- Load closure template scripts -->
@@ -43,7 +47,7 @@
     <!-- Google Tag Manager DO NOT REMOVE OR MODIFY - NE PAS SUPPRIMER OU MODIFIER -->
     <script>dataLayer1 = [];</script>
     <!-- End Google Tag Manager -->
-    <script src="./js/mdels.js"></script>
+    <script src="./js/dhpr.js"></script>
 </head>
 
 <body vocab="http://schema.org/" typeof="WebPage">
@@ -62,7 +66,7 @@
     <!-- End Google Tag Manager -->
     <div id="def-top">
         <!-- top-en.html-Start-->
-        <link rel="import" href="./StaticFallbackFiles/gcweb/top-en.html">
+        <link rel="import" href="./StaticFallbackFiles/gcweb/top-fr.html">
         <!-- top-en.html-End-->
     </div>
     <!-- Write closure template -->
@@ -72,7 +76,7 @@
         { title: "Drugs & Health Products",href: "http://www.hc-sc.gc.ca/dhp-mps/index-eng.php" },
         { title: "Medical Devices",href: "http://www.hc-sc.gc.ca/dhp-mps/md-im/index-eng.php" },
         { title: "Licences",href: "http://www.hc-sc.gc.ca/dhp-mps/md-im/licen/index-eng.php" },
-        { title: "MDEL Search" }];
+        { title: "Medical Devices Establishment Listing Search" }];
 
 	//console.log(jsonbread);
 	defTop.outerHTML = wet.builder.top({
@@ -80,8 +84,8 @@
 	    search: true,
 		lngLinks: [{
 			lang: "en",
-			href: "recherche-par-province.html",
-			text: "Français",
+			href: "main-en.html",
+			text: "English",
 		}],
 		showPreContent: true,
 		breadcrumbs:jsonbread,
@@ -92,43 +96,45 @@
     <div class="container">
         <main role="main" property="mainContentOfPage" class="container">
             <div class="wb-frmvld">
-                <form name="mdels" action="result-province.html" method="get" id="mdels">
-                    <h1 property="name" id="wb-cont">MDEL</h1>
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <h2 class="panel-title"></h2>
-                            <div class="row">
-                                <h2 class="col-sm-6 mrgn-tp-sm">Province Search</h2>
-                                <div class="mrgn-tp-sm mrgn-rght-md pull-right">
-                                    <a href="main-en.html">Main search</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="panel-body">
-                            <div class="form-group">
-                                <p>Enter text below to search by:</p>
-                                <div>1. Province name</div>
-                                <p>2. Province Id</p>
-
-                                <input name="term" type="text" id="term" autofocus list="list-liste" placeholder="[Enter text here to search for a Province.]" class="full-width" required="required">
-                                <datalist id="list-liste" data-ajax-replace="./list-liste-eng.txt" class="wb-data-ajax-replace-inited"> </datalist>
-                            </div>
-
-                            <div class="form-group">
-                                <input type="submit" value="Submit" class="btn btn-primary" />
-                                <input type="reset" value="Reset" class="btn btn-default nextBtn" />
-                            </div>
-                        </div>
+                <div class="row">
+                    <div class="well nav-base">
+                        <ul class="nav nav-tabs" id="navTab">
+                            <li><a href="#home" data-toggle="tab">Search for drugs</a></li>
+                            <li><a href="https://health-products.canada.ca/lnhpd-bdpsnh/" data-toggle="tab">Search for a Natural Health Product</a></li>
+                            <li class="dropdown">
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">Search Medical Devices&nbsp;<span class="caret"></span></a>
+                                <ul class="dropdown-menu" aria-labelledby="myTabDrop1">
+                                    <li><a href="./recherche-par-companie.html">Search By Company Name</a></li>
+                                    <li><a href="./recherche-par-id.html">Search By Company or Establishment ID</a></li>
+                                    <li><a href="./recherche-par-nation.html">Search By Country Name or ID</a></li>
+                                    <li><a href="./recherche-par-province.html">Search By Province Name or ID</a></li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">Summary Reports&nbsp;<span class="caret"></span></a>
+                                <ul class="dropdown-menu" aria-labelledby="myTabDrop2">
+                                    <li><a href="https://hpr-rps.hres.ca/reg-content/summary-safety-review.php">Summary Safety Reviews</a></li>
+                                    <li><a href="https://hpr-rps.hres.ca/reg-content/summary-basis-decision.php">Summary Basis of Decision</a></li>
+                                    <li><a href="https://hpr-rps.hres.ca/reg-content/regulatory-decision-summary.php">Regulatory Decision Summary</a></li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">About&nbsp;<span class="caret"></span></a>
+                                <ul class="dropdown-menu" aria-labelledby="myTabDrop3">
+                                    <li><a href="https://hpr-rps.hres.ca/reg-content/summary-safety-review.php">About the Drug and Health Product Register</a></li>
+                                    <li><a href="https://hpr-rps.hres.ca/reg-content/summary-basis-decision.php">Data and summary reports</a></li>
+                                    <li><a href="https://hpr-rps.hres.ca/reg-content/regulatory-decision-summary.php">Reported side effects - disclaimers</a></li>
+                                    <li><a href="https://hpr-rps.hres.ca/reg-content/regulatory-decision-summary.php">Feedback</a></li>
+                                </ul>
+                            </li>
+                        </ul>
                     </div>
-                    <p>For more information on Medical Devices, click here: <a href="http://www.hc-sc.gc.ca/dhp-mps/md-im/index-eng.php">Medical Devices</a></p>
-                    <p><a href="http://api.hres.ca/mdall/medical-device-result.html?lang=en&amp;term=">List of all Medical Devices Establishment Listing</a></p>
 
-                </form>
+                </div>
             </div>
-
             <!-- prefooter-en.html-Start-->
             <div id="def-preFooter">
-                <link rel="import" href="./StaticFallbackFiles/gcweb/prefooter-en.html">
+                <link rel="import" href="./StaticFallbackFiles/gcweb/prefooter-fr.html">
             </div>
             <!-- prefooter-en.html-End-->
             <!-- Write closure template -->
@@ -165,39 +171,6 @@
     </script>
     <!--[if lt IE 10 | !IE ]><!-->
     <script src="./js/jquery.xdomainrequest.min.js"></script>
-    <script src="scripts/autocomplete/jquery.autocomplete.js"></script>
-    <link href="scripts/autocomplete/jquery.autocomplete.css" rel="stylesheet" />
     <!--<![endif]-->
 </body>
 </html>
-
-<script>
-
-        var category = "province";
-        var myList = new Array;
-        $.ajax({
-            "url": "./MdelsJson/autoCompleteList",
-            "data": { category: category },
-            "dataType": "json",
-            "dataSrc": "list",
-            "success": function (json) {
-                for (var i = 0; i < json.list.length; i++) {
-                    myList[i] = json.list[i];
-                }
-
-                myList = myList.sort();
-
-                $(function () {
-                    $("#term").autocomplete({
-                        source: [myList],
-                        "highlight": true,
-                        "minLength": 2,
-                        "limit": 500,
-                        "visibleLimit": 10
-                    });
-                });
-
-            }
-        });
-
-</script>
