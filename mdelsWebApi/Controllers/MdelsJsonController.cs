@@ -62,21 +62,26 @@ namespace mdelsWebApi.Controllers
 
                 case (int)category.id:
 
-                    var sTerm = Int32.Parse(term);
-
-                    var establishmentResult = new Establishment();
-                    establishmentResult = establishmentController.GetEstablishmentById(sTerm);
-                    Search search = new Search();
-
-                    if (establishmentResult != null)
+                    int n;
+                    if (int.TryParse((term), out n))
                     {
-                        search.company_id = establishmentResult.company_id;
-                        search.company_name = establishmentResult.company_name;
-                        search.company_address = UtilityHelper.BuildAddress(establishmentResult);
-                        search.establishment_id = establishmentResult.establishment_id;
-                        searchResult.Add(search);
+                        var sTerm = Int32.Parse(term);
+
+                        var establishmentResult = new Establishment();
+                        establishmentResult = establishmentController.GetEstablishmentById(sTerm);
+                        Search search = new Search();
+
+                        if (establishmentResult != null)
+                        {
+                            search.company_id = establishmentResult.company_id;
+                            search.company_name = establishmentResult.company_name;
+                            search.company_address = UtilityHelper.BuildAddress(establishmentResult);
+                            search.establishment_id = establishmentResult.establishment_id;
+                            searchResult.Add(search);
+                        }
+
                     }
-                    
+
                     return Json(new { searchResult }, JsonRequestBehavior.AllowGet);
 
                 case (int)category.country:
