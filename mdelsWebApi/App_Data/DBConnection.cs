@@ -434,20 +434,13 @@ namespace mdelsWebApi
 
             if ((!string.IsNullOrEmpty(country)))
             {
-                if (country.Length == 2)        //if the country string is only 2 characters, the user probably wanted the country code
+                if (lang == "fr")
                 {
-                    commandText += " WHERE UPPER(COUNTRY_CD) = '" + country.ToUpper().Trim() + "'";
+                    commandText += " WHERE UPPER(COUNTRY_DESC_F) LIKE '%" + country.ToUpper().Trim() + "%'";    //get the french country name if language is french
                 }
-                else                                //if the country string is not 2 characters, the user was probably searching by name
+                else
                 {
-                    if (lang == "fr")
-                    {
-                        commandText += " WHERE UPPER(COUNTRY_DESC_F) LIKE '%" + country.ToUpper().Trim() + "%'";    //get the french country name if language is french
-                    }
-                    else
-                    {
-                        commandText += " WHERE UPPER(COUNTRY_DESC) LIKE '%" + country.ToUpper().Trim() + "%'";      //get the english country name otherwise
-                    }
+                    commandText += " WHERE UPPER(COUNTRY_DESC) LIKE '%" + country.ToUpper().Trim() + "%'";      //get the english country name otherwise
                 }
             }
 
@@ -487,7 +480,6 @@ namespace mdelsWebApi
         }
 
        
-
         public List<Province> GetAllProvince(string lang, string province)
         {
             var items = new List<Province>();

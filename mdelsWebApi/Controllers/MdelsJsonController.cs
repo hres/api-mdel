@@ -71,7 +71,7 @@ namespace mdelsWebApi.Controllers
                         establishmentResult = establishmentController.GetEstablishmentById(sTerm);
                         Search search = new Search();
 
-                        if (establishmentResult != null)
+                        if (establishmentResult.establishment_id != 0)
                         {
                             search.company_id = establishmentResult.company_id;
                             search.company_name = establishmentResult.company_name;
