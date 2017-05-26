@@ -7,9 +7,11 @@ using System.Data;
 
 namespace mdelsWebApi
 {
+
+    
+
     public class DBConnection
     {
-
         private string _lang;
         public string Lang
         {
@@ -27,16 +29,15 @@ namespace mdelsWebApi
             get { return ConfigurationManager.ConnectionStrings["mdels"].ToString(); }
         }
 
-
-        public List<Establishment> GetAllEstablishment(string establishmentName)
+        public List<Establishment> GetAllEstablishment(string establishment_id)
         {
             var items = new List<Establishment>();
+            
+            string commandText = "SELECT * FROM MDELS_OWNER.WQRY_ESTABLISHMENT INNER JOIN MDELS_OWNER.WQRY_EST_COMPANY ON MDELS_OWNER.WQRY_ESTABLISHMENT.COMPANY_ID = MDELS_OWNER.WQRY_EST_COMPANY.COMPANY_ID";
 
-            string commandText = "SELECT * FROM MDELS_OWNER.WQRY_ESTABLISHMENT";
-
-            if ((!string.IsNullOrEmpty(establishmentName)))
+            if ((!string.IsNullOrEmpty(establishment_id)))
             {
-                //commandText += " WHERE UPPER(ESTABLISHMENT_ID) LIKE '%" + establishmentName.ToUpper().Trim() + "%'";
+                commandText += " WHERE UPPER(ESTABLISHMENT_ID) LIKE '%" + establishment_id + "%'";
             }
 
             using (OracleConnection con = new OracleConnection(mdelsDBConnection))
@@ -70,6 +71,19 @@ namespace mdelsWebApi
                                 item.dist_class_IV = dr["DIST_CLASS_IV"] == DBNull.Value ? string.Empty : dr["DIST_CLASS_IV"].ToString().Trim();
                                 item.not_importer = dr["NOT_IMPORTER"] == DBNull.Value ? string.Empty : dr["NOT_IMPORTER"].ToString().Trim();
                                 item.not_import_dist = dr["NOT_IMPORT_DIST"] == DBNull.Value ? string.Empty : dr["NOT_IMPORT_DIST"].ToString().Trim();
+
+                                item.company_name = dr["COMPANY_NAME"] == DBNull.Value ? string.Empty : dr["COMPANY_NAME"].ToString().Trim();
+                                item.addr_line_1 = dr["ADDR_LINE_1"] == DBNull.Value ? string.Empty : dr["ADDR_LINE_1"].ToString().Trim();
+                                item.addr_line_2 = dr["ADDR_LINE_2"] == DBNull.Value ? string.Empty : dr["ADDR_LINE_2"].ToString().Trim();
+                                item.addr_line_3 = dr["ADDR_LINE_3"] == DBNull.Value ? string.Empty : dr["ADDR_LINE_3"].ToString().Trim();
+                                item.addr_line_4 = dr["ADDR_LINE_4"] == DBNull.Value ? string.Empty : dr["ADDR_LINE_4"].ToString().Trim();
+                                item.addr_line_5 = dr["ADDR_LINE_5"] == DBNull.Value ? string.Empty : dr["ADDR_LINE_5"].ToString().Trim();
+                                item.postal_code = dr["POSTAL_CODE"] == DBNull.Value ? string.Empty : dr["POSTAL_CODE"].ToString().Trim();
+                                item.region_code = dr["REGION_CODE"] == DBNull.Value ? string.Empty : dr["REGION_CODE"].ToString().Trim();
+                                item.city = dr["CITY"] == DBNull.Value ? string.Empty : dr["CITY"].ToString().Trim();
+                                item.country_cd = dr["COUNTRY_CD"] == DBNull.Value ? string.Empty : dr["COUNTRY_CD"].ToString().Trim();
+                                item.region_cd = dr["REGION_CD"] == DBNull.Value ? string.Empty : dr["REGION_CD"].ToString().Trim();
+
                                 items.Add(item);
                             }
                         }

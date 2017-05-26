@@ -12,7 +12,7 @@ namespace mdelsWebApi.Controllers
 {
     public class MdelsJsonController : Controller
     {
-        public ActionResult GetAllListForJsonByCategory(string lang, string status, string term, int categoryType)
+        public ActionResult GetAllListForJsonByCategory(string lang, string term, int categoryType)
         {
             var companyResult = new List<Company>();
             var establishmentList = new List<Establishment>();
@@ -84,7 +84,7 @@ namespace mdelsWebApi.Controllers
 
                     return Json(new { searchResult }, JsonRequestBehavior.AllowGet);
 
-                case (int)category.country:
+                case(int)category.country:
 
                     companyResult = companyController.GetAllCompanyByLocation(term, "country", lang).ToList();
                     establishmentList = establishmentController.GetEstablishmentList(companyResult).ToList();
@@ -171,7 +171,7 @@ namespace mdelsWebApi.Controllers
                 case "country":
                     var countryList = new List<Country>();
                     var countryController = new CountryController();
-                    countryList = countryController.GetAllCountry("en", "").ToList();
+                    countryList = countryController.GetAllCountry(lang, "").ToList();
                     foreach (Country c in countryList)
                     {
                         if(lang == "fr")
@@ -202,7 +202,7 @@ namespace mdelsWebApi.Controllers
                 case "province":
                     var provinceList = new List<Province>();
                     var provinceController = new ProvinceController();
-                    provinceList = provinceController.GetAllProvince("en", "").ToList();
+                    provinceList = provinceController.GetAllProvince(lang, "").ToList();
                     foreach (Province p in provinceList)
                     {
                         if (lang == "fr")

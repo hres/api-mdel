@@ -8,7 +8,7 @@ namespace mdelsWebApi.Models
 {
     interface IEstablishmentRepository
     {
-        IEnumerable<Establishment> GetAll(string establishmentName);
+        IEnumerable<Establishment> GetAll(string establishment_id);
         Establishment Get(int id);
         IEnumerable<Establishment> GetEstablishmentList(IEnumerable<Company> companylist);
     }

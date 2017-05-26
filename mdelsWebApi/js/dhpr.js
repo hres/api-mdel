@@ -1,4 +1,6 @@
-﻿//var dhpr = "http://api.hres.ca/dpd/Controllers/dhprController.ashx?";
+﻿/*
+
+//var dhpr = "http://api.hres.ca/dpd/Controllers/dhprController.ashx?";
 
 var dhpr = "./Controllers/dhprController.ashx?";
 
@@ -304,3 +306,4 @@ var json2xml = (function (undefined) {
 
    
 
+*/
