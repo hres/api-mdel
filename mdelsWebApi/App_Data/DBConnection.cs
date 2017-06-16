@@ -4,11 +4,13 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Web;
 
 namespace mdelsWebApi
 {
-
-    
 
     public class DBConnection
     {
@@ -28,8 +30,7 @@ namespace mdelsWebApi
         {
             get { return ConfigurationManager.ConnectionStrings["mdels"].ToString(); }
         }
-
-        public List<Establishment> GetAllEstablishment(string establishment_id)
+    public List<Establishment> GetAllEstablishment(string establishment_id)
         {
             var items = new List<Establishment>();
             

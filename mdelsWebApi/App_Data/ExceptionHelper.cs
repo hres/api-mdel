@@ -14,8 +14,9 @@ namespace mdelsWebApi
     {
         // All methods are static, so this can be private
         private ExceptionHelper()
-        { }
+        {
 
+        }
         // Log an Exception
         public static void LogException(Exception exc, string source)
         {

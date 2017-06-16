@@ -58,7 +58,6 @@
 
             (s), dl = l != 'dataLayer1' ? '&l=' + l : ''; j.async = true; j.src = '//www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
         })
-
         (window, document, 'script', 'dataLayer1', 'GTM-TLGQ9K');
     </script>
     <!-- End Google Tag Manager -->
@@ -109,7 +108,6 @@
                             <th scope="col">Resource Name</th>
                             <th class="text-center">Format</th>
                             <th></th>
-
                         </tr>
                     </thead>
                     <tbody>
@@ -117,37 +115,37 @@
                             <td>Company - Unilingual</td>
                             <td class="text-center"><a class="btn btn-default" href="./api-v1/company/?company_name=&type=json">JSON</a></td>
                             <td class="text-center"><a class="btn btn-default" href="./api-v1/company/?company_name=&type=xml">XML</a></td>
-                            <td class="text-center"><a class="btn btn-default" onclick="JSONtoCSV('Company Data', './api-v1/company/?company_name=&type=json');">CSV (Download)</a></td>
+                            <td class="text-center"><a class="btn btn-default" onclick="downloadFileUsingForm('company');">CSV (Download)</a></td>
                         </tr>
                         <tr>
                             <td>Country - English</td>
                             <td class="text-center"><a class="btn btn-default" href="./api-v1/country/?lang=en&country=&type=json">JSON</a></td>
                             <td class="text-center"><a class="btn btn-default" href="./api-v1/country/?lang=en&country=&type=xml">XML</a></td>
-                            <td class="text-center"><a class="btn btn-default" onclick="JSONtoCSV('Country Data (EN)', './api-v1/country/?lang=en&country=&type=json');">CSV (Download)</a></td>
+                            <td class="text-center"><a class="btn btn-default" onclick="downloadFileUsingForm('country');">CSV (Download)</a></td>
                         </tr>
                         <tr>
                             <td>Country - French</td>
                             <td class="text-center"><a class="btn btn-default" href="./api-v1/country/?lang=fr&country=&type=json">JSON</a></td>
                             <td class="text-center"><a class="btn btn-default" href="./api-v1/country/?lang=fr&country=&type=xml">XML</a></td>
-                            <td class="text-center"><a class="btn btn-default" onclick="JSONtoCSV('Country Data (FR)', './api-v1/country/?lang=fr&country=&type=json');">CSV (Download)</a></td>
+                            <td class="text-center"><a class="btn btn-default" onclick="downloadFileUsingForm('country');">CSV (Download)</a></td>
                         </tr>
                         <tr>
                             <td>Establishment - Unilingual</td>
                             <td class="text-center"><a class="btn btn-default" href="./api-v1/establishment/?establishment_id=&type=json">JSON</a></td>
                             <td class="text-center"><a class="btn btn-default" href="./api-v1/establishment/?establishment_id=&type=xml">XML</a></td>
-                            <td class="text-center"><a class="btn btn-default" onclick="JSONtoCSV('Establishment Data', './api-v1/establishment/?establishment_id=&type=json');">CSV (Download)</a></td>
+                            <td class="text-center"><a class="btn btn-default" onclick="downloadFileUsingForm('establishment');">CSV (Download)</a></td>
                         </tr>
                         <tr>
                             <td>Province - English</td>
                             <td class="text-center"><a class="btn btn-default" href="./api-v1/province/?lang=en&province=&type=json">JSON</a></td>
-                            <td class="text-center"><a class="btn btn-default" href="./province/?lang=en&province=&type=xml">XML</a></td>
-                            <td class="text-center"><a class="btn btn-default" onclick="JSONtoCSV('Province Data (EN)', './api-v1/province/?lang=en&province=&type=json');">CSV (Download)</a></td>
+                            <td class="text-center"><a class="btn btn-default" href="./api-v1/province/?lang=en&province=&type=xml">XML</a></td>
+                            <td class="text-center"><a class="btn btn-default" onclick="downloadFileUsingForm('province');">CSV (Download)</a></td>
                         </tr>
                         <tr>
                             <td>Province - French</td>
                             <td class="text-center"><a class="btn btn-default" href="./api-v1/province/?lang=fr&province=&type=json">JSON</a></td>
                             <td class="text-center"><a class="btn btn-default" href="./api-v1/province/?lang=fr&province=&type=xml">XML</a></td>
-                            <td class="text-center"><a class="btn btn-default" onclick="JSONtoCSV('Province Data (FR)', './api-v1/province/?lang=fr&province=&type=json');">CSV (Download)</a></td>
+                            <td class="text-center"><a class="btn btn-default" onclick="downloadFileUsingForm('province');">CSV (Download)</a></td>
                         </tr>
                     </tbody>
                 </table>
@@ -202,3 +200,23 @@
     <!--<![endif]-->
 </body>
 </html>
+
+<script>
+        var url = "./MdelsJson/DownloadCSV";
+
+        function downloadFileUsingForm(data) {
+            var form = document.createElement("form");
+            form.method = "post";
+            form.action = url;
+
+            var hiddenElement = document.createElement('input');
+            hiddenElement.type = 'hidden';
+            hiddenElement.value = data;
+            hiddenElement.id = 'dataType';
+            hiddenElement.name = 'dataType';
+            document.body.appendChild(form);
+            form.appendChild(hiddenElement);
+            form.submit();
+            document.body.removeChild(form);
+        }
+</script>
