@@ -116,37 +116,61 @@
                             <td>Company - Unilingual</td>
                             <td class="text-center"><a class="btn btn-default" href="./api-v1/company/?company_name=&type=json">JSON</a></td>
                             <td class="text-center"><a class="btn btn-default" href="./api-v1/company/?company_name=&type=xml">XML</a></td>
-                            <td class="text-center"><a class="btn btn-default" onclick="downloadFileUsingForm('company');">CSV (Download)</a></td>
+                            <td>
+                                <form method="post" action="https://api.hres.ca/mdels/api-v1/MdelsJson/DownloadCSV/?dataType=company">
+                                    <input type="submit" class="btn btn-default" value="CSV (Download)" />
+                                </form>
+                            </td>
                         </tr>
                         <tr>
                             <td>Country - English</td>
                             <td class="text-center"><a class="btn btn-default" href="./api-v1/country/?lang=en&country=&type=json">JSON</a></td>
                             <td class="text-center"><a class="btn btn-default" href="./api-v1/country/?lang=en&country=&type=xml">XML</a></td>
-                            <td class="text-center"><a class="btn btn-default" onclick="downloadFileUsingForm('country');">CSV (Download)</a></td>
+                            <td>
+                                <form method="post" action="https://api.hres.ca/mdels/api-v1/MdelsJson/DownloadCSV/?dataType=country">
+                                    <input type="submit" class="btn btn-default" value="CSV (Download)" />
+                                </form>
+                            </td>
                         </tr>
                         <tr>
                             <td>Country - French</td>
                             <td class="text-center"><a class="btn btn-default" href="./api-v1/country/?lang=fr&country=&type=json">JSON</a></td>
                             <td class="text-center"><a class="btn btn-default" href="./api-v1/country/?lang=fr&country=&type=xml">XML</a></td>
-                            <td class="text-center"><a class="btn btn-default" onclick="downloadFileUsingForm('country');">CSV (Download)</a></td>
+                            <td>
+                                <form method="post" action="https://api.hres.ca/mdels/api-v1/MdelsJson/DownloadCSV/?dataType=country">
+                                    <input type="submit" class="btn btn-default" value="CSV (Download)" />
+                                </form>
+                            </td>
                         </tr>
                         <tr>
                             <td>Establishment - Unilingual</td>
                             <td class="text-center"><a class="btn btn-default" href="./api-v1/establishment/?establishmentName=&type=json">JSON</a></td>
                             <td class="text-center"><a class="btn btn-default" href="./api-v1/establishment/?establishmentName=&type=xml">XML</a></td>
-                            <td class="text-center"><a class="btn btn-default" onclick="downloadFileUsingForm('establishment');">CSV (Download)</a></td>
+                            <td>
+                                <form method="post" action="https://api.hres.ca/mdels/api-v1/MdelsJson/DownloadCSV/?dataType=establishment">
+                                    <input type="submit" class="btn btn-default" value="CSV (Download)" />
+                                </form>
+                            </td>
                         </tr>
                         <tr>
                             <td>Province - English</td>
                             <td class="text-center"><a class="btn btn-default" href="./api-v1/province/?lang=en&province=&type=json">JSON</a></td>
                             <td class="text-center"><a class="btn btn-default" href="./api-v1/province/?lang=en&province=&type=xml">XML</a></td>
-                            <td class="text-center"><a class="btn btn-default" onclick="downloadFileUsingForm('province');">CSV (Download)</a></td>
+                            <td>
+                                <form method="post" action="https://api.hres.ca/mdels/api-v1/MdelsJson/DownloadCSV/?dataType=province">
+                                    <input type="submit" class="btn btn-default" value="CSV (Download)" />
+                                </form>
+                            </td>
                         </tr>
                         <tr>
                             <td>Province - French</td>
                             <td class="text-center"><a class="btn btn-default" href="./api-v1/province/?lang=fr&province=&type=json">JSON</a></td>
                             <td class="text-center"><a class="btn btn-default" href="./api-v1/province/?lang=fr&province=&type=xml">XML</a></td>
-                            <td class="text-center"><a class="btn btn-default" onclick="downloadFileUsingForm('province');">CSV (Download)</a></td>
+                            <td>
+                                <form method="post" action="https://api.hres.ca/mdels/api-v1/MdelsJson/DownloadCSV/?dataType=province">
+                                    <input type="submit" class="btn btn-default" value="CSV (Download)" />
+                                </form>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
@@ -203,6 +227,7 @@
 </html>
 
 <script>
+    /*
         var url = "./MdelsJson/DownloadCSV";
 
         function downloadFileUsingForm(data) {
@@ -220,4 +245,5 @@
             form.submit();
             document.body.removeChild(form);
         }
+        */
 </script>
